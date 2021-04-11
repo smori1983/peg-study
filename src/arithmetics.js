@@ -155,7 +155,7 @@ function peg$parse(input, options) {
       peg$c11 = peg$otherExpectation("integer"),
       peg$c12 = /^[0-9]/,
       peg$c13 = peg$classExpectation([["0", "9"]], false, false),
-      peg$c14 = function(digits) { return parseInt(digits.join(""), 10); },
+      peg$c14 = function(digits) { return makeInteger(digits); },
 
       peg$currPos          = 0,
       peg$savedPos         = 0,
@@ -461,6 +461,12 @@ function peg$parse(input, options) {
 
     return s0;
   }
+
+
+    function makeInteger(o) {
+      return parseInt(o.join(""), 10);
+    }
+
 
   peg$result = peg$startRuleFunction();
 

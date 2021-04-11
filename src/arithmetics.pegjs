@@ -1,3 +1,9 @@
+{
+  function makeInteger(o) {
+    return parseInt(o.join(""), 10);
+  }
+}
+
 start
   = additive
 
@@ -14,4 +20,4 @@ primary
   / "(" additive:additive ")" { return additive; }
 
 integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+  = digits:[0-9]+ { return makeInteger(digits); }
