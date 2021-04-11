@@ -14,6 +14,7 @@ additive
 
 multiplicative
   = left:primary "*" right:multiplicative { return left * right; }
+  / left:primary "/" right:multiplicative { return left / right; }
   / primary
 
 primary

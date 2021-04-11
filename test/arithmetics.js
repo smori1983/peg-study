@@ -15,9 +15,7 @@ describe('arithmetics', () => {
     assert.deepStrictEqual(parser.parse('1-2'), -1);
   });
 
-  it('1/2 => error', () => {
-    assert.throws(() => {
-      parser.parse('1/2');
-    });
+  it('1/2 = 0.5', () => {
+    assert.deepStrictEqual(parser.parse('1/2'), 0.5);
   });
 });
