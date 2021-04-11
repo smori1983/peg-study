@@ -8,18 +8,21 @@ start
   = additive
 
 additive
-  = left:multiplicative "+" right:additive { return left + right; }
-  / left:multiplicative "-" right:additive { return left - right; }
+  = left:multiplicative _ "+" _ right:additive { return left + right; }
+  / left:multiplicative _ "-" _ right:additive { return left - right; }
   / multiplicative
 
 multiplicative
-  = left:primary "*" right:multiplicative { return left * right; }
-  / left:primary "/" right:multiplicative { return left / right; }
+  = left:primary _ "*" _ right:multiplicative { return left * right; }
+  / left:primary _ "/" _ right:multiplicative { return left / right; }
   / primary
 
 primary
   = integer
-  / "(" additive:additive ")" { return additive; }
+  / "(" _ additive:additive _ ")" { return additive; }
 
 integer "integer"
   = digits:[0-9]+ { return makeInteger(digits); }
+
+_ "whitespace"
+  = [ \t\n\r]*
