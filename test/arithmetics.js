@@ -11,10 +11,8 @@ describe('arithmetics', () => {
     assert.deepStrictEqual(parser.parse('1+2*3'), 7);
   });
 
-  it('1-2 => error', () => {
-    assert.throws(() => {
-      parser.parse('1-2');
-    });
+  it('1-2 = -1', () => {
+    assert.deepStrictEqual(parser.parse('1-2'), -1);
   });
 
   it('1/2 => error', () => {
