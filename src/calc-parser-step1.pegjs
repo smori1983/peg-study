@@ -1,9 +1,3 @@
-{
-  function makeInteger(o) {
-    return parseInt(o.join(''), 10);
-  }
-}
-
 start
   = additive
 

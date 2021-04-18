@@ -521,12 +521,6 @@ function peg$parse(input, options) {
     return s0;
   }
 
-
-    function makeInteger(o) {
-      return parseInt(o.join(''), 10);
-    }
-
-
   peg$result = peg$startRuleFunction();
 
   if (peg$result !== peg$FAILED && peg$currPos === input.length) {
