@@ -27,4 +27,13 @@ describe('calc', () => {
 
     assert.deepStrictEqual(result, 3);
   });
+
+  it('placeholder - placeholder', () => {
+    const result = new Calc().calc('$left - $right', {
+      left: 1,
+      right: 2,
+    });
+
+    assert.deepStrictEqual(result, -1);
+  });
 });
