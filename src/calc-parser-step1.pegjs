@@ -2,10 +2,16 @@ start
   = additive
 
 additive
-  = operand _ operator _ operand
+  = operand _ additive_operator _ operand
 
-operator
+additive_operator
   = char:'+' {
+    return {
+      type: 'plain',
+      value: char,
+    };
+  }
+  / char:'-' {
     return {
       type: 'plain',
       value: char,
