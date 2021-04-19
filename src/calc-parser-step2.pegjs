@@ -9,6 +9,7 @@ start
 
 additive
   = left:operand _ '+' _ right:operand { return left + right; }
+  / left:operand _ '-' _ right:operand { return left - right; }
 
 operand
   = integer
