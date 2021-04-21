@@ -5,13 +5,7 @@ additive
   = operand _ additive_operator _ operand
 
 additive_operator
-  = char:'+' {
-    return {
-      type: 'plain',
-      value: char,
-    };
-  }
-  / char:'-' {
+  = char:[+\-] {
     return {
       type: 'plain',
       value: char,
