@@ -2,7 +2,8 @@ start
   = additive
 
 additive
-  = operand _ additive_operator _ operand
+  = multiplicative _ additive_operator _ additive
+  / multiplicative
 
 additive_operator
   = char:[+\-] {
@@ -11,6 +12,22 @@ additive_operator
       value: char,
     };
   }
+
+multiplicative
+  = operand _ multiplicative_operator _ multiplicative
+  / primary
+
+multiplicative_operator
+  = char:[*/] {
+    return {
+      type: 'plain',
+      value: char,
+    };
+  }
+
+primary
+  = operand
+  / bracket_open _ additive _ bracket_close
 
 operand
   = integer
@@ -25,10 +42,26 @@ integer "integer"
   }
 
 placeholder
-  = "$" variable:[a-z]+ {
+  = '$' variable:[a-z]+ {
     return {
       type: 'placeholder',
       value: variable.join(''),
+    };
+  }
+
+bracket_open
+  = char:'(' {
+    return {
+      type: 'plain',
+      value: char,
+    };
+  }
+
+bracket_close
+  = char:')' {
+    return {
+      type: 'plain',
+      value: char,
     };
   }
 

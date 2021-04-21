@@ -1,3 +1,4 @@
+const flatten = require('flatten');
 const parserStep1 = require('./calc-parser-step1');
 const parserStep2 = require('./calc-parser-step2');
 
@@ -17,7 +18,7 @@ class Calc {
     params = params || {};
 
     /** @var {CalcToken[]} tokens */
-    const tokens = parserStep1.parse(expression);
+    const tokens = flatten(parserStep1.parse(expression));
 
     const expressionStep2 = tokens.map((token) => {
       if (token.type === 'plain') {
