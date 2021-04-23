@@ -42,10 +42,10 @@ integer "integer"
   }
 
 placeholder
-  = '$' variable:[a-z]+ {
+  = '$' variable_initial:[a-z] variable_remaining:[_0-9a-z]* {
     return {
       type: 'placeholder',
-      value: variable.join(''),
+      value: variable_initial + variable_remaining.join(''),
     };
   }
 

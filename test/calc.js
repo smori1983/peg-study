@@ -41,9 +41,9 @@ describe('calc', () => {
     });
 
     it('placeholder + placeholder', () => {
-      const result = new Calc().calc('$left + $right', {
-        left: 1,
-        right: 2,
+      const result = new Calc().calc('$value_1 + $value_2', {
+        value_1: 1,
+        value_2: 2,
       });
 
       assert.deepStrictEqual(result, 3);
