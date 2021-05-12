@@ -1,6 +1,6 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
-const Calc = require('../src/calc');
+const Calc = require('../../src/calc/calc');
 
 describe('calc', () => {
   describe('without placeholder - misc patterns', () => {
