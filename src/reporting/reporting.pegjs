@@ -1,5 +1,5 @@
 start
-  = report
+  = report+
 
 report
   = _ 'report' _ '{' newline
