@@ -350,9 +350,18 @@ function peg$parse(input, options) {
   }
 
   function peg$parsestart() {
-    var s0;
+    var s0, s1;
 
-    s0 = peg$parsereport();
+    s0 = [];
+    s1 = peg$parsereport();
+    if (s1 !== peg$FAILED) {
+      while (s1 !== peg$FAILED) {
+        s0.push(s1);
+        s1 = peg$parsereport();
+      }
+    } else {
+      s0 = peg$FAILED;
+    }
 
     return s0;
   }
