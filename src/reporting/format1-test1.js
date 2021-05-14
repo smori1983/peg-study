@@ -1,4 +1,4 @@
-const parser = require('./reporting');
+const parser = require('./format1');
 
 const input1 = `
 report {

@@ -1,6 +1,6 @@
 const ItemContainer = require('./item-container');
 const Item = require('./item');
-const Reporter = require('./reporter');
+const Reporter = require('./format1-reporter');
 
 const itemContainer = new ItemContainer();
 itemContainer.addItems([

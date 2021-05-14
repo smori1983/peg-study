@@ -1,5 +1,5 @@
 const ItemContainer = require('./item-container');
-const parser = require('./reporting');
+const parser = require('./format1');
 
 /**
  * @typedef {Object} OutputLineItem
@@ -7,7 +7,7 @@ const parser = require('./reporting');
  * @property {string} text
  */
 
-class Reporter {
+class Format1Reporter {
   /**
    * @param {ItemContainer} itemContainer
    * @param {string} text
@@ -62,4 +62,4 @@ class Reporter {
   }
 }
 
-module.exports = Reporter;
+module.exports = Format1Reporter;
