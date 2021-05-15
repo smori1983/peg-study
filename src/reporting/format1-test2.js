@@ -17,7 +17,7 @@ report {
   }
   output {
     "[$code]"
-    "$name: $amount"
+    "- $name: $amount"
   }
 }
 `;
