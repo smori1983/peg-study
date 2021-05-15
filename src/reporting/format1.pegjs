@@ -22,7 +22,8 @@ code_block
   }
 
 code_block_line
-  = _ c:code newline {
+  = _ c:code newline
+  {
     return c;
   }
 
@@ -42,7 +43,8 @@ output_block_line
   / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline { return t; }
 
 item_code
-  = '$code' {
+  = '$code'
+  {
     return {
       type: 'variable',
       text: 'code',
@@ -50,7 +52,8 @@ item_code
   }
 
 item_name
-  = '$name' {
+  = '$name'
+  {
     return {
       type: 'variable',
       text: 'name',
@@ -58,7 +61,8 @@ item_name
   }
 
 item_amount
-  = '$amount' {
+  = '$amount'
+  {
     return {
       type: 'variable',
       text: 'amount',
@@ -66,7 +70,8 @@ item_amount
   }
 
 text_single_quote
-  = t:[^\r\n'$]+ {
+  = t:[^\r\n'$]+
+  {
     return {
       type: 'plain',
       text: t.join(''),
@@ -74,7 +79,8 @@ text_single_quote
   }
 
 text_double_quote
-  = t:[^\r\n"$]+ {
+  = t:[^\r\n"$]+
+  {
     return {
       type: 'plain',
       text: t.join(''),
