@@ -15,16 +15,16 @@ placeholder
 delim_open
   = w:$([^ a-z0-9]i+)
     &{ return w === delimiter_open; }
-    {
-      return w;
-    }
+  {
+    return w;
+  }
 
 delim_close
   = w:$([^ a-z0-9]i+)
     &{ return w === delimiter_close; }
-    {
-      return w;
-    }
+  {
+    return w;
+  }
 
 variable
   = $[0-9a-z]i+

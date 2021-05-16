@@ -148,8 +148,8 @@ function peg$parse(input, options) {
       peg$c2 = peg$classExpectation([" ", ["a", "z"], ["0", "9"]], true, true),
       peg$c3 = function(w) { return w === delimiter_open; },
       peg$c4 = function(w) {
-            return w;
-          },
+          return w;
+        },
       peg$c5 = function(w) { return w === delimiter_close; },
       peg$c6 = /^[0-9a-z]/i,
       peg$c7 = peg$classExpectation([["0", "9"], ["a", "z"]], false, true),
