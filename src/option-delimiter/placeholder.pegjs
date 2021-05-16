@@ -13,18 +13,22 @@ placeholder
   }
 
 delim_open
-  = w:$([^ a-z0-9]i+)
+  = w:delim_available
     &{ return w === delimiter_open; }
   {
     return w;
   }
 
 delim_close
-  = w:$([^ a-z0-9]i+)
+  = w:delim_available
     &{ return w === delimiter_close; }
   {
     return w;
   }
+
+delim_available
+  = $([^ a-z0-9]i+)
+
 
 variable
   = $[0-9a-z]i+
