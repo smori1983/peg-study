@@ -29,7 +29,6 @@ delim_close
 delim_available
   = $([^ a-z0-9]i+)
 
-
 variable
   = $[0-9a-z]i+
 
