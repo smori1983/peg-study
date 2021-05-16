@@ -6,7 +6,8 @@ additive
   / multiplicative
 
 additive_operator
-  = char:[+\-] {
+  = char:[+\-]
+  {
     return {
       type: 'plain',
       value: char,
@@ -18,7 +19,8 @@ multiplicative
   / primary
 
 multiplicative_operator
-  = char:[*/] {
+  = char:[*/]
+  {
     return {
       type: 'plain',
       value: char,
@@ -34,7 +36,8 @@ operand
   / placeholder
 
 integer "integer"
-  = digits:[0-9]+ {
+  = digits:[0-9]+
+  {
     return {
       type: 'plain',
       value: digits.join(''),
@@ -42,7 +45,8 @@ integer "integer"
   }
 
 placeholder
-  = '$' variable_initial:[a-z] variable_remaining:[_0-9a-z]* {
+  = '$' variable_initial:[a-z] variable_remaining:[_0-9a-z]*
+  {
     return {
       type: 'placeholder',
       value: variable_initial + variable_remaining.join(''),
@@ -50,7 +54,8 @@ placeholder
   }
 
 bracket_open
-  = char:'(' {
+  = char:'('
+  {
     return {
       type: 'plain',
       value: char,
@@ -58,15 +63,17 @@ bracket_open
   }
 
 bracket_close
-  = char:')' {
+  = char:')'
+  {
     return {
       type: 'plain',
       value: char,
     };
   }
 
-_ "whitespace"
-  = [ \t\n\r]* {
+_ 'whitespace'
+  = [ \t\n\r]*
+  {
     return {
       type: 'plain',
       value: '',
