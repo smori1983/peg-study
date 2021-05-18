@@ -163,7 +163,7 @@ function peg$parse(input, options) {
       peg$c12 = function(head, tail, args) {
           return {
             name: head + tail.join(''),
-            args: args,
+            args: args.length > 0 ? args[0] : [],
           };
         },
       peg$c13 = ",",
