@@ -27,7 +27,16 @@ class MethodManager {
     ast.methods.forEach((method) => {
       currentMethod = this._findMethodDef(method.name);
 
-      if (typeof currentReceiver !== currentMethod.getReceiverType()) {
+      let receiverType;
+      if (currentReceiver === null) {
+        receiverType = 'null';
+      } else if (Array.isArray(currentReceiver)) {
+        receiverType = 'array';
+      } else {
+        receiverType = (typeof currentReceiver);
+      }
+
+      if (receiverType !== currentMethod.getReceiverType()) {
         throw new Error((typeof currentReceiver) + ' cannot use method ' + currentMethod.getName());
       }
 
