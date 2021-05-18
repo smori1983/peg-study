@@ -16,3 +16,6 @@ console.log(manager.invoke(variables, parser.parse(input2)));
 
 const input3 = 'code.upper().lower()';
 console.log(manager.invoke(variables, parser.parse(input3)));
+
+const input4 = 'code.split(", ").join("+").upper()';
+console.log(manager.invoke(variables, parser.parse(input4)));
