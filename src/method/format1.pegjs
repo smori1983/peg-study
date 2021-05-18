@@ -18,7 +18,7 @@ method
   {
     return {
       name: head + tail.join(''),
-      args: args,
+      args: args.length > 0 ? args[0] : [],
     };
   }
 
