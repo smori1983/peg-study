@@ -1,5 +1,7 @@
 const MethodDefLower = require('./method-def-lower');
 const MethodDefUpper = require('./method-def-upper');
+const MethodDefSplit = require('./method-def-split');
+const MethodDefJoin = require('./method-def-join');
 
 class MethodManager {
   constructor() {
@@ -9,6 +11,8 @@ class MethodManager {
     this._methods = [];
     this._methods.push(new MethodDefLower());
     this._methods.push(new MethodDefUpper());
+    this._methods.push(new MethodDefSplit());
+    this._methods.push(new MethodDefJoin());
   }
 
   /**
