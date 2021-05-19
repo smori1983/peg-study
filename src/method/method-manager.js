@@ -59,7 +59,14 @@ class MethodManager {
         }
       });
 
-      currentReceiver = currentMethod.evaluate(currentReceiver, args);
+      const returnValue = currentMethod.evaluate(currentReceiver, args);
+      const returnValueType = this._getDataType(returnValue);
+
+      if (returnValueType !== currentMethod.getReturnType()) {
+        throw new Error('return value of ' + currentMethod.getName() + ' should be ' + currentMethod.getReturnType() + ', actual was ' + returnValueType);
+      }
+
+      currentReceiver = returnValue;
     });
 
     return currentReceiver;
