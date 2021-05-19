@@ -60,12 +60,11 @@ class MethodManager {
     }
 
     let currentReceiver = variables[ast.name];
+    let receiverType = this._getDataType(currentReceiver);
     let currentMethod;
 
     ast.methods.forEach((method) => {
       currentMethod = this._findMethodDef(method.name);
-
-      const receiverType = this._getDataType(currentReceiver);
 
       if (receiverType !== currentMethod.getReceiverType()) {
         throw new Error(receiverType + ' cannot use method ' + currentMethod.getName());
@@ -101,6 +100,7 @@ class MethodManager {
       }
 
       currentReceiver = returnValue;
+      receiverType = this._getDataType(currentReceiver);
     });
 
     return currentReceiver;
