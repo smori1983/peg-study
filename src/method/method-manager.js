@@ -21,9 +21,7 @@ class MethodManager {
    * @throws {Error}
    */
   validate(variables, ast) {
-    if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error('variable not registered: ' + ast.name);
-    }
+    this._checkVariable(variables, ast);
 
     let receiverType = this._getDataType(variables[ast.name])
     let currentMethod;
@@ -55,9 +53,7 @@ class MethodManager {
    * @throws {Error}
    */
   invoke(variables, ast) {
-    if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error('variable not registered: ' + ast.name);
-    }
+    this._checkVariable(variables, ast);
 
     let currentReceiver = variables[ast.name];
     let receiverType = this._getDataType(currentReceiver);
@@ -104,6 +100,18 @@ class MethodManager {
     });
 
     return currentReceiver;
+  }
+
+  /**
+   * @param {Object} variables
+   * @param {Object} ast
+   * @throws {Error}
+   * @private
+   */
+  _checkVariable(variables, ast) {
+    if (!variables.hasOwnProperty(ast.name)) {
+      throw new Error('variable not registered: ' + ast.name);
+    }
   }
 
   /**
