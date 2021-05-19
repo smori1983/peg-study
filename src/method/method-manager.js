@@ -30,16 +30,7 @@ class MethodManager {
       currentMethod = this._findMethodDef(method.name);
 
       this._checkReceiverType(receiverType, currentMethod);
-
-      if (method.args.length !== currentMethod.getArgTypes().length) {
-        throw new Error('number of arguments of method ' + currentMethod.getName() + ' should be ' + currentMethod.getArgTypes().length);
-      }
-
-      for (let i = 0; i < method.args.length; i++) {
-        if (method.args[i].type !== currentMethod.getArgTypes()[i]) {
-          throw new Error('argument type does not match for method ' + currentMethod.getName());
-        }
-      }
+      this._checkArgumentTypes(method.args, currentMethod);
 
       receiverType = currentMethod.getReturnType();
     });
@@ -61,16 +52,7 @@ class MethodManager {
       currentMethod = this._findMethodDef(method.name);
 
       this._checkReceiverType(receiverType, currentMethod);
-
-      if (method.args.length !== currentMethod.getArgTypes().length) {
-        throw new Error('number of arguments of method ' + currentMethod.getName() + ' should be ' + currentMethod.getArgTypes().length);
-      }
-
-      for (let i = 0; i < method.args.length; i++) {
-        if (method.args[i].type !== currentMethod.getArgTypes()[i]) {
-          throw new Error('argument type does not match for method ' + currentMethod.getName());
-        }
-      }
+      this._checkArgumentTypes(method.args, currentMethod);
 
       const args = method.args.map((arg) => {
         if (arg.type === 'bool') {
@@ -119,6 +101,24 @@ class MethodManager {
   _checkReceiverType(receiverType, methodDef) {
     if (receiverType !== methodDef.getReceiverType()) {
       throw new Error(receiverType + ' cannot use method ' + methodDef.getName());
+    }
+  }
+
+  /**
+   * @param {Object} args
+   * @param {MethodDef} methodDef
+   * @throws {Error}
+   * @private
+   */
+  _checkArgumentTypes(args, methodDef) {
+    if (args.length !== methodDef.getArgTypes().length) {
+      throw new Error('number of arguments of method ' + methodDef.getName() + ' should be ' + methodDef.getArgTypes().length);
+    }
+
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].type !== methodDef.getArgTypes()[i]) {
+        throw new Error('argument type does not match for method ' + methodDef.getName());
+      }
     }
   }
 
