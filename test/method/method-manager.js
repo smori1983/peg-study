@@ -34,6 +34,13 @@ describe('MethodManager', () => {
       assert.deepStrictEqual(invoke(input), message);
     });
 
+    it('code.foo()', () => {
+      const input = 'code.foo()';
+      const message = 'method not found: foo';
+      assert.deepStrictEqual(validate(input), message);
+      assert.deepStrictEqual(invoke(input), message);
+    });
+
     it('amount.upper()', () => {
       const input = 'amount.upper()';
       const message = 'number cannot use method upper';
