@@ -31,14 +31,7 @@ class MethodManager {
     ast.methods.forEach((method) => {
       currentMethod = this._findMethodDef(method.name);
 
-      let receiverType;
-      if (currentReceiver === null) {
-        receiverType = 'null';
-      } else if (Array.isArray(currentReceiver)) {
-        receiverType = 'array';
-      } else {
-        receiverType = (typeof currentReceiver);
-      }
+      const receiverType = this._getDataType(currentReceiver);
 
       if (receiverType !== currentMethod.getReceiverType()) {
         throw new Error((typeof currentReceiver) + ' cannot use method ' + currentMethod.getName());
@@ -86,6 +79,21 @@ class MethodManager {
     }
 
     throw new Error('method not found: ' + name);
+  }
+
+  /**
+   * @param {*} value
+   * @return {string}
+   * @private
+   */
+  _getDataType(value) {
+    if (value === null) {
+      return 'null';
+    } else if (Array.isArray(value)) {
+      return 'array';
+    } else {
+      return typeof value;
+    }
   }
 }
 
