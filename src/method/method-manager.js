@@ -1,3 +1,4 @@
+const sprintf = require('sprintf-js').sprintf;
 const MethodDefLower = require('./method-def-lower');
 const MethodDefUpper = require('./method-def-upper');
 const MethodDefSplit = require('./method-def-split');
@@ -60,7 +61,7 @@ class MethodManager {
         } else if (arg.type === 'string') {
           return arg.text;
         } else {
-          throw new Error('unknown argument type: ' + arg.type);
+          throw new Error(sprintf('unknown argument type: %s', arg.type));
         }
       });
 
@@ -68,7 +69,7 @@ class MethodManager {
       const returnValueType = this._getDataType(returnValue);
 
       if (returnValueType !== currentMethod.getReturnType()) {
-        throw new Error('return value of ' + currentMethod.getName() + ' should be ' + currentMethod.getReturnType() + ', actual was ' + returnValueType);
+        throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
       }
 
       currentReceiver = returnValue;
@@ -86,7 +87,7 @@ class MethodManager {
    */
   _checkVariable(variables, ast) {
     if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error('variable not registered: ' + ast.name);
+      throw new Error(sprintf('variable not registered: %s', ast.name));
     }
   }
 
@@ -98,7 +99,7 @@ class MethodManager {
    */
   _checkReceiverType(receiverType, methodDef) {
     if (receiverType !== methodDef.getReceiverType()) {
-      throw new Error(receiverType + ' cannot use method ' + methodDef.getName());
+      throw new Error(sprintf('%s cannot use method %s', receiverType, methodDef.getName()));
     }
   }
 
@@ -110,12 +111,12 @@ class MethodManager {
    */
   _checkArgumentTypes(args, methodDef) {
     if (args.length !== methodDef.getArgTypes().length) {
-      throw new Error('number of arguments of method ' + methodDef.getName() + ' should be ' + methodDef.getArgTypes().length);
+      throw new Error(sprintf('number of arguments of method %s should be %d', methodDef.getName(), methodDef.getArgTypes().length));
     }
 
     for (let i = 0; i < args.length; i++) {
       if (args[i].type !== methodDef.getArgTypes()[i]) {
-        throw new Error('argument type does not match for method ' + methodDef.getName());
+        throw new Error(sprintf('argument type does not match for method %s', methodDef.getName()));
       }
     }
   }
@@ -133,7 +134,7 @@ class MethodManager {
       }
     }
 
-    throw new Error('method not found: ' + name);
+    throw new Error(sprintf('method not found: %s', name));
   }
 
   /**
