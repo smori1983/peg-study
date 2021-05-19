@@ -20,6 +20,40 @@ class MethodManager {
    * @param {Object} ast
    * @throws {Error}
    */
+  validate(variables, ast) {
+    if (!variables.hasOwnProperty(ast.name)) {
+      throw new Error('variable not registered: ' + ast.name);
+    }
+
+    let receiverType = this._getDataType(variables[ast.name])
+    let currentMethod;
+
+    ast.methods.forEach((method) => {
+      currentMethod = this._findMethodDef(method.name);
+
+      if (receiverType !== currentMethod.getReceiverType()) {
+        throw new Error(receiverType + ' cannot use method ' + currentMethod.getName());
+      }
+
+      if (method.args.length !== currentMethod.getArgTypes().length) {
+        throw new Error('number of arguments of method ' + currentMethod.getName() + ' should be ' + currentMethod.getArgTypes().length);
+      }
+
+      for (let i = 0; i < method.args.length; i++) {
+        if (method.args[i].type !== currentMethod.getArgTypes()[i]) {
+          throw new Error('argument type does not match for method ' + currentMethod.getName());
+        }
+      }
+
+      receiverType = currentMethod.getReturnType();
+    });
+  }
+
+  /**
+   * @param {Object} variables
+   * @param {Object} ast
+   * @throws {Error}
+   */
   invoke(variables, ast) {
     if (!variables.hasOwnProperty(ast.name)) {
       throw new Error('variable not registered: ' + ast.name);
