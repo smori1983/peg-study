@@ -29,9 +29,7 @@ class MethodManager {
     ast.methods.forEach((method) => {
       currentMethod = this._findMethodDef(method.name);
 
-      if (receiverType !== currentMethod.getReceiverType()) {
-        throw new Error(receiverType + ' cannot use method ' + currentMethod.getName());
-      }
+      this._checkReceiverType(receiverType, currentMethod);
 
       if (method.args.length !== currentMethod.getArgTypes().length) {
         throw new Error('number of arguments of method ' + currentMethod.getName() + ' should be ' + currentMethod.getArgTypes().length);
@@ -62,9 +60,7 @@ class MethodManager {
     ast.methods.forEach((method) => {
       currentMethod = this._findMethodDef(method.name);
 
-      if (receiverType !== currentMethod.getReceiverType()) {
-        throw new Error(receiverType + ' cannot use method ' + currentMethod.getName());
-      }
+      this._checkReceiverType(receiverType, currentMethod);
 
       if (method.args.length !== currentMethod.getArgTypes().length) {
         throw new Error('number of arguments of method ' + currentMethod.getName() + ' should be ' + currentMethod.getArgTypes().length);
@@ -111,6 +107,18 @@ class MethodManager {
   _checkVariable(variables, ast) {
     if (!variables.hasOwnProperty(ast.name)) {
       throw new Error('variable not registered: ' + ast.name);
+    }
+  }
+
+  /**
+   * @param {string} receiverType
+   * @param {MethodDef} methodDef
+   * @throws {Error}
+   * @private
+   */
+  _checkReceiverType(receiverType, methodDef) {
+    if (receiverType !== methodDef.getReceiverType()) {
+      throw new Error(receiverType + ' cannot use method ' + methodDef.getName());
     }
   }
 
