@@ -24,10 +24,9 @@ class MethodManager {
     this._checkVariable(variables, ast);
 
     let receiverType = this._getDataType(variables[ast.name])
-    let currentMethod;
 
     ast.methods.forEach((method) => {
-      currentMethod = this._findMethodDef(method.name);
+      const currentMethod = this._findMethodDef(method.name);
 
       this._checkReceiverType(receiverType, currentMethod);
       this._checkArgumentTypes(method.args, currentMethod);
@@ -46,10 +45,9 @@ class MethodManager {
 
     let currentReceiver = variables[ast.name];
     let receiverType = this._getDataType(currentReceiver);
-    let currentMethod;
 
     ast.methods.forEach((method) => {
-      currentMethod = this._findMethodDef(method.name);
+      const currentMethod = this._findMethodDef(method.name);
 
       this._checkReceiverType(receiverType, currentMethod);
       this._checkArgumentTypes(method.args, currentMethod);
