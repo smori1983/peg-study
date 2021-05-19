@@ -68,7 +68,7 @@ class MethodManager {
       const receiverType = this._getDataType(currentReceiver);
 
       if (receiverType !== currentMethod.getReceiverType()) {
-        throw new Error((typeof currentReceiver) + ' cannot use method ' + currentMethod.getName());
+        throw new Error(receiverType + ' cannot use method ' + currentMethod.getName());
       }
 
       if (method.args.length !== currentMethod.getArgTypes().length) {
