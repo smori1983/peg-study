@@ -11,3 +11,5 @@ script:
   - npm run peg:compile:loop2
   - npm run peg:compile:method1
   - npm run peg:compile:option-delimiter
+  - npm run peg:compile:reporting1
+  - npm run peg:compile:reporting2
