@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "peg:compile:calc": "pegjs src/calc/calc-parser-step1.pegjs; pegjs src/calc/calc-parser-step2.pegjs",
+    "peg:compile:loop1": "pegjs src/loop/format1.pegjs",
     "peg:compile:method1": "pegjs src/method/format1.pegjs",
     "peg:compile:option-delimiter": "pegjs src/option-delimiter/placeholder.pegjs",
     "test": "mocha test/*",
