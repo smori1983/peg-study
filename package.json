@@ -9,6 +9,8 @@
     "peg:compile:loop2": "pegjs src/loop/format2.pegjs",
     "peg:compile:method1": "pegjs src/method/format1.pegjs",
     "peg:compile:option-delimiter": "pegjs src/option-delimiter/placeholder.pegjs",
+    "peg:compile:reporting1": "pegjs src/reporting/format1.pegjs",
+    "peg:compile:reporting2": "pegjs src/reporting/format2.pegjs",
     "test": "mocha test/*",
     "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"
   },
