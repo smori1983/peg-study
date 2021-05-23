@@ -166,7 +166,10 @@ function peg$parse(input, options) {
       peg$c15 = /^[0-9a-z_]/,
       peg$c16 = peg$classExpectation([["0", "9"], ["a", "z"], "_"], false, false),
       peg$c17 = function(head, tail) {
-          return head + tail.join('');
+          return {
+            type: 'variable',
+            text: head + tail.join(''),
+          };
         },
       peg$c18 = "log",
       peg$c19 = peg$literalExpectation("log", false),

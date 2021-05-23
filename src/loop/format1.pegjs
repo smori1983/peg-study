@@ -17,7 +17,10 @@ for_loop
 variable
   = head:[a-z] tail:[0-9a-z_]*
   {
-    return head + tail.join('');
+    return {
+      type: 'variable',
+      text: head + tail.join(''),
+    };
   }
 
 code
