@@ -2,10 +2,21 @@ const Scope = require('./scope');
 
 class Evaluator {
   /**
-   * @param {Object} ast
+   * @param {Object[]} ast
    * @param {Scope} scope
    */
   evaluate(ast, scope) {
+    ast.forEach((child) => {
+      this._evaluate(child, scope);
+    });
+  }
+
+  /**
+   * @param {Object} ast
+   * @param {Scope} scope
+   * @private
+   */
+  _evaluate(ast, scope) {
     if (ast.type === 'language_construct' && ast.text === 'for') {
       this._evaluateFor(ast, scope);
     } else if (ast.type === 'language_construct' && ast.text === 'log') {
@@ -16,6 +27,7 @@ class Evaluator {
   /**
    * @param {Object} ast
    * @param {Scope} parentScope
+   * @private
    */
   _evaluateFor(ast, parentScope) {
     const arrayName = ast.array.text;
@@ -32,7 +44,7 @@ class Evaluator {
       scope.addVariable(variableName, array[i]);
 
       ast.children.forEach((child) => {
-        this.evaluate(child, scope);
+        this._evaluate(child, scope);
       });
     }
   }
@@ -40,6 +52,7 @@ class Evaluator {
   /**
    * @param {Object} ast
    * @param {Scope} scope
+   * @private
    */
   _evaluateLog(ast, scope) {
     const argName = ast.variable.text;

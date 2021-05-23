@@ -325,9 +325,25 @@ function peg$parse(input, options) {
   }
 
   function peg$parsestart() {
+    var s0, s1;
+
+    s0 = [];
+    s1 = peg$parsecode();
+    while (s1 !== peg$FAILED) {
+      s0.push(s1);
+      s1 = peg$parsecode();
+    }
+
+    return s0;
+  }
+
+  function peg$parsecode() {
     var s0;
 
     s0 = peg$parsefor_loop();
+    if (s0 === peg$FAILED) {
+      s0 = peg$parselog();
+    }
 
     return s0;
   }
@@ -539,17 +555,6 @@ function peg$parse(input, options) {
     } else {
       peg$currPos = s0;
       s0 = peg$FAILED;
-    }
-
-    return s0;
-  }
-
-  function peg$parsecode() {
-    var s0;
-
-    s0 = peg$parsefor_loop();
-    if (s0 === peg$FAILED) {
-      s0 = peg$parselog();
     }
 
     return s0;

@@ -13,6 +13,7 @@ const dump = (input, scope) => {
 const scope1 = new Scope();
 scope1.addVariable('items', ['a', 'b', 'c']);
 const input1 = `
+log(items)
 for(item in items) {
   log(item)
 }

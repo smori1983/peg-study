@@ -1,5 +1,9 @@
 start
+  = code*
+
+code
   = for_loop
+  / log
 
 for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _
@@ -23,10 +27,6 @@ variable
       text: head + tail.join(''),
     };
   }
-
-code
-  = for_loop
-  / log
 
 log
   = _ 'log' _ '(' _ v:variable _ ')' _
