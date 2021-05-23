@@ -7,7 +7,8 @@ for_loop
     _ '}' _
   {
     return {
-      type: 'loop',
+      type: 'language_construct',
+      text: 'for',
       array: a,
       variable: v,
       children: codes,
@@ -31,7 +32,8 @@ log
   = _ 'log' _ '(' _ v:variable _ ')' _
   {
     return {
-      type: 'log',
+      type: 'language_construct',
+      text: 'log',
       variable: v,
     };
   }
