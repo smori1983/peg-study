@@ -1,5 +1,9 @@
 const parser = require('./format2');
 
+const dump = (input, options) => {
+  console.log(JSON.stringify(parser.parse(input.trim(), options), null, 2));
+};
+
 const input1 = `
 report {
   code {
@@ -15,9 +19,11 @@ report {
 
 const options1 = {
   placeholder_mark: '#',
+  bracket_open: '(',
+  bracket_close: ')',
 };
 
-console.log(JSON.stringify(parser.parse(input1.trim(), options1), null, 2));
+dump(input1, options1);
 
 const input2 = `
 report {
@@ -25,7 +31,7 @@ report {
     100
   }
   output {
-    "$(name): $(amount)"
+    "#[name]: #[amount]"
   }
 }
 report {
@@ -33,13 +39,15 @@ report {
     200
   }
   output {
-    '$(name) = $(amount)'
+    '#[name] = #[amount]'
   }
 }
 `;
 
 const options2 = {
-  placeholder_mark: '$',
+  placeholder_mark: '#',
+  bracket_open: '[',
+  bracket_close: ']',
 };
 
-console.log(JSON.stringify(parser.parse(input2.trim(), options2), null, 2));
+dump(input2, options2);
