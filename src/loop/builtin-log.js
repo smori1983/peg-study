@@ -1,7 +1,7 @@
 const Symbol = require('./symbol');
 const Variable = require('./variable');
 
-class LanguageConstructLog extends Symbol {
+class BuiltinLog extends Symbol {
   /**
    * @param {Variable} arg
    */
@@ -20,4 +20,4 @@ class LanguageConstructLog extends Symbol {
   }
 }
 
-module.exports = LanguageConstructLog;
+module.exports = BuiltinLog;

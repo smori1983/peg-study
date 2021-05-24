@@ -1,5 +1,5 @@
-const LanguageConstructFor = require('./language-construct-for');
-const LanguageConstructLog = require('./language-construct-log');
+const BuiltinFor = require('./builtin-for');
+const BuiltinLog = require('./builtin-log');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
@@ -24,9 +24,9 @@ class Builder {
    * @private
    */
   _build(symbol, ast) {
-    if (ast.type === 'language_construct' && ast.text === 'for') {
+    if (ast.type === 'builtin' && ast.text === 'for') {
       this._buildFor(symbol, ast);
-    } else if (ast.type === 'language_construct' && ast.text === 'log') {
+    } else if (ast.type === 'builtin' && ast.text === 'log') {
       this._buildLog(symbol, ast);
     } else {
       throw new Error('unknown type: ' + ast.type);
@@ -41,7 +41,7 @@ class Builder {
   _buildFor(symbol, ast) {
     const array = this._buildVariable(ast.array);
     const variable = this._buildVariable(ast.variable);
-    const forLoop = new LanguageConstructFor(array, variable);
+    const forLoop = new BuiltinFor(array, variable);
 
     ast.children.forEach((child) => {
       this._build(forLoop, child);
@@ -57,7 +57,7 @@ class Builder {
    */
   _buildLog(symbol, ast) {
     const arg = this._buildVariable(ast.variable);
-    symbol.addChild(new LanguageConstructLog(arg));
+    symbol.addChild(new BuiltinLog(arg));
   }
 
   /**

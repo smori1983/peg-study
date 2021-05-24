@@ -11,7 +11,7 @@ for_loop
     _ '}' _
   {
     return {
-      type: 'language_construct',
+      type: 'builtin',
       text: 'for',
       array: a,
       variable: v,
@@ -32,7 +32,7 @@ log
   = _ 'log' _ '(' _ v:variable _ ')' _
   {
     return {
-      type: 'language_construct',
+      type: 'builtin',
       text: 'log',
       variable: v,
     };

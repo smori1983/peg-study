@@ -155,7 +155,7 @@ function peg$parse(input, options) {
       peg$c11 = peg$literalExpectation("}", false),
       peg$c12 = function(v, a, codes) {
           return {
-            type: 'language_construct',
+            type: 'builtin',
             text: 'for',
             array: a,
             variable: v,
@@ -176,7 +176,7 @@ function peg$parse(input, options) {
       peg$c19 = peg$literalExpectation("log", false),
       peg$c20 = function(v) {
           return {
-            type: 'language_construct',
+            type: 'builtin',
             text: 'log',
             variable: v,
           };

@@ -2,7 +2,7 @@ const Scope = require('./scope');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
 
-class LanguageConstructFor extends SymbolParent {
+class BuiltinFor extends SymbolParent {
   /**
    * @param {Variable} array
    * @param {Variable} variable
@@ -41,4 +41,4 @@ class LanguageConstructFor extends SymbolParent {
   }
 }
 
-module.exports = LanguageConstructFor;
+module.exports = BuiltinFor;
