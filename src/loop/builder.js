@@ -2,6 +2,7 @@ const LanguageConstructDefFor = require('./language-construct-def-for');
 const LanguageConstructDefLog = require('./language-construct-def-log');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
+const Variable = require('./variable');
 
 class Builder {
   /**
@@ -38,7 +39,9 @@ class Builder {
    * @private
    */
   _buildFor(symbol, ast) {
-    const forLoop = new LanguageConstructDefFor(ast.array.text, ast.variable.text);
+    const array = this._buildVariable(ast.array);
+    const variable = this._buildVariable(ast.variable);
+    const forLoop = new LanguageConstructDefFor(array, variable);
 
     ast.children.forEach((child) => {
       this._build(forLoop, child);
@@ -53,7 +56,17 @@ class Builder {
    * @private
    */
   _buildLog(symbol, ast) {
-    symbol.addChild(new LanguageConstructDefLog(ast.variable.text));
+    const arg = this._buildVariable(ast.variable);
+    symbol.addChild(new LanguageConstructDefLog(arg));
+  }
+
+  /**
+   * @param ast
+   * @returns {Variable}
+   * @private
+   */
+  _buildVariable(ast) {
+    return new Variable(ast.text);
   }
 }
 
