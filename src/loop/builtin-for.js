@@ -23,7 +23,7 @@ class BuiltinFor extends SymbolParent {
     this._variable = variable;
   }
 
-  evaluate(scope) {
+  evaluate(scope, output) {
     const array = scope.resolveVariable(this._array.getName());
 
     if (!Array.isArray(array)) {
@@ -35,7 +35,7 @@ class BuiltinFor extends SymbolParent {
       childScope.addVariable(this._variable.getName(), array[i]);
 
       this._children.forEach((child) => {
-        child.evaluate(childScope);
+        child.evaluate(childScope, output);
       });
     }
   }

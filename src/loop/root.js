@@ -5,9 +5,9 @@ class Root extends SymbolParent {
     super();
   }
 
-  evaluate(scope) {
+  evaluate(scope, output) {
     this._children.forEach((child) => {
-      child.evaluate(scope);
+      child.evaluate(scope, output);
     });
   }
 }

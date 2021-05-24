@@ -15,8 +15,8 @@ class BuiltinLog extends Symbol {
     this._arg = arg;
   }
 
-  evaluate(scope) {
-    console.log(scope.resolveVariable(this._arg.getName()));
+  evaluate(scope, output) {
+    output.addLine(scope.resolveVariable(this._arg.getName()));
   }
 }
 

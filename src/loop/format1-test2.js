@@ -1,15 +1,17 @@
 const parser = require('./format1');
 const Builder = require('./builder');
+const Output = require('./output');
 const Scope = require('./scope');
 
 const dump = (input, scope) => {
   const parsed = parser.parse(input);
-  console.log(JSON.stringify(parsed, null, 2));
 
   const builder = new Builder();
   const root = builder.build(parsed);
+  const output = new Output();
 
-  root.evaluate(scope);
+  root.evaluate(scope, output);
+  console.log(output.getLines().join('\n'));
 };
 
 const scope1 = new Scope();
