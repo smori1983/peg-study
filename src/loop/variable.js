@@ -1,9 +1,11 @@
 class Variable {
   /**
    * @param {string} name
+   * @param {Object[]} [methods]
    */
-  constructor(name) {
+  constructor(name, methods) {
     this._name = name;
+    this._methods = methods || [];
   }
 
   /**
@@ -11,6 +13,13 @@ class Variable {
    */
   getName() {
     return this._name;
+  }
+
+  /**
+   * @return {Object[]}
+   */
+  getMethods() {
+    return this._methods;
   }
 }
 

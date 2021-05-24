@@ -1,0 +1,123 @@
+const sprintf = require('sprintf-js').sprintf;
+const MethodJoin = require('./method-join');
+const MethodLower = require('./method-lower');
+const MethodSplit = require('./method-split');
+const MethodUpper = require('./method-upper');
+
+class MethodInvoker {
+  constructor() {
+    /**
+     * @type {Method[]}
+     * @private
+     */
+    this._methods = [];
+    this._methods.push(new MethodLower());
+    this._methods.push(new MethodJoin());
+    this._methods.push(new MethodSplit());
+    this._methods.push(new MethodUpper());
+  }
+
+  /**
+   * @param {*} variable
+   * @param {Object[]} methods
+   * @return {*}
+   */
+  invoke(variable, methods) {
+    let currentReceiver = variable;
+    let receiverType = this._getDataType(currentReceiver);
+
+    methods.forEach((method) => {
+      const currentMethod = this._findMethodDef(method.name);
+
+      this._checkReceiverType(receiverType, currentMethod);
+      this._checkArgumentTypes(method.args, currentMethod);
+
+      const args = method.args.map((arg) => {
+        if (arg.type === 'bool') {
+          return arg.text === 'true';
+        } else if (arg.type === 'int') {
+          return parseInt(arg.text, 10);
+        } else if (arg.type === 'string') {
+          return arg.text;
+        } else {
+          throw new Error(sprintf('unknown argument type: %s', arg.type));
+        }
+      });
+
+      const returnValue = currentMethod.evaluate(currentReceiver, args);
+      const returnValueType = this._getDataType(returnValue);
+
+      if (returnValueType !== currentMethod.getReturnType()) {
+        throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
+      }
+
+      currentReceiver = returnValue;
+      receiverType = this._getDataType(currentReceiver);
+    });
+
+    return currentReceiver;
+  }
+
+  /**
+   * @param {string} receiverType
+   * @param {Method} method
+   * @throws {Error}
+   * @private
+   */
+  _checkReceiverType(receiverType, method) {
+    if (receiverType !== method.getReceiverType()) {
+      throw new Error(sprintf('%s cannot use method %s', receiverType, method.getName()));
+    }
+  }
+
+  /**
+   * @param {Object} args
+   * @param {Method} method
+   * @throws {Error}
+   * @private
+   */
+  _checkArgumentTypes(args, method) {
+    if (args.length !== method.getArgTypes().length) {
+      throw new Error(sprintf('number of arguments of method %s should be %d', method.getName(), method.getArgTypes().length));
+    }
+
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].type !== method.getArgTypes()[i]) {
+        throw new Error(sprintf('argument type does not match for method %s', method.getName()));
+      }
+    }
+  }
+
+  /**
+   * @param {string} name
+   * @return {Method}
+   * @throws {Error}
+   * @private
+   */
+  _findMethodDef(name) {
+    for (let i = 0; i < this._methods.length; i++) {
+      if (this._methods[i].getName() === name) {
+        return this._methods[i];
+      }
+    }
+
+    throw new Error(sprintf('method not found: %s', name));
+  }
+
+  /**
+   * @param {*} value
+   * @return {string}
+   * @private
+   */
+  _getDataType(value) {
+    if (value === null) {
+      return 'null';
+    } else if (Array.isArray(value)) {
+      return 'array';
+    } else {
+      return typeof value;
+    }
+  }
+}
+
+module.exports = MethodInvoker;

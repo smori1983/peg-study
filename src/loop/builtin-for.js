@@ -1,3 +1,4 @@
+const MethodInvoker = require('./method-invoker');
 const Scope = require('./scope');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
@@ -21,10 +22,17 @@ class BuiltinFor extends SymbolParent {
      * @private
      */
     this._variable = variable;
+
+    /**
+     * @type {MethodInvoker}
+     * @private
+     */
+    this._methodInvoker = new MethodInvoker();
   }
 
   evaluate(scope, output) {
-    const array = scope.resolveVariable(this._array.getName());
+    const receiver = scope.resolveVariable(this._array.getName());
+    const array = this._methodInvoker.invoke(receiver, this._array.getMethods());
 
     if (!Array.isArray(array)) {
       throw new Error(this._array + ' is not array');
