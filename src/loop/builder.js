@@ -39,7 +39,7 @@ class Builder {
    * @private
    */
   _buildFor(symbol, ast) {
-    const array = this._buildVariableAndMethods(ast.array);
+    const array = this._buildVariable(ast.array);
     const variable = this._buildVariable(ast.variable);
     const forLoop = new BuiltinFor(array, variable);
 
@@ -56,7 +56,7 @@ class Builder {
    * @private
    */
   _buildLog(symbol, ast) {
-    const arg = this._buildVariableAndMethods(ast.variable);
+    const arg = this._buildVariable(ast.variable);
     symbol.addChild(new BuiltinLog(arg));
   }
 
@@ -66,16 +66,7 @@ class Builder {
    * @private
    */
   _buildVariable(ast) {
-    return new Variable(ast.text);
-  }
-
-  /**
-   * @param ast
-   * @returns {Variable}
-   * @private
-   */
-  _buildVariableAndMethods(ast) {
-    return new Variable(ast.text, ast.methods);
+    return new Variable(ast.text, ast.methods || []);
   }
 }
 
