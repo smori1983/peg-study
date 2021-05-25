@@ -108,7 +108,7 @@ log
     return {
       type: 'builtin',
       text: 'log',
-      variable: v,
+      args: [v],
     };
   }
 

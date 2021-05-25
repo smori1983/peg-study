@@ -238,7 +238,7 @@ function peg$parse(input, options) {
           return {
             type: 'builtin',
             text: 'log',
-            variable: v,
+            args: [v],
           };
         },
       peg$c47 = peg$otherExpectation("whitespace"),

@@ -56,7 +56,7 @@ class Format2Builder {
    * @private
    */
   _buildLog(symbol, ast) {
-    const arg = this._buildVariable(ast.variable);
+    const arg = this._buildVariable(ast.args[0]);
     symbol.addChild(new BuiltinLog(arg));
   }
 
