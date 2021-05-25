@@ -4,7 +4,7 @@ const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
 
-class Builder {
+class Format2Builder {
   /**
    * @param {Object[]} ast
    */
@@ -70,4 +70,4 @@ class Builder {
   }
 }
 
-module.exports = Builder;
+module.exports = Format2Builder;
