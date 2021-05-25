@@ -49,7 +49,8 @@ method
   = _ '.' _ head:[a-z] tail:[0-9a-z_]* _ '(' _ args:method_args* _ ')'
   {
     return {
-      name: head + tail.join(''),
+      type: 'method',
+      text: head + tail.join(''),
       args: args.length > 0 ? args[0] : [],
     };
   }

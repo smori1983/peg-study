@@ -27,7 +27,7 @@ class MethodInvoker {
     let receiverType = this._getDataType(currentReceiver);
 
     methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
+      const currentMethod = this._findMethodDef(method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
       this._checkArgumentTypes(method.args, currentMethod);

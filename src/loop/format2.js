@@ -190,7 +190,8 @@ function peg$parse(input, options) {
       peg$c21 = peg$literalExpectation(".", false),
       peg$c22 = function(head, tail, args) {
           return {
-            name: head + tail.join(''),
+            type: 'method',
+            text: head + tail.join(''),
             args: args.length > 0 ? args[0] : [],
           };
         },
