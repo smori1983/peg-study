@@ -6,12 +6,12 @@ const Variable = require('./variable');
 
 class Format2Builder {
   /**
-   * @param {Object[]} ast
+   * @param {Object} astRoot
    */
-  build(ast) {
+  build(astRoot) {
     const root = new Root();
 
-    ast.forEach((child) => {
+    astRoot.children.forEach((child) => {
       this._build(root, child);
     });
 

@@ -1,5 +1,12 @@
 start
-  = code*
+  = codes:code*
+  {
+    return {
+      type: 'root',
+      text: 'root',
+      children: codes,
+    };
+  }
 
 code
   = for_loop
