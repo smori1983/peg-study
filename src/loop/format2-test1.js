@@ -5,11 +5,9 @@ const dump = (input) => {
 };
 
 const input1 = `
-for(row in data) {
-  log(row)
-  for(code in row.split('-')) {
-    log(code)
-  }
+log(data.upper().lower())
+for(part in data.split('-')) {
+  log(part.upper())
 }
 `;
 
