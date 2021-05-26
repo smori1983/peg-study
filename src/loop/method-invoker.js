@@ -33,7 +33,6 @@ class MethodInvoker {
       const currentMethod = this._findMethodDef(method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.args, currentMethod);
 
       const args = method.args.map((arg) => {
         if (arg.type === 'bool') {
@@ -46,6 +45,8 @@ class MethodInvoker {
           throw new Error(sprintf('unknown argument type: %s', arg.type));
         }
       });
+
+      this._checkArgumentTypes(args, currentMethod);
 
       const returnValue = currentMethod.evaluate(currentReceiver, args);
       const returnValueType = this._getDataType(returnValue);
@@ -74,7 +75,7 @@ class MethodInvoker {
   }
 
   /**
-   * @param {Object} args
+   * @param {MethodArg[]} args
    * @param {Method} method
    * @throws {Error}
    * @private
@@ -85,7 +86,7 @@ class MethodInvoker {
     }
 
     for (let i = 0; i < args.length; i++) {
-      if (args[i].type !== method.getArgTypes()[i]) {
+      if (args[i].getType() !== method.getArgTypes()[i]) {
         throw new Error(sprintf('argument type does not match for method %s', method.getName()));
       }
     }
