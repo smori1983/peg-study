@@ -1,4 +1,5 @@
 const Method = require('./method');
+const MethodArg = require('./method-arg');
 
 class MethodLower extends Method {
   getReceiverType() {
@@ -19,7 +20,7 @@ class MethodLower extends Method {
 
   /**
    * @param {string} receiver
-   * @param {*[]} args
+   * @param {MethodArg[]} args
    * @return {string}
    */
   evaluate(receiver, args) {

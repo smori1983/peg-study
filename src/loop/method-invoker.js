@@ -1,4 +1,7 @@
 const sprintf = require('sprintf-js').sprintf;
+const MethodArgBool = require('./method-arg-bool');
+const MethodArgInt = require('./method-arg-int');
+const MethodArgString = require('./method-arg-string');
 const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
@@ -34,11 +37,11 @@ class MethodInvoker {
 
       const args = method.args.map((arg) => {
         if (arg.type === 'bool') {
-          return arg.text === 'true';
+          return new MethodArgBool(arg.text);
         } else if (arg.type === 'int') {
-          return parseInt(arg.text, 10);
+          return new MethodArgInt(arg.text);
         } else if (arg.type === 'string') {
-          return arg.text;
+          return new MethodArgString(arg.text);
         } else {
           throw new Error(sprintf('unknown argument type: %s', arg.type));
         }

@@ -1,4 +1,5 @@
 const Method = require('./method');
+const MethodArg = require('./method-arg');
 
 class MethodSplit extends Method {
   getReceiverType() {
@@ -19,11 +20,11 @@ class MethodSplit extends Method {
 
   /**
    * @param {string} receiver
-   * @param {*[]} args
+   * @param {MethodArg[]} args
    * @return {string[]}
    */
   evaluate(receiver, args) {
-    return receiver.split(args[0]);
+    return receiver.split(args[0].getValue());
   }
 }
 

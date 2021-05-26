@@ -94,7 +94,7 @@ describe('loop - format2', () => {
     it('pattern1', () => {
       const input = [
         'log(data.upper().lower())',
-        'for(part in data.split("-")) {',
+        'for(part in data.split("-").join("_").split("_")) {',
         '  log(part.upper())',
         '}',
       ].join('\n');

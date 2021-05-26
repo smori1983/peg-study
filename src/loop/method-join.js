@@ -1,4 +1,5 @@
 const Method = require('./method');
+const MethodArg = require('./method-arg');
 
 class MethodJoin extends Method {
   getReceiverType() {
@@ -19,11 +20,11 @@ class MethodJoin extends Method {
 
   /**
    * @param {string[]} receiver
-   * @param {*[]} args
+   * @param {MethodArg[]} args
    * @return {string}
    */
   evaluate(receiver, args) {
-    return receiver.join(args[0]);
+    return receiver.join(args[0].getValue());
   }
 }
 
