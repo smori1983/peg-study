@@ -1,6 +1,8 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
 const parser = require('../../src/loop/format2');
+const Debug = require('../../src/loop/format2-debug');
+const Scope = require('../../src/loop/scope');
 
 describe('loop - format2', () => {
   describe('parse', () => {
@@ -85,6 +87,31 @@ describe('loop - format2', () => {
       };
 
       assert.deepStrictEqual(parser.parse(input), ast);
+    });
+  });
+
+  describe('debug', () => {
+    it('pattern1', () => {
+      const input = [
+        'log(data.upper().lower())',
+        'for(part in data.split("-")) {',
+        '  log(part.upper())',
+        '}',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('data', 'a-b-c');
+
+      const debug = new Debug();
+
+      const output = [
+        'a-b-c',
+        'A',
+        'B',
+        'C',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
   });
 });
