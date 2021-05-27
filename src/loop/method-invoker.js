@@ -50,11 +50,8 @@ class MethodInvoker {
       this._checkArgumentTypes(args, currentMethod);
 
       const returnValue = currentMethod.evaluate(currentReceiver, args);
-      const returnValueType = this._getDataType(returnValue);
 
-      if (returnValueType !== currentMethod.getReturnType()) {
-        throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
-      }
+      this._checkReturnValueType(returnValue, currentMethod);
 
       currentReceiver = returnValue;
     });
@@ -91,6 +88,20 @@ class MethodInvoker {
       if (args[i].getType() !== method.getArgTypes()[i]) {
         throw new Error(sprintf('argument type does not match for method %s', method.getName()));
       }
+    }
+  }
+
+  /**
+   * @param {*} returnValue
+   * @param {Method} method
+   * @throws {Error}
+   * @private
+   */
+  _checkReturnValueType(returnValue, method) {
+    const returnValueType = this._getDataType(returnValue);
+
+    if (returnValueType !== method.getReturnType()) {
+      throw new Error(sprintf('return value of %s should be %s, actual was %s', method.getName(), method.getReturnType(), returnValueType));
     }
   }
 
