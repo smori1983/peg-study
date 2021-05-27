@@ -3,6 +3,8 @@ const BuiltinLog = require('./builtin-log');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
+const VariableMethod = require('./variable-method');
+const VariableMethodArg = require('./variable-method-arg');
 
 class Format2Builder {
   /**
@@ -66,7 +68,16 @@ class Format2Builder {
    * @private
    */
   _buildVariable(ast) {
-    return new Variable(ast.text, ast.methods || []);
+    const methods = [];
+    (ast.methods || []).forEach((astMethod) => {
+      const methodArgs = [];
+      astMethod.args.forEach((astMethodArg) => {
+        methodArgs.push(new VariableMethodArg(astMethodArg.type, astMethodArg.text));
+      });
+      methods.push(new VariableMethod(astMethod.text, methodArgs));
+    });
+
+    return new Variable(ast.text, methods);
   }
 }
 

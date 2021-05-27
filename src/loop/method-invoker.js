@@ -6,6 +6,7 @@ const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
+const VariableMethod = require('./variable-method');
 
 class MethodInvoker {
   constructor() {
@@ -22,7 +23,7 @@ class MethodInvoker {
 
   /**
    * @param {*} variable
-   * @param {Object[]} methods
+   * @param {VariableMethod[]} methods
    * @return {*}
    */
   invoke(variable, methods) {
@@ -30,19 +31,19 @@ class MethodInvoker {
     let receiverType = this._getDataType(currentReceiver);
 
     methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.text);
+      const currentMethod = this._findMethodDef(method.getText());
 
       this._checkReceiverType(receiverType, currentMethod);
 
-      const args = method.args.map((arg) => {
-        if (arg.type === 'bool') {
-          return new MethodArgBool(arg.text);
-        } else if (arg.type === 'int') {
-          return new MethodArgInt(arg.text);
-        } else if (arg.type === 'string') {
-          return new MethodArgString(arg.text);
+      const args = method.getArgs().map((arg) => {
+        if (arg.getType() === 'bool') {
+          return new MethodArgBool(arg.getText());
+        } else if (arg.getType() === 'int') {
+          return new MethodArgInt(arg.getText());
+        } else if (arg.getType() === 'string') {
+          return new MethodArgString(arg.getText());
         } else {
-          throw new Error(sprintf('unknown argument type: %s', arg.type));
+          throw new Error(sprintf('unknown argument type: %s', arg.getType()));
         }
       });
 

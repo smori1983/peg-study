@@ -1,7 +1,9 @@
+const VariableMethod = require('./variable-method');
+
 class Variable {
   /**
    * @param {string} name
-   * @param {Object[]} [methods]
+   * @param {VariableMethod[]} [methods]
    */
   constructor(name, methods) {
     this._name = name;
@@ -16,7 +18,7 @@ class Variable {
   }
 
   /**
-   * @return {Object[]}
+   * @return {VariableMethod[]}
    */
   getMethods() {
     return this._methods;
