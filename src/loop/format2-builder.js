@@ -68,14 +68,13 @@ class Format2Builder {
    * @private
    */
   _buildVariable(ast) {
-    const methods = [];
-    (ast.methods || []).forEach((astMethod) => {
-      const methodArgs = [];
-      astMethod.args.forEach((astMethodArg) => {
-        methodArgs.push(new VariableMethodArg(astMethodArg.type, astMethodArg.text));
-      });
-      methods.push(new VariableMethod(astMethod.text, methodArgs));
-    });
+    const methods = (ast.methods || []).map((astMethod) => {
+      const methodArgs = astMethod.args.map((astMethodArg) => {
+        return new VariableMethodArg(astMethodArg.type, astMethodArg.text);
+      }, []);
+
+      return new VariableMethod(astMethod.text, methodArgs);
+    }, []);
 
     return new Variable(ast.text, methods);
   }
