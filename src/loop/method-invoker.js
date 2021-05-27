@@ -29,12 +29,11 @@ class MethodInvoker {
    */
   invoke(scope, variable) {
     let currentReceiver = scope.resolveVariable(variable.getName());
-    let receiverType = this._getDataType(currentReceiver);
 
     variable.getMethods().forEach((method) => {
       const currentMethod = this._findMethodDef(method.getText());
 
-      this._checkReceiverType(receiverType, currentMethod);
+      this._checkReceiverType(currentReceiver, currentMethod);
 
       const args = method.getArgs().map((arg) => {
         if (arg.getType() === 'bool') {
@@ -58,19 +57,20 @@ class MethodInvoker {
       }
 
       currentReceiver = returnValue;
-      receiverType = this._getDataType(currentReceiver);
     });
 
     return currentReceiver;
   }
 
   /**
-   * @param {string} receiverType
+   * @param {*} receiver
    * @param {Method} method
    * @throws {Error}
    * @private
    */
-  _checkReceiverType(receiverType, method) {
+  _checkReceiverType(receiver, method) {
+    const receiverType = this._getDataType(receiver);
+
     if (receiverType !== method.getReceiverType()) {
       throw new Error(sprintf('%s cannot use method %s', receiverType, method.getName()));
     }
