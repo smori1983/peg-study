@@ -31,8 +31,7 @@ class BuiltinFor extends SymbolParent {
   }
 
   evaluate(scope, output) {
-    const receiver = scope.resolveVariable(this._array.getName());
-    const array = this._methodInvoker.invoke(receiver, this._array.getMethods());
+    const array = this._methodInvoker.invoke(scope, this._array);
 
     if (!Array.isArray(array)) {
       throw new Error(this._array + ' is not array');

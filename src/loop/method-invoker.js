@@ -6,6 +6,7 @@ const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
+const Scope = require('./scope');
 const VariableMethod = require('./variable-method');
 
 class MethodInvoker {
@@ -22,15 +23,15 @@ class MethodInvoker {
   }
 
   /**
-   * @param {*} variable
-   * @param {VariableMethod[]} methods
+   * @param {Scope} scope
+   * @param {Variable} variable
    * @return {*}
    */
-  invoke(variable, methods) {
-    let currentReceiver = variable;
+  invoke(scope, variable) {
+    let currentReceiver = scope.resolveVariable(variable.getName());
     let receiverType = this._getDataType(currentReceiver);
 
-    methods.forEach((method) => {
+    variable.getMethods().forEach((method) => {
       const currentMethod = this._findMethodDef(method.getText());
 
       this._checkReceiverType(receiverType, currentMethod);

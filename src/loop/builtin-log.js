@@ -23,8 +23,7 @@ class BuiltinLog extends Symbol {
   }
 
   evaluate(scope, output) {
-    const receiver = scope.resolveVariable(this._arg.getName());
-    output.addLine(this._methodInvoker.invoke(receiver, this._arg.getMethods()));
+    output.addLine(this._methodInvoker.invoke(scope, this._arg));
   }
 }
 
