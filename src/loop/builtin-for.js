@@ -1,4 +1,3 @@
-const MethodInvoker = require('./method-invoker');
 const Scope = require('./scope');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
@@ -22,12 +21,6 @@ class BuiltinFor extends SymbolParent {
      * @private
      */
     this._variable = variable;
-
-    /**
-     * @type {MethodInvoker}
-     * @private
-     */
-    this._methodInvoker = new MethodInvoker();
   }
 
   evaluate(scope, output) {

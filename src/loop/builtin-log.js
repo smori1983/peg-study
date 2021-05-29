@@ -1,4 +1,3 @@
-const MethodInvoker = require('./method-invoker');
 const Symbol = require('./symbol');
 const Variable = require('./variable');
 
@@ -14,12 +13,6 @@ class BuiltinLog extends Symbol {
      * @private
      */
     this._arg = arg;
-
-    /**
-     * @type {MethodInvoker}
-     * @private
-     */
-    this._methodInvoker = new MethodInvoker();
   }
 
   evaluate(scope, output) {
