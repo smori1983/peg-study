@@ -35,17 +35,7 @@ class MethodInvoker {
 
       this._checkReceiverType(currentReceiver, currentMethod);
 
-      const args = method.getArgs().map((arg) => {
-        if (arg.getType() === 'bool') {
-          return new MethodArgBool(arg.getText());
-        } else if (arg.getType() === 'int') {
-          return new MethodArgInt(arg.getText());
-        } else if (arg.getType() === 'string') {
-          return new MethodArgString(arg.getText());
-        } else {
-          throw new Error(sprintf('unknown argument type: %s', arg.getType()));
-        }
-      });
+      const args = this._prepareArgs(method);
 
       this._checkArgumentTypes(args, currentMethod);
 
@@ -71,6 +61,25 @@ class MethodInvoker {
     if (receiverType !== method.getReceiverType()) {
       throw new Error(sprintf('%s cannot use method %s', receiverType, method.getName()));
     }
+  }
+
+  /**
+   * @param {VariableMethod} method
+   * @return {MethodArg[]}
+   * @private
+   */
+  _prepareArgs(method) {
+    return method.getArgs().map((arg) => {
+      if (arg.getType() === 'bool') {
+        return new MethodArgBool(arg.getText());
+      } else if (arg.getType() === 'int') {
+        return new MethodArgInt(arg.getText());
+      } else if (arg.getType() === 'string') {
+        return new MethodArgString(arg.getText());
+      } else {
+        throw new Error(sprintf('unknown argument type: %s', arg.getType()));
+      }
+    });
   }
 
   /**
