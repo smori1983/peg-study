@@ -113,5 +113,26 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('pattern2', () => {
+      const input = [
+        'for(item1 in data1) {',
+        '  log(item1)',
+        '}',
+        'for(item2 in data2) {',
+        '  log(item1)',
+        '}',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('data1', ['a', 'b', 'c']);
+      scope.addVariable('data2', ['x', 'y', 'z']);
+
+      const debug = new Debug();
+
+      assert.throws(() => {
+        debug.get(input, scope);
+      }, /variable not found: item1/);
+    });
   });
 });
