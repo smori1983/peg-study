@@ -113,8 +113,10 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+  });
 
-    it('pattern2', () => {
+  describe('debug - error', () => {
+    it('pattern1', () => {
       const input = [
         'for(item1 in data1) {',
         '  log(item1)',
