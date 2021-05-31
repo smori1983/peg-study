@@ -66,6 +66,7 @@ method_arg
   / method_arg_int
   / method_arg_string_single_quote
   / method_arg_string_double_quote
+  / variable_and_method
 
 method_arg_bool
   = w:('true' / 'false')

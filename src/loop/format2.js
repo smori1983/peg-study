@@ -882,6 +882,9 @@ function peg$parse(input, options) {
         s0 = peg$parsemethod_arg_string_single_quote();
         if (s0 === peg$FAILED) {
           s0 = peg$parsemethod_arg_string_double_quote();
+          if (s0 === peg$FAILED) {
+            s0 = peg$parsevariable_and_method();
+          }
         }
       }
     }

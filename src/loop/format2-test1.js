@@ -6,7 +6,7 @@ const dump = (input) => {
 
 const input1 = `
 log(data.upper().lower())
-for(part in data.split('-')) {
+for(part in data.split(split_text.lower())) {
   log(part.upper())
 }
 `;
