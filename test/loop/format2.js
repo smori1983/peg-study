@@ -113,6 +113,24 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('pattern2', () => {
+      const input = [
+        'log(value.split(separator.lower()).join("_"))',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'a-b-c');
+      scope.addVariable('separator', '-');
+
+      const debug = new Debug();
+
+      const output = [
+        'a_b_c',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
   });
 
   describe('debug - error', () => {
