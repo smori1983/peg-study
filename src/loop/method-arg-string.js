@@ -1,6 +1,6 @@
-const MethodType = require('./method-arg');
+const MethodArg = require('./method-arg');
 
-class MethodArgString extends MethodType {
+class MethodArgString extends MethodArg {
   /**
    * @param {string} value
    */
