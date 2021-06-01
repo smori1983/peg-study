@@ -3,7 +3,7 @@ const VariableMethodArg = require('./variable-method-arg');
 class VariableMethod {
   /**
    * @param {string} text
-   * @param {VariableMethodArg[]} args
+   * @param {(Variable|VariableMethodArg)[]} args
    */
   constructor(text, args) {
     this._text = text;

@@ -7,7 +7,9 @@ const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
 const Scope = require('./scope');
+const Variable = require('./variable');
 const VariableMethod = require('./variable-method');
+const VariableMethodArg = require('./variable-method-arg');
 
 class MethodInvoker {
   constructor() {
@@ -35,7 +37,7 @@ class MethodInvoker {
 
       this._checkReceiverType(currentReceiver, currentMethod);
 
-      const args = this._prepareArgs(method);
+      const args = this._prepareArgs(scope, method);
 
       this._checkArgumentTypes(args, currentMethod);
 
@@ -64,22 +66,38 @@ class MethodInvoker {
   }
 
   /**
+   * @param {Scope} scope
    * @param {VariableMethod} method
    * @return {MethodArg[]}
    * @private
    */
-  _prepareArgs(method) {
+  _prepareArgs(scope, method) {
     return method.getArgs().map((arg) => {
-      if (arg.getType() === 'bool') {
-        return new MethodArgBool(arg.getText());
-      } else if (arg.getType() === 'int') {
-        return new MethodArgInt(arg.getText());
-      } else if (arg.getType() === 'string') {
-        return new MethodArgString(arg.getText());
+      if (arg instanceof Variable) {
+        let result = this.invoke(scope, arg);
+        return this._prepareMethodArg(new VariableMethodArg(this._getDataType(result), result));
       } else {
-        throw new Error(sprintf('unknown argument type: %s', arg.getType()));
+        return this._prepareMethodArg(arg);
       }
     });
+  }
+
+  /**
+   * @param {VariableMethodArg} arg
+   * @return {MethodArg}
+   * @throws {Error}
+   * @private
+   */
+  _prepareMethodArg(arg) {
+    if (arg.getType() === 'bool') {
+      return new MethodArgBool(arg.getText());
+    } else if (arg.getType() === 'int') {
+      return new MethodArgInt(arg.getText());
+    } else if (arg.getType() === 'string') {
+      return new MethodArgString(arg.getText());
+    } else {
+      throw new Error(sprintf('unknown argument type: %s', arg.getType()));
+    }
   }
 
   /**

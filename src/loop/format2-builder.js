@@ -70,7 +70,11 @@ class Format2Builder {
   _buildVariable(ast) {
     const methods = (ast.methods || []).map((astMethod) => {
       const methodArgs = astMethod.args.map((astMethodArg) => {
-        return new VariableMethodArg(astMethodArg.type, astMethodArg.text);
+        if (astMethodArg.type === 'variable') {
+          return this._buildVariable(astMethodArg);
+        } else {
+          return new VariableMethodArg(astMethodArg.type, astMethodArg.text);
+        }
       }, []);
 
       return new VariableMethod(astMethod.text, methodArgs);
