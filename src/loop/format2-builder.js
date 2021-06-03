@@ -3,6 +3,10 @@ const BuiltinLog = require('./builtin-log');
 const MethodArgBool = require('./method-arg-bool');
 const MethodArgInt = require('./method-arg-int');
 const MethodArgString = require('./method-arg-string');
+const MethodJoin = require('./method-join');
+const MethodLower = require('./method-lower');
+const MethodSplit = require('./method-split');
+const MethodUpper = require('./method-upper');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
@@ -10,6 +14,18 @@ const VariableMethod = require('./variable-method');
 const VariableMethodArg = require('./variable-method-arg');
 
 class Format2Builder {
+  constructor() {
+    /**
+     * @type {Method[]}
+     * @private
+     */
+    this._methods = [];
+    this._methods.push(new MethodLower());
+    this._methods.push(new MethodJoin());
+    this._methods.push(new MethodSplit());
+    this._methods.push(new MethodUpper());
+  }
+
   /**
    * @param {Object} astRoot
    */
@@ -84,6 +100,22 @@ class Format2Builder {
     }, []);
 
     return new Variable(ast.text, methods);
+  }
+
+  /**
+   * @param {Object} ast
+   * @return {Method}
+   * @throws {Error}
+   * @private
+   */
+  _buildMethod(ast) {
+    for (let i = 0; i < this._methods.length; i++) {
+      if (this._methods[i].getName() === ast.text) {
+        return this._methods[i];
+      }
+    }
+
+    throw new Error(sprintf('method not found: %s', ast.text));
   }
 
   /**
