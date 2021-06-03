@@ -1,5 +1,8 @@
 const BuiltinFor = require('./builtin-for');
 const BuiltinLog = require('./builtin-log');
+const MethodArgBool = require('./method-arg-bool');
+const MethodArgInt = require('./method-arg-int');
+const MethodArgString = require('./method-arg-string');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
@@ -81,6 +84,24 @@ class Format2Builder {
     }, []);
 
     return new Variable(ast.text, methods);
+  }
+
+  /**
+   * @param {Object} ast
+   * @return {MethodArg}
+   * @throws {Error}
+   * @private
+   */
+  _buildMethodArg(ast) {
+    if (ast.type === 'bool') {
+      return new MethodArgBool(ast.text);
+    } else if (ast.type === 'int') {
+      return new MethodArgInt(ast.text);
+    } else if (ast.type === 'string') {
+      return new MethodArgString(ast.text);
+    }
+
+    throw new Error(sprintf('unknown argument type: %s', ast.type));
   }
 }
 
