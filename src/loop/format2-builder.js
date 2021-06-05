@@ -12,8 +12,6 @@ const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable2 = require('./variable2');
-const VariableMethod = require('./variable-method');
-const VariableMethodArg = require('./variable-method-arg');
 
 class Format2Builder {
   constructor() {
