@@ -115,16 +115,17 @@ class Format2Builder {
     const queue = new MethodQueue();
 
     (ast.methods || []).forEach((astMethod) => {
-      const method = this._buildMethod(astMethod);
-      const args = [];
+      const item = new MethodQueueItem(this._buildMethod(astMethod));
+
       astMethod.args.forEach((astMethodArg) => {
         if (astMethodArg.type === 'variable') {
-          args.push(this._buildVariable2(astMethodArg));
+          item.addArg(this._buildVariable2(astMethodArg));
         } else {
-          args.push(this._buildMethodArg(astMethodArg));
+          item.addArg(this._buildMethodArg(astMethodArg));
         }
       });
-      queue.add(new MethodQueueItem(method, args));
+
+      queue.add(item);
     });
 
     return new Variable2(ast.text, queue);

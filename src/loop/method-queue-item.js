@@ -7,11 +7,22 @@ const Variable2 = require('./variable2');
 class MethodQueueItem {
   /**
    * @param {Method} method
-   * @param {(MethodArg|Variable2)[]} args
    */
-  constructor(method, args) {
+  constructor(method) {
     this._method = method;
-    this._args = args;
+
+    /**
+     * @type {(MethodArg|Variable2)[]}
+     * @private
+     */
+    this._args = [];
+  }
+
+  /**
+   * @param {(MethodArg|Variable2)} arg
+   */
+  addArg(arg) {
+    this._args.push(arg);
   }
 
   /**
