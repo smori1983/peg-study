@@ -1,6 +1,6 @@
 const Scope = require('./scope');
 
-class Variable2 {
+class Variable {
   /**
    * @param {string} name
    */
@@ -43,4 +43,4 @@ class Variable2 {
   }
 }
 
-module.exports = Variable2;
+module.exports = Variable;

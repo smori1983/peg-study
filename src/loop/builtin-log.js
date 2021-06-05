@@ -1,15 +1,15 @@
 const Symbol = require('./symbol');
-const Variable2 = require('./variable2');
+const Variable = require('./variable');
 
 class BuiltinLog extends Symbol {
   /**
-   * @param {Variable2} arg
+   * @param {Variable} arg
    */
   constructor(arg) {
     super();
 
     /**
-     * @type {Variable2}
+     * @type {Variable}
      * @private
      */
     this._arg = arg;

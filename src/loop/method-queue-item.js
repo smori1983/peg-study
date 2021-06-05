@@ -2,7 +2,7 @@ const sprintf = require('sprintf-js').sprintf;
 const Method = require('./method');
 const MethodArg = require('./method-arg');
 const Scope = require('./scope');
-const Variable2 = require('./variable2');
+const Variable = require('./variable');
 
 class MethodQueueItem {
   /**
@@ -12,14 +12,14 @@ class MethodQueueItem {
     this._method = method;
 
     /**
-     * @type {(MethodArg|Variable2)[]}
+     * @type {(MethodArg|Variable)[]}
      * @private
      */
     this._args = [];
   }
 
   /**
-   * @param {(MethodArg|Variable2)} arg
+   * @param {(MethodArg|Variable)} arg
    */
   addArg(arg) {
     this._args.push(arg);
@@ -35,7 +35,7 @@ class MethodQueueItem {
 
     const args = [];
     this._args.forEach((arg) => {
-      if (arg instanceof Variable2) {
+      if (arg instanceof Variable) {
         args.push(new MethodArg(arg.evaluate(scope)));
       } else {
         args.push(arg);

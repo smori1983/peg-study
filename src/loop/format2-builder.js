@@ -11,7 +11,7 @@ const MethodUpper = require('./method-upper');
 const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
-const Variable2 = require('./variable2');
+const Variable = require('./variable');
 
 class Format2Builder {
   constructor() {
@@ -60,8 +60,8 @@ class Format2Builder {
    * @private
    */
   _buildFor(symbol, ast) {
-    const array = this._buildVariable2(ast.array);
-    const variable = this._buildVariable2(ast.variable);
+    const array = this._buildVariable(ast.array);
+    const variable = this._buildVariable(ast.variable);
     const forLoop = new BuiltinFor(array, variable);
 
     ast.children.forEach((child) => {
@@ -77,24 +77,24 @@ class Format2Builder {
    * @private
    */
   _buildLog(symbol, ast) {
-    const arg = this._buildVariable2(ast.args[0]);
+    const arg = this._buildVariable(ast.args[0]);
     symbol.addChild(new BuiltinLog(arg));
   }
 
   /**
    * @param ast
-   * @returns {Variable2}
+   * @returns {Variable}
    * @private
    */
-  _buildVariable2(ast) {
-    const variable = new Variable2(ast.text);
+  _buildVariable(ast) {
+    const variable = new Variable(ast.text);
 
     (ast.methods || []).forEach((astMethod) => {
       const item = new MethodQueueItem(this._buildMethod(astMethod));
 
       astMethod.args.forEach((astMethodArg) => {
         if (astMethodArg.type === 'variable') {
-          item.addArg(this._buildVariable2(astMethodArg));
+          item.addArg(this._buildVariable(astMethodArg));
         } else {
           item.addArg(this._buildMethodArg(astMethodArg));
         }

@@ -1,23 +1,23 @@
 const Scope = require('./scope');
 const SymbolParent = require('./symbol-parent');
-const Variable2 = require('./variable2');
+const Variable = require('./variable');
 
 class BuiltinFor extends SymbolParent {
   /**
-   * @param {Variable2} array
-   * @param {Variable2} variable
+   * @param {Variable} array
+   * @param {Variable} variable
    */
   constructor(array, variable) {
     super();
 
     /**
-     * @type {Variable2}
+     * @type {Variable}
      * @private
      */
     this._array = array;
 
     /**
-     * @type {Variable2}
+     * @type {Variable}
      * @private
      */
     this._variable = variable;
