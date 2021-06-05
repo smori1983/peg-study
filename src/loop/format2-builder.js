@@ -11,7 +11,6 @@ const MethodUpper = require('./method-upper');
 const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
-const Variable = require('./variable');
 const Variable2 = require('./variable2');
 const VariableMethod = require('./variable-method');
 const VariableMethodArg = require('./variable-method-arg');
@@ -82,27 +81,6 @@ class Format2Builder {
   _buildLog(symbol, ast) {
     const arg = this._buildVariable2(ast.args[0]);
     symbol.addChild(new BuiltinLog(arg));
-  }
-
-  /**
-   * @param ast
-   * @returns {Variable}
-   * @private
-   */
-  _buildVariable(ast) {
-    const methods = (ast.methods || []).map((astMethod) => {
-      const methodArgs = astMethod.args.map((astMethodArg) => {
-        if (astMethodArg.type === 'variable') {
-          return this._buildVariable(astMethodArg);
-        } else {
-          return new VariableMethodArg(astMethodArg.type, astMethodArg.text);
-        }
-      }, []);
-
-      return new VariableMethod(astMethod.text, methodArgs);
-    }, []);
-
-    return new Variable(ast.text, methods);
   }
 
   /**
