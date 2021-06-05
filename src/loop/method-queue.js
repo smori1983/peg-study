@@ -1,4 +1,5 @@
 const MethodQueueItem = require('./method-queue-item');
+const Scope = require('./scope');
 
 class MethodQueue {
   /**
@@ -9,10 +10,18 @@ class MethodQueue {
   }
 
   /**
-   * @return {MethodQueueItem[]}
+   * @param {Scope} scope
+   * @param {*} receiver
+   * @return {*}
    */
-  getItems() {
-    return this._items;
+  consume(scope, receiver) {
+    let result = receiver;
+
+    this._items.forEach((item) => {
+      result = item.evaluate(scope, result);
+    });
+
+    return result;
   }
 }
 

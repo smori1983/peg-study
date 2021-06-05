@@ -23,13 +23,9 @@ class Variable2 {
    * @return {*}
    */
   evaluate(scope) {
-    let receiver = scope.resolveVariable(this._name);
+    const receiver = scope.resolveVariable(this._name);
 
-    this._queue.getItems().forEach((item) => {
-      receiver = item.evaluate(scope, receiver);
-    });
-
-    return receiver;
+    return this._queue.consume(scope, receiver);
   }
 }
 
