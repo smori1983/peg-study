@@ -8,7 +8,6 @@ const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
-const MethodQueue = require('./method-queue');
 const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
@@ -112,7 +111,7 @@ class Format2Builder {
    * @private
    */
   _buildVariable2(ast) {
-    const queue = new MethodQueue();
+    const variable = new Variable2(ast.text);
 
     (ast.methods || []).forEach((astMethod) => {
       const item = new MethodQueueItem(this._buildMethod(astMethod));
@@ -125,10 +124,10 @@ class Format2Builder {
         }
       });
 
-      queue.add(item);
+      variable.addMethod(item);
     });
 
-    return new Variable2(ast.text, queue);
+    return variable;
   }
 
   /**

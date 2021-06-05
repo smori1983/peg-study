@@ -1,14 +1,24 @@
-//const MethodQueue = require('./method-queue');
 const Scope = require('./scope');
 
 class Variable2 {
   /**
    * @param {string} name
-   * @param {MethodQueue} queue
    */
-  constructor(name, queue) {
+  constructor(name) {
     this._name = name;
-    this._queue = queue;
+
+    /**
+     * @type {MethodQueueItem[]}
+     * @private
+     */
+    this._methodChain = [];
+  }
+
+  /**
+   * @param {MethodQueueItem} item
+   */
+  addMethod(item) {
+    this._methodChain.push(item);
   }
 
   /**
@@ -23,9 +33,13 @@ class Variable2 {
    * @return {*}
    */
   evaluate(scope) {
-    const receiver = scope.resolveVariable(this._name);
+    let receiver = scope.resolveVariable(this._name);
 
-    return this._queue.consume(scope, receiver);
+    this._methodChain.forEach((item) => {
+      receiver = item.evaluate(scope, receiver);
+    });
+
+    return receiver;
   }
 }
 
