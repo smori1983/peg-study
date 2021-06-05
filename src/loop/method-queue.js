@@ -2,11 +2,19 @@ const MethodQueueItem = require('./method-queue-item');
 const Scope = require('./scope');
 
 class MethodQueue {
+  constructor() {
+    /**
+     * @type {MethodQueueItem[]}
+     * @private
+     */
+    this._items = [];
+  }
+
   /**
-   * @param {MethodQueueItem[]} items
+   * @param {MethodQueueItem} item
    */
-  constructor(items) {
-    this._items = items;
+  add(item) {
+    this._items.push(item);
   }
 
   /**

@@ -112,7 +112,7 @@ class Format2Builder {
    * @private
    */
   _buildVariable2(ast) {
-    const queueItems = [];
+    const queue = new MethodQueue();
 
     (ast.methods || []).forEach((astMethod) => {
       const method = this._buildMethod(astMethod);
@@ -124,10 +124,8 @@ class Format2Builder {
           args.push(this._buildMethodArg(astMethodArg));
         }
       });
-      queueItems.push(new MethodQueueItem(method, args));
+      queue.add(new MethodQueueItem(method, args));
     });
-
-    const queue = new MethodQueue(queueItems);
 
     return new Variable2(ast.text, queue);
   }
