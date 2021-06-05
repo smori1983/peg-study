@@ -1,22 +1,22 @@
 const Symbol = require('./symbol');
-const Variable = require('./variable');
+const Variable2 = require('./variable2');
 
 class BuiltinLog extends Symbol {
   /**
-   * @param {Variable} arg
+   * @param {Variable2} arg
    */
   constructor(arg) {
     super();
 
     /**
-     * @type {Variable}
+     * @type {Variable2}
      * @private
      */
     this._arg = arg;
   }
 
   evaluate(scope, output) {
-    output.addLine(this._methodInvoker.invoke(scope, this._arg));
+    output.addLine(this._arg.evaluate(scope));
   }
 }
 

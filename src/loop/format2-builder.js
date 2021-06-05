@@ -1,3 +1,4 @@
+const sprintf = require('sprintf-js').sprintf;
 const BuiltinFor = require('./builtin-for');
 const BuiltinLog = require('./builtin-log');
 const MethodArgBool = require('./method-arg-bool');
@@ -7,9 +8,12 @@ const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
+const MethodQueue = require('./method-queue');
+const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
+const Variable2 = require('./variable2');
 const VariableMethod = require('./variable-method');
 const VariableMethodArg = require('./variable-method-arg');
 
@@ -60,8 +64,8 @@ class Format2Builder {
    * @private
    */
   _buildFor(symbol, ast) {
-    const array = this._buildVariable(ast.array);
-    const variable = this._buildVariable(ast.variable);
+    const array = this._buildVariable2(ast.array);
+    const variable = this._buildVariable2(ast.variable);
     const forLoop = new BuiltinFor(array, variable);
 
     ast.children.forEach((child) => {
@@ -77,7 +81,7 @@ class Format2Builder {
    * @private
    */
   _buildLog(symbol, ast) {
-    const arg = this._buildVariable(ast.args[0]);
+    const arg = this._buildVariable2(ast.args[0]);
     symbol.addChild(new BuiltinLog(arg));
   }
 
@@ -100,6 +104,32 @@ class Format2Builder {
     }, []);
 
     return new Variable(ast.text, methods);
+  }
+
+  /**
+   * @param ast
+   * @returns {Variable2}
+   * @private
+   */
+  _buildVariable2(ast) {
+    const queueItems = [];
+
+    (ast.methods || []).forEach((astMethod) => {
+      const method = this._buildMethod(astMethod);
+      const args = [];
+      astMethod.args.forEach((astMethodArg) => {
+        if (astMethodArg.type === 'variable') {
+          args.push(this._buildVariable2(astMethodArg));
+        } else {
+          args.push(this._buildMethodArg(astMethodArg));
+        }
+      });
+      queueItems.push(new MethodQueueItem(method, args));
+    });
+
+    const queue = new MethodQueue(queueItems);
+
+    return new Variable2(ast.text, queue);
   }
 
   /**

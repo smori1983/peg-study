@@ -1,30 +1,30 @@
 const Scope = require('./scope');
 const SymbolParent = require('./symbol-parent');
-const Variable = require('./variable');
+const Variable2 = require('./variable2');
 
 class BuiltinFor extends SymbolParent {
   /**
-   * @param {Variable} array
-   * @param {Variable} variable
+   * @param {Variable2} array
+   * @param {Variable2} variable
    */
   constructor(array, variable) {
     super();
 
     /**
-     * @type {Variable}
+     * @type {Variable2}
      * @private
      */
     this._array = array;
 
     /**
-     * @type {Variable}
+     * @type {Variable2}
      * @private
      */
     this._variable = variable;
   }
 
   evaluate(scope, output) {
-    const array = this._methodInvoker.invoke(scope, this._array);
+    const array = this._array.evaluate(scope);
 
     if (!Array.isArray(array)) {
       throw new Error(this._array + ' is not array');
