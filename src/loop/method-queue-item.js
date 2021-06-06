@@ -36,7 +36,7 @@ class MethodQueueItem {
     const args = [];
     this._args.forEach((arg) => {
       if (arg instanceof Variable) {
-        args.push(new Value(arg.evaluate(scope)));
+        args.push(new Value(arg.resolve(scope)));
       } else {
         args.push(arg);
       }

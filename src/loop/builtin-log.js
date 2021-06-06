@@ -16,7 +16,7 @@ class BuiltinLog extends Symbol {
   }
 
   evaluate(scope, output) {
-    output.addLine(this._arg.evaluate(scope));
+    output.addLine(this._arg.resolve(scope));
   }
 }
 

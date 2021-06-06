@@ -24,7 +24,7 @@ class BuiltinFor extends SymbolParent {
   }
 
   evaluate(scope, output) {
-    const array = this._array.evaluate(scope);
+    const array = this._array.resolve(scope);
 
     if (!Array.isArray(array)) {
       throw new Error(this._array.getName() + ' should be an array');

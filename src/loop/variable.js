@@ -32,7 +32,7 @@ class Variable {
    * @param {Scope} scope
    * @return {*}
    */
-  evaluate(scope) {
+  resolve(scope) {
     let receiver = scope.resolveVariable(this._name);
 
     this._methodChain.forEach((item) => {
