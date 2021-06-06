@@ -76,6 +76,7 @@ class Format2Builder {
    */
   _buildLog(node, ast) {
     const arg = this._buildVariable(ast.args[0]);
+
     node.addChild(new BuiltinLog(arg));
   }
 
