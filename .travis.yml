@@ -7,5 +7,7 @@ node_js:
 script:
   - npm run test
   - npm run peg:compile:calc
+  - npm run peg:compile:loop1
+  - npm run peg:compile:loop2
   - npm run peg:compile:method1
   - npm run peg:compile:option-delimiter
