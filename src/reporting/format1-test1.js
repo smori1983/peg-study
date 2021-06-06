@@ -1,5 +1,9 @@
 const parser = require('./format1');
 
+const dump = (input) => {
+  console.log(JSON.stringify(parser.parse(input.trim()), null, 2));
+};
+
 const input1 = `
 report {
   code {
@@ -15,7 +19,7 @@ report {
 }
 `;
 
-console.log(JSON.stringify(parser.parse(input1.trim()), null, 2));
+dump(input1);
 
 const input2 = `
 report {
@@ -36,4 +40,4 @@ report {
 }
 `;
 
-console.log(JSON.stringify(parser.parse(input2.trim()), null, 2));
+dump(input2);
