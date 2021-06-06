@@ -92,7 +92,7 @@ class Format2Builder {
 
     (ast.methods || []).forEach((astMethod) => {
       if (astMethod.type === 'property') {
-        variable.addMethod(new VariableProperty(astMethod.text));
+        variable.addChainItem(new VariableProperty(astMethod.text));
       } else {
         const item = new VariableMethod(this._buildMethod(astMethod));
 
@@ -104,7 +104,7 @@ class Format2Builder {
           }
         });
 
-        variable.addMethod(item);
+        variable.addChainItem(item);
       }
     });
 

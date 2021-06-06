@@ -1,14 +1,16 @@
 const sprintf = require('sprintf-js').sprintf;
 const MethodDef = require('./method-def');
-const Scope = require('./scope');
 const Value = require('./value');
 const Variable = require('./variable');
+const VariableChain = require('./variable-chain');
 
-class VariableMethod {
+class VariableMethod extends VariableChain {
   /**
    * @param {MethodDef} method
    */
   constructor(method) {
+    super();
+
     this._method = method;
 
     /**
@@ -25,11 +27,6 @@ class VariableMethod {
     this._args.push(arg);
   }
 
-  /**
-   * @param {Scope} scope
-   * @param {Value} receiver
-   * @return {Value}
-   */
   evaluate(scope, receiver) {
     this._checkReceiverType(receiver);
 

@@ -9,17 +9,17 @@ class Variable {
     this._name = name;
 
     /**
-     * @type {(VariableMethod|VariableProperty)[]}
+     * @type {VariableChain[]}
      * @private
      */
-    this._methodChain = [];
+    this._chain = [];
   }
 
   /**
-   * @param {(VariableMethod|VariableProperty)} item
+   * @param {VariableChain} item
    */
-  addMethod(item) {
-    this._methodChain.push(item);
+  addChainItem(item) {
+    this._chain.push(item);
   }
 
   /**
@@ -36,7 +36,7 @@ class Variable {
   resolve(scope) {
     let receiver = new Value(scope.resolveVariable(this._name));
 
-    this._methodChain.forEach((item) => {
+    this._chain.forEach((item) => {
       receiver = item.evaluate(scope, receiver);
     });
 
