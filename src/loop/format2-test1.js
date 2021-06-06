@@ -5,8 +5,8 @@ const dump = (input) => {
 };
 
 const input1 = `
-log(data.upper().lower())
-for(part in data.split(split_text.lower())) {
+log(data1.name.upper().lower())
+for(part in data2.split(split_text.lower())) {
   log(part.upper())
 }
 `;
