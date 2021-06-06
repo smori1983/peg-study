@@ -89,21 +89,6 @@ class MethodQueueItem {
       throw new Error(sprintf('return value of %s should be %s, actual was %s', this._method.getName(), this._method.getReturnType(), returnValue.getType()));
     }
   }
-
-  /**
-   * @param {*} value
-   * @return {string}
-   * @private
-   */
-  _getDataType(value) {
-    if (value === null) {
-      return 'null';
-    } else if (Array.isArray(value)) {
-      return 'array';
-    } else {
-      return typeof value;
-    }
-  }
 }
 
 module.exports = MethodQueueItem;
