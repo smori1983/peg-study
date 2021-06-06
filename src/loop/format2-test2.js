@@ -15,10 +15,11 @@ const dump = (input, scope) => {
 };
 
 const scope1 = new Scope();
-scope1.addVariable('data', 'a-b-c');
+scope1.addVariable('data1', {spec: {name: 'xyz'}});
+scope1.addVariable('data2', 'a-b-c');
 const input1 = `
-log(data.upper().lower())
-for(part in data.split('-')) {
+log(data1.spec.name.upper().lower())
+for(part in data2.split('-')) {
   log(part.upper())
 }
 `;
