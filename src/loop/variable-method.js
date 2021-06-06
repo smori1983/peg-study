@@ -4,7 +4,7 @@ const Scope = require('./scope');
 const Value = require('./value');
 const Variable = require('./variable');
 
-class MethodQueueItem {
+class VariableMethod {
   /**
    * @param {Method} method
    */
@@ -91,4 +91,4 @@ class MethodQueueItem {
   }
 }
 
-module.exports = MethodQueueItem;
+module.exports = VariableMethod;
