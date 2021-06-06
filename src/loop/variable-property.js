@@ -2,7 +2,7 @@ const sprintf = require('sprintf-js').sprintf;
 const Scope = require('./scope');
 const Value = require('./value');
 
-class Property {
+class VariableProperty {
   /**
    * @param {string} key
    */
@@ -34,4 +34,4 @@ class Property {
   }
 }
 
-module.exports = Property;
+module.exports = VariableProperty;
