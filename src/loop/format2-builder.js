@@ -1,10 +1,11 @@
 const sprintf = require('sprintf-js').sprintf;
 const BuiltinFor = require('./builtin-for');
 const BuiltinLog = require('./builtin-log');
-const MethodJoin = require('./method-join');
-const MethodLower = require('./method-lower');
-const MethodSplit = require('./method-split');
-const MethodUpper = require('./method-upper');
+const MethodDef = require('./method-def');
+const MethodDefJoin = require('./method-def-join');
+const MethodDefLower = require('./method-def-lower');
+const MethodDefSplit = require('./method-def-split');
+const MethodDefUpper = require('./method-def-upper');
 const Node = require('./node');
 const Property = require('./property');
 const Root = require('./root');
@@ -15,14 +16,14 @@ const VariableMethod = require('./variable-method');
 class Format2Builder {
   constructor() {
     /**
-     * @type {Method[]}
+     * @type {MethodDef[]}
      * @private
      */
     this._methods = [];
-    this._methods.push(new MethodLower());
-    this._methods.push(new MethodJoin());
-    this._methods.push(new MethodSplit());
-    this._methods.push(new MethodUpper());
+    this._methods.push(new MethodDefLower());
+    this._methods.push(new MethodDefJoin());
+    this._methods.push(new MethodDefSplit());
+    this._methods.push(new MethodDefUpper());
   }
 
   /**
@@ -112,7 +113,7 @@ class Format2Builder {
 
   /**
    * @param {Object} ast
-   * @return {Method}
+   * @return {MethodDef}
    * @throws {Error}
    * @private
    */

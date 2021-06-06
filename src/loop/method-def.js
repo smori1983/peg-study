@@ -1,6 +1,6 @@
 const Value = require('./value');
 
-class Method {
+class MethodDef {
   /**
    * @return {string}
    */
@@ -34,4 +34,4 @@ class Method {
   }
 }
 
-module.exports = Method;
+module.exports = MethodDef;

@@ -1,12 +1,12 @@
 const sprintf = require('sprintf-js').sprintf;
-const Method = require('./method');
+const MethodDef = require('./method-def');
 const Scope = require('./scope');
 const Value = require('./value');
 const Variable = require('./variable');
 
 class VariableMethod {
   /**
-   * @param {Method} method
+   * @param {MethodDef} method
    */
   constructor(method) {
     this._method = method;

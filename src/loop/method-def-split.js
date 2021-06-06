@@ -1,7 +1,7 @@
-const Method = require('./method');
+const MethodDef = require('./method-def');
 const Value = require('./value');
 
-class MethodSplit extends Method {
+class MethodDefSplit extends MethodDef {
   getReceiverType() {
     return 'string';
   }
@@ -35,4 +35,4 @@ class MethodSplit extends Method {
   }
 }
 
-module.exports = MethodSplit;
+module.exports = MethodDefSplit;
