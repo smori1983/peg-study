@@ -1,4 +1,4 @@
-class MethodArg {
+class Value {
   /**
    * @param {*} value
    */
@@ -31,4 +31,4 @@ class MethodArg {
   }
 }
 
-module.exports = MethodArg;
+module.exports = Value;

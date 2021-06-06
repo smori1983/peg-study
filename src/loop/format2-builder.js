@@ -1,7 +1,6 @@
 const sprintf = require('sprintf-js').sprintf;
 const BuiltinFor = require('./builtin-for');
 const BuiltinLog = require('./builtin-log');
-const MethodArg = require('./method-arg');
 const MethodJoin = require('./method-join');
 const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
@@ -9,6 +8,7 @@ const MethodUpper = require('./method-upper');
 const MethodQueueItem = require('./method-queue-item');
 const Root = require('./root');
 const SymbolParent = require('./symbol-parent');
+const Value = require('./value');
 const Variable = require('./variable');
 
 class Format2Builder {
@@ -122,17 +122,17 @@ class Format2Builder {
 
   /**
    * @param {Object} ast
-   * @return {MethodArg}
+   * @return {Value}
    * @throws {Error}
    * @private
    */
   _buildMethodArg(ast) {
     if (ast.type === 'bool') {
-      return new MethodArg(ast.text === 'true');
+      return new Value(ast.text === 'true');
     } else if (ast.type === 'int') {
-      return new MethodArg(parseInt(ast.text, 10));
+      return new Value(parseInt(ast.text, 10));
     } else if (ast.type === 'string') {
-      return new MethodArg(ast.text);
+      return new Value(ast.text);
     }
 
     throw new Error(sprintf('unknown argument type: %s', ast.type));

@@ -1,4 +1,4 @@
-const MethodArg = require('./method-arg');
+const Value = require('./value');
 
 class Method {
   /**
@@ -27,7 +27,7 @@ class Method {
 
   /**
    * @param {*} receiver
-   * @param {MethodArg[]} args
+   * @param {Value[]} args
    * @return {*}
    */
   evaluate(receiver, args) {
