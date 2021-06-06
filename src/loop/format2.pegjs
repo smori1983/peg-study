@@ -36,7 +36,7 @@ variable
   }
 
 variable_and_method
-  = v:variable m:method*
+  = v:variable m:method_or_property*
   {
     return {
       type: 'variable',
@@ -45,13 +45,20 @@ variable_and_method
     };
   }
 
-method
+method_or_property
   = _ '.' _ head:[a-z] tail:[0-9a-z_]* _ '(' _ args:method_args* _ ')'
   {
     return {
       type: 'method',
       text: head + tail.join(''),
       args: args.length > 0 ? args[0] : [],
+    };
+  }
+  / _ '.' _ head:[a-z] tail:[0-9a-z_]*
+  {
+    return {
+      type: 'property',
+      text: head + tail.join(''),
     };
   }
 
