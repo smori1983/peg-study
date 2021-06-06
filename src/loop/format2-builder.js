@@ -6,8 +6,8 @@ const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
 const MethodQueueItem = require('./method-queue-item');
+const Node = require('./node');
 const Root = require('./root');
-const SymbolParent = require('./symbol-parent');
 const Value = require('./value');
 const Variable = require('./variable');
 
@@ -38,26 +38,26 @@ class Format2Builder {
   }
 
   /**
-   * @param {SymbolParent} symbol
+   * @param {Node} node
    * @param {Object} ast
    * @private
    */
-  _build(symbol, ast) {
+  _build(node, ast) {
     if (ast.type === 'builtin' && ast.text === 'for') {
-      this._buildFor(symbol, ast);
+      this._buildFor(node, ast);
     } else if (ast.type === 'builtin' && ast.text === 'log') {
-      this._buildLog(symbol, ast);
+      this._buildLog(node, ast);
     } else {
       throw new Error('unknown type: ' + ast.type);
     }
   }
 
   /**
-   * @param {SymbolParent} symbol
+   * @param {Node} node
    * @param {Object} ast
    * @private
    */
-  _buildFor(symbol, ast) {
+  _buildFor(node, ast) {
     const array = this._buildVariable(ast.array);
     const variable = this._buildVariable(ast.variable);
     const forLoop = new BuiltinFor(array, variable);
@@ -66,17 +66,17 @@ class Format2Builder {
       this._build(forLoop, child);
     });
 
-    symbol.addChild(forLoop);
+    node.addChild(forLoop);
   }
 
   /**
-   * @param {SymbolParent} symbol
+   * @param {Node} node
    * @param {Object} ast
    * @private
    */
-  _buildLog(symbol, ast) {
+  _buildLog(node, ast) {
     const arg = this._buildVariable(ast.args[0]);
-    symbol.addChild(new BuiltinLog(arg));
+    node.addChild(new BuiltinLog(arg));
   }
 
   /**

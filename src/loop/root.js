@@ -1,6 +1,6 @@
-const SymbolParent = require('./symbol-parent');
+const Node = require('./node');
 
-class Root extends SymbolParent {
+class Root extends Node {
   constructor() {
     super();
   }

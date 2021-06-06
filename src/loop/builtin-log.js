@@ -1,7 +1,7 @@
-const Symbol = require('./symbol');
+const Node = require('./node');
 const Variable = require('./variable');
 
-class BuiltinLog extends Symbol {
+class BuiltinLog extends Node {
   /**
    * @param {Variable} arg
    */

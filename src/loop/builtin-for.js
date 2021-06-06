@@ -1,8 +1,8 @@
+const Node = require('./node');
 const Scope = require('./scope');
-const SymbolParent = require('./symbol-parent');
 const Variable = require('./variable');
 
-class BuiltinFor extends SymbolParent {
+class BuiltinFor extends Node {
   /**
    * @param {Variable} array
    * @param {Variable} variable
