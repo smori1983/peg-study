@@ -74,11 +74,11 @@ class MethodQueueItem {
       throw new Error(sprintf('number of arguments of method %s should be %d', this._method.getName(), this._method.getArgTypes().length));
     }
 
-    //for (let i = 0; i < args.length; i++) {
-    //  if (args[i].getType() !== this._method.getArgTypes()[i]) {
-    //    throw new Error(sprintf('argument type does not match for method %s', this._method.getName()));
-    //  }
-    //}
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].getType() !== this._method.getArgTypes()[i]) {
+        throw new Error(sprintf('argument type does not match for method %s', this._method.getName()));
+      }
+    }
   }
 
   /**

@@ -14,6 +14,13 @@ class MethodArg {
    * @return {string}
    */
   getType() {
+    if (this._value === null) {
+      return 'null';
+    } else if (Array.isArray(this._value)) {
+      return 'array';
+    } else {
+      return typeof this._value;
+    }
   }
 
   /**
