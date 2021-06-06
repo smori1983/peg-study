@@ -6,6 +6,7 @@ const MethodLower = require('./method-lower');
 const MethodSplit = require('./method-split');
 const MethodUpper = require('./method-upper');
 const Node = require('./node');
+const Property = require('./property');
 const Root = require('./root');
 const Value = require('./value');
 const Variable = require('./variable');
@@ -89,17 +90,21 @@ class Format2Builder {
     const variable = new Variable(ast.text);
 
     (ast.methods || []).forEach((astMethod) => {
-      const item = new VariableMethod(this._buildMethod(astMethod));
+      if (astMethod.type === 'property') {
+        variable.addMethod(new Property(astMethod.text));
+      } else {
+        const item = new VariableMethod(this._buildMethod(astMethod));
 
-      astMethod.args.forEach((astMethodArg) => {
-        if (astMethodArg.type === 'variable') {
-          item.addArg(this._buildVariable(astMethodArg));
-        } else {
-          item.addArg(this._buildMethodArg(astMethodArg));
-        }
-      });
+        astMethod.args.forEach((astMethodArg) => {
+          if (astMethodArg.type === 'variable') {
+            item.addArg(this._buildVariable(astMethodArg));
+          } else {
+            item.addArg(this._buildMethodArg(astMethodArg));
+          }
+        });
 
-      variable.addMethod(item);
+        variable.addMethod(item);
+      }
     });
 
     return variable;

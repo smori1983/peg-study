@@ -9,14 +9,14 @@ class Variable {
     this._name = name;
 
     /**
-     * @type {VariableMethod[]}
+     * @type {(Property|VariableMethod)[]}
      * @private
      */
     this._methodChain = [];
   }
 
   /**
-   * @param {VariableMethod} item
+   * @param {(Property|VariableMethod)} item
    */
   addMethod(item) {
     this._methodChain.push(item);
