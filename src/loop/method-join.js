@@ -18,13 +18,20 @@ class MethodJoin extends Method {
     return 'string';
   }
 
-  /**
-   * @param {string[]} receiver
-   * @param {Value[]} args
-   * @return {string}
-   */
   evaluate(receiver, args) {
-    return receiver.join(args[0].getValue());
+    /**
+     * @type {*[]}
+     */
+    const value = receiver.getValue();
+
+    /**
+     * @type {string}
+     */
+    const arg = args[0].getValue();
+
+    const result = value.join(arg);
+
+    return new Value(result);
   }
 }
 

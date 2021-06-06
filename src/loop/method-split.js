@@ -18,13 +18,20 @@ class MethodSplit extends Method {
     return 'array';
   }
 
-  /**
-   * @param {string} receiver
-   * @param {Value[]} args
-   * @return {string[]}
-   */
   evaluate(receiver, args) {
-    return receiver.split(args[0].getValue());
+    /**
+     * @type {string}
+     */
+    const value = receiver.getValue();
+
+    /**
+     * @type {string}
+     */
+    const arg = args[0].getValue();
+
+    const result = value.split(arg);
+
+    return new Value(result);
   }
 }
 

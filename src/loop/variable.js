@@ -1,4 +1,5 @@
 const Scope = require('./scope');
+const Value = require('./value');
 
 class Variable {
   /**
@@ -30,10 +31,10 @@ class Variable {
 
   /**
    * @param {Scope} scope
-   * @return {*}
+   * @return {Value}
    */
   resolve(scope) {
-    let receiver = scope.resolveVariable(this._name);
+    let receiver = new Value(scope.resolveVariable(this._name));
 
     this._methodChain.forEach((item) => {
       receiver = item.evaluate(scope, receiver);

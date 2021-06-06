@@ -18,13 +18,15 @@ class MethodLower extends Method {
     return 'string';
   }
 
-  /**
-   * @param {string} receiver
-   * @param {Value[]} args
-   * @return {string}
-   */
   evaluate(receiver, args) {
-    return receiver.toLowerCase();
+    /**
+     * @type {string}
+     */
+    const value = receiver.getValue();
+
+    const result = value.toLowerCase();
+
+    return new Value(result);
   }
 }
 

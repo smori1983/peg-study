@@ -27,8 +27,8 @@ class MethodQueueItem {
 
   /**
    * @param {Scope} scope
-   * @param {*} receiver
-   * @return {*}
+   * @param {Value} receiver
+   * @return {Value}
    */
   evaluate(scope, receiver) {
     this._checkReceiverType(receiver);
@@ -36,7 +36,7 @@ class MethodQueueItem {
     const args = [];
     this._args.forEach((arg) => {
       if (arg instanceof Variable) {
-        args.push(new Value(arg.resolve(scope)));
+        args.push(arg.resolve(scope));
       } else {
         args.push(arg);
       }
@@ -52,15 +52,13 @@ class MethodQueueItem {
   }
 
   /**
-   * @param {*} receiver
+   * @param {Value} receiver
    * @throws {Error}
    * @private
    */
   _checkReceiverType(receiver) {
-    const receiverType = this._getDataType(receiver);
-
-    if (receiverType !== this._method.getReceiverType()) {
-      throw new Error(sprintf('%s cannot use method %s', receiverType, this._method.getName()));
+    if (receiver.getType() !== this._method.getReceiverType()) {
+      throw new Error(sprintf('%s cannot use method %s', receiver.getType(), this._method.getName()));
     }
   }
 
@@ -82,15 +80,13 @@ class MethodQueueItem {
   }
 
   /**
-   * @param {*} returnValue
+   * @param {Value} returnValue
    * @throws {Error}
    * @private
    */
   _checkReturnValueType(returnValue) {
-    const returnValueType = this._getDataType(returnValue);
-
-    if (returnValueType !== this._method.getReturnType()) {
-      throw new Error(sprintf('return value of %s should be %s, actual was %s', this._method.getName(), this._method.getReturnType(), returnValueType));
+    if (returnValue.getType() !== this._method.getReturnType()) {
+      throw new Error(sprintf('return value of %s should be %s, actual was %s', this._method.getName(), this._method.getReturnType(), returnValue.getType()));
     }
   }
 

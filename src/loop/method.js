@@ -26,9 +26,9 @@ class Method {
   }
 
   /**
-   * @param {*} receiver
+   * @param {Value} receiver
    * @param {Value[]} args
-   * @return {*}
+   * @return {Value}
    */
   evaluate(receiver, args) {
   }

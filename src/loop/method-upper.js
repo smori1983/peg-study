@@ -18,13 +18,15 @@ class MethodUpper extends Method {
     return 'string';
   }
 
-  /**
-   * @param {string} receiver
-   * @param {Value[]} args
-   * @return {string}
-   */
   evaluate(receiver, args) {
-    return receiver.toUpperCase();
+    /**
+     * @type {string}
+     */
+    const value = receiver.getValue();
+
+    const result = value.toUpperCase();
+
+    return new Value(result);
   }
 }
 

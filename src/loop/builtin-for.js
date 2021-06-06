@@ -24,11 +24,13 @@ class BuiltinFor extends SymbolParent {
   }
 
   evaluate(scope, output) {
-    const array = this._array.resolve(scope);
+    const value = this._array.resolve(scope);
 
-    if (!Array.isArray(array)) {
+    if (value.getType() !== 'array') {
       throw new Error(this._array.getName() + ' should be an array');
     }
+
+    const array = value.getValue();
 
     for (let i = 0; i < array.length; i++) {
       const childScope = new Scope(scope);
