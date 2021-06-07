@@ -38,18 +38,56 @@ code
 
 output_block
   = _ 'output' _ '{' newline
-    outputs:output_block_line+
+    outputs:output_block_element+
     _ '}' newline
   {
     return outputs;
   }
 
-output_block_line
-  = _ "'" t:(variable / text_single_quote)* "'" _ newline { return t; }
-  / _ '"' t:(variable / text_double_quote)* '"' _ newline { return t; }
+output_block_element
+  = output_line
+  / for_loop
+
+output_line
+  = _ "'" t:(variable_output / text_single_quote)* "'" _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output',
+      children: t,
+    };
+  }
+  / _ '"' t:(variable_output / text_double_quote)* '"' _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output',
+      children: t,
+    };
+  }
+
+for_loop 'for_loop'
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _ newline
+    children:output_block_element+
+    _ '}' _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'for_loop',
+      array: a,
+      variable: v,
+      children: children,
+    };
+  }
+
+variable_output 'variable'
+  = placeholder_open bracket_open _ v:variable _ bracket_close
+  {
+    return v;
+  }
 
 variable 'variable'
-  = placeholder_open bracket_open _ head:[a-z] tail:[0-9a-z_]* _ bracket_close
+  = head:[a-z] tail:[0-9a-z_]*
   {
     return {
       type: 'variable',
@@ -112,6 +150,9 @@ text_double_quote_char 'text_double_quote_char'
 
 _ 'whitespace'
   = [ \t]*
+
+__ 'space'
+  = [ \t]+
 
 newline
   = [\r\n]+
