@@ -7,7 +7,7 @@
 start
   = report+
 
-report
+report 'report'
   = _ 'report' _ '{' newline
     codes:code_block
     outputs:output_block
@@ -19,7 +19,7 @@ report
     };
   }
 
-code_block
+code_block 'code_block'
   = _ 'code' _ '{' newline
     codes:code_block_line+
     _ '}' newline
@@ -27,16 +27,16 @@ code_block
     return codes;
   }
 
-code_block_line
+code_block_line 'code_block_line'
   = _ c:code _ newline
   {
     return c;
   }
 
-code
+code 'code'
   = $([0-9]+)
 
-output_block
+output_block 'output_block'
   = _ 'output' _ '{' newline
     outputs:output_block_element+
     _ '}' newline
@@ -44,11 +44,11 @@ output_block
     return outputs;
   }
 
-output_block_element
+output_block_element 'output_block_element'
   = output_line
   / for_loop
 
-output_line
+output_line 'output_line'
   = _ "'" t:(variable_output / text_single_quote)* "'" _ newline
   {
     return {
@@ -80,7 +80,7 @@ for_loop 'for_loop'
     };
   }
 
-variable_output 'variable'
+variable_output 'variable_output'
   = placeholder_open bracket_open _ v:variable _ bracket_close
   {
     return v;
@@ -154,5 +154,5 @@ _ 'whitespace'
 __ 'space'
   = [ \t]+
 
-newline
+newline 'newline'
   = [\r\n]+
