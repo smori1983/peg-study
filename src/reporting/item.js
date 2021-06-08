@@ -9,7 +9,7 @@ class Item {
     this._code = code;
     this._name = name;
     this._amount = amount;
-    this._comments = comments;
+    this._comments = comments || [];
   }
 
   /**
