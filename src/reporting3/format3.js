@@ -180,7 +180,7 @@ function peg$parse(input, options) {
       peg$c25 = function(t) {
           return {
             type: 'builtin',
-            text: 'output',
+            text: 'output_line',
             children: t,
           };
         },

@@ -53,7 +53,7 @@ output_line 'output_line'
   {
     return {
       type: 'builtin',
-      text: 'output',
+      text: 'output_line',
       children: t,
     };
   }
@@ -61,7 +61,7 @@ output_line 'output_line'
   {
     return {
       type: 'builtin',
-      text: 'output',
+      text: 'output_line',
       children: t,
     };
   }
