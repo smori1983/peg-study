@@ -8,10 +8,10 @@ start
   = report+
 
 report 'report'
-  = _ 'report' _ '{' newline
+  = _ 'report' _ '{' _ newline
     codes:code_block
     outputs:output_block
-    _ '}' newline*
+    _ '}' _ newline*
   {
     return {
       code: codes,
@@ -20,9 +20,9 @@ report 'report'
   }
 
 code_block 'code_block'
-  = _ 'code' _ '{' newline
+  = _ 'code' _ '{' _ newline
     codes:code_block_line+
-    _ '}' newline
+    _ '}' _ newline
   {
     return codes;
   }
@@ -37,9 +37,9 @@ code 'code'
   = $([0-9]+)
 
 output_block 'output_block'
-  = _ 'output' _ '{' newline
+  = _ 'output' _ '{' _ newline
     outputs:output_block_element+
-    _ '}' newline
+    _ '}' _ newline
   {
     return outputs;
   }
