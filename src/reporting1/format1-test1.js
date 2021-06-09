@@ -12,9 +12,9 @@ report {
     300
   }
   output {
-    "[$code]"
-    "name: $name"
-    "amount: $amount"
+    "[#{code}]"
+    "name: #{name}"
+    "amount: #{amount}"
   }
 }
 `;
@@ -27,7 +27,7 @@ report {
     100
   }
   output {
-    "$name: $amount"
+    "#{name}: #{amount}"
   }
 }
 report {
@@ -35,7 +35,7 @@ report {
     200
   }
   output {
-    '$name($code): $amount'
+    '#{name}(#{code}): #{amount}'
   }
 }
 `;

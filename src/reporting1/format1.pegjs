@@ -1,3 +1,9 @@
+{
+  const placeholder_mark = '#';
+  const bracket_open = '{';
+  const bracket_close = '}';
+}
+
 start
   = report+
 
@@ -43,7 +49,7 @@ output_block_line 'output_block_line'
   / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline { return t; }
 
 item_code 'item_code'
-  = '$code'
+  = placeholder_open bracket_open _ 'code' _ bracket_close
   {
     return {
       type: 'variable',
@@ -52,7 +58,7 @@ item_code 'item_code'
   }
 
 item_name 'item_name'
-  = '$name'
+  = placeholder_open bracket_open _ 'name' _ bracket_close
   {
     return {
       type: 'variable',
@@ -61,7 +67,7 @@ item_name 'item_name'
   }
 
 item_amount 'item_amount'
-  = '$amount'
+  = placeholder_open bracket_open _ 'amount' _ bracket_close
   {
     return {
       type: 'variable',
@@ -69,22 +75,57 @@ item_amount 'item_amount'
     };
   }
 
+placeholder_open 'placeholder_open'
+  = w:.
+    &{ return w === placeholder_mark; }
+  {
+    return w;
+  }
+
+bracket_open 'bracket_open'
+  = w:.
+    &{ return w === bracket_open; }
+  {
+    return w;
+  }
+
+bracket_close 'bracket_close'
+  = w:.
+    &{ return w === bracket_close; }
+  {
+    return w;
+  }
+
 text_single_quote 'text_single_quote'
-  = t:[^\r\n'$]+
+  = chars:text_single_quote_char+
   {
     return {
       type: 'plain',
-      text: t.join(''),
+      text: chars.join(''),
     };
   }
 
+text_single_quote_char 'text_single_quote_char'
+  = char:[^\r\n']
+    &{ return char !== placeholder_mark; }
+  {
+    return char;
+  }
+
 text_double_quote 'text_double_quote'
-  = t:[^\r\n"$]+
+  = chars:text_double_quote_char+
   {
     return {
       type: 'plain',
-      text: t.join(''),
+      text: chars.join(''),
     };
+  }
+
+text_double_quote_char 'text_double_quote_char'
+  = char:[^\r\n"]
+    &{ return char !== placeholder_mark; }
+  {
+    return char;
   }
 
 _ 'whitespace'

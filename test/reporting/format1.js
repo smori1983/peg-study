@@ -21,8 +21,8 @@ describe('reporting - format1', () => {
         '    300',
         '  }',
         '  output {',
-        '    "[$code]"',
-        '    "- $name: $amount"',
+        '    "[#{code}]"',
+        '    "- #{name}: #{amount}"',
         '  }',
         '}',
       ].join('\n');
