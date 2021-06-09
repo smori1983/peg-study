@@ -1,7 +1,7 @@
 start
   = report+
 
-report
+report 'report'
   = _ 'report' _ '{' _ newline
     codes:code_block
     outputs:output_block
@@ -13,7 +13,7 @@ report
     };
   }
 
-code_block
+code_block 'code_block'
   = _ 'code' _ '{' _ newline
     codes:code_block_line+
     _ '}' _ newline
@@ -21,16 +21,16 @@ code_block
     return codes;
   }
 
-code_block_line
+code_block_line 'code_block_line'
   = _ c:code _ newline
   {
     return c;
   }
 
-code
+code 'code'
   = $([0-9]+)
 
-output_block
+output_block 'output_block'
   = _ 'output' _ '{' _ newline
     outputs:output_block_line+
     _ '}' _ newline
@@ -38,11 +38,11 @@ output_block
     return outputs;
   }
 
-output_block_line
+output_block_line 'output_block_line'
   = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline { return t; }
   / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline { return t; }
 
-item_code
+item_code 'item_code'
   = '$code'
   {
     return {
@@ -51,7 +51,7 @@ item_code
     };
   }
 
-item_name
+item_name 'item_name'
   = '$name'
   {
     return {
@@ -60,7 +60,7 @@ item_name
     };
   }
 
-item_amount
+item_amount 'item_amount'
   = '$amount'
   {
     return {
@@ -69,7 +69,7 @@ item_amount
     };
   }
 
-text_single_quote
+text_single_quote 'text_single_quote'
   = t:[^\r\n'$]+
   {
     return {
@@ -78,7 +78,7 @@ text_single_quote
     };
   }
 
-text_double_quote
+text_double_quote 'text_double_quote'
   = t:[^\r\n"$]+
   {
     return {
@@ -90,5 +90,5 @@ text_double_quote
 _ 'whitespace'
   = [ \t]*
 
-newline
+newline 'newline'
   = [\r\n]+
