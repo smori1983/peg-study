@@ -2,7 +2,20 @@ const ItemContainer = require('../reporting/item-container');
 const parser = require('./format2');
 
 /**
- * @typedef {Object} OutputLineItem
+ * @typedef {Object} Format2AstReport
+ * @property {string[]} code
+ * @property {Format2AstOutput[]} output
+ */
+
+/**
+ * @typedef {Object} Format2AstOutput
+ * @property {string} type
+ * @property {string} text
+ * @property {Format2AstOutput[]} children
+ */
+
+/**
+ * @typedef {Object} Format2AstOutputComponent
  * @property {string} type
  * @property {string} text
  */
@@ -21,15 +34,16 @@ class Format2Reporter {
    * @returns {string}
    */
   output(itemContainer, text) {
+    /**
+     * @type {Format2AstReport[]}
+     */
     const parsed = parser.parse(text, this._options);
 
     const outputLines = [];
 
     parsed.forEach((report) => {
-      /** @type {string[]} codes */
       const codes = report.code;
 
-      /** @type {OutputLineItem[][]} outputs */
       const outputs = report.output;
 
       const reportOutputLines = [];
@@ -42,7 +56,7 @@ class Format2Reporter {
         outputs.forEach((line) => {
           const lineOutputLines = [];
 
-          line.forEach((lineItem) => {
+          line.children.forEach((lineItem) => {
             if (lineItem.type === 'variable') {
               if (lineItem.text === 'code') {
                 lineOutputLines.push(item.getCode());

@@ -38,15 +38,32 @@ code 'code'
 
 output_block 'output_block'
   = _ 'output' _ '{' _ newline
-    outputs:output_block_line+
+    outputs:output_block_element+
     _ '}' _ newline
   {
     return outputs;
   }
 
-output_block_line 'output_block_line'
-  = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline { return t; }
-  / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline { return t; }
+output_block_element 'output_block_element'
+  = output_line
+
+output_line 'output_line'
+  = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output_line',
+      children: t,
+    };
+  }
+  / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output_line',
+      children: t,
+    };
+  }
 
 item_code 'item_code'
   = placeholder_open bracket_open  _ 'code' _ bracket_close
