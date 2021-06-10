@@ -1,4 +1,4 @@
-const parser = require('./placeholder');
+const parser = require('./format1');
 
 const input1 = '{value1}';
 
