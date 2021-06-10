@@ -45,18 +45,28 @@ class Format2Reporter {
     const output = new Output();
 
     parsed.forEach((report) => {
-      const reportOutput = new Output();
-
-      report.code.forEach((code) => {
-        const item = itemContainer.getItem(code);
-
-        reportOutput.merge(this._createOutputOfCode(report, item));
-      });
-
-      output.merge(reportOutput);
+      output.merge(this._createOutputOfReport(report, itemContainer));
     });
 
     return output.getContent();
+  }
+
+  /**
+   * @param {Format2AstReport} report
+   * @param {ItemContainer} itemContainer
+   * @return {Output}
+   * @private
+   */
+  _createOutputOfReport(report, itemContainer) {
+    const result = new Output();
+
+    report.code.forEach((code) => {
+      try {
+        result.merge(this._createOutputOfCode(report, itemContainer.getItem(code)));
+      } catch (e) {}
+    });
+
+    return result;
   }
 
   /**
