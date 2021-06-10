@@ -1,8 +1,8 @@
 const Node = require('./node');
-const Value = require('./value');
-const Variable = require('./variable');
+const Value = require('../reporting/value');
+const Variable = require('../reporting/variable');
 
-class BuiltinOutputLine extends Node {
+class NodeOutputLine extends Node {
   constructor() {
     super();
 
@@ -35,4 +35,4 @@ class BuiltinOutputLine extends Node {
   }
 }
 
-module.exports = BuiltinOutputLine;
+module.exports = NodeOutputLine;

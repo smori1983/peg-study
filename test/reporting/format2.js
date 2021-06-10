@@ -25,6 +25,15 @@ describe('reporting - format2', () => {
         '    "- #(name): #(amount)"',
         '  }',
         '}',
+        'report {',
+        '  code {',
+        '    200',
+        '  }',
+        '  output {',
+        '    "[#(code)]"',
+        '    "- #(name) = #(amount)"',
+        '  }',
+        '}',
       ].join('\n');
 
       const expected = [
@@ -32,6 +41,8 @@ describe('reporting - format2', () => {
         '- item01: 100',
         '[300]',
         '- item03: 300',
+        '[200]',
+        '- item02 = 200',
       ].join('\n');
 
       const actual = new Reporter().output(itemContainer, text).trim();

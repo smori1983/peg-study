@@ -7,11 +7,11 @@
 start
   = report+
 
-report
-  = _ 'report' _ '{' newline
+report 'report'
+  = _ 'report' _ '{' _ newline
     codes:code_block
     outputs:output_block
-    _ '}' newline*
+    _ '}' _ newline*
   {
     return {
       code: codes,
@@ -19,37 +19,54 @@ report
     };
   }
 
-code_block
-  = _ 'code' _ '{' newline
+code_block 'code_block'
+  = _ 'code' _ '{' _ newline
     codes:code_block_line+
-    _ '}' newline
+    _ '}' _ newline
   {
     return codes;
   }
 
-code_block_line
-  = _ c:code newline
+code_block_line 'code_block_line'
+  = _ c:code _ newline
   {
     return c;
   }
 
-code
+code 'code'
   = $([0-9]+)
 
-output_block
-  = _ 'output' _ '{' newline
-    outputs:output_block_line+
-    _ '}' newline
+output_block 'output_block'
+  = _ 'output' _ '{' _ newline
+    outputs:output_block_element+
+    _ '}' _ newline
   {
     return outputs;
   }
 
-output_block_line
-  = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline { return t; }
-  / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline { return t; }
+output_block_element 'output_block_element'
+  = output_line
+
+output_line 'output_line'
+  = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output_line',
+      children: t,
+    };
+  }
+  / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline
+  {
+    return {
+      type: 'builtin',
+      text: 'output_line',
+      children: t,
+    };
+  }
 
 item_code 'item_code'
-  = placeholder_open bracket_open  _ 'code' _ bracket_close
+  = placeholder_open bracket_open _ 'code' _ bracket_close
   {
     return {
       type: 'variable',
@@ -131,5 +148,5 @@ text_double_quote_char 'text_double_quote_char'
 _ 'whitespace'
   = [ \t]*
 
-newline
+newline 'newline'
   = [\r\n]+

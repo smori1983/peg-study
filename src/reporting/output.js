@@ -1,4 +1,4 @@
-class Format3Output {
+class Output {
   constructor() {
     /**
      * @type {string[]}
@@ -12,6 +12,15 @@ class Format3Output {
    */
   addLine(line) {
     this._lines.push(line);
+  }
+
+  /**
+   * @param {Output} output
+   */
+  merge(output) {
+    output.getLines().forEach((line) => {
+      this.addLine(line);
+    });
   }
 
   /**
@@ -29,4 +38,4 @@ class Format3Output {
   }
 }
 
-module.exports = Format3Output;
+module.exports = Output;
