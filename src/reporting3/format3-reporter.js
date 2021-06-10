@@ -1,7 +1,7 @@
 const parser = require('./format3');
 const Builder = require('./format3-builder');
 const ItemContainer = require('../reporting/item-container');
-const Output = require('./format3-output');
+const Output = require('../reporting/output');
 
 class Format3Reporter {
   constructor() {

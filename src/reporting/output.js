@@ -1,4 +1,4 @@
-class Format3Output {
+class Output {
   constructor() {
     /**
      * @type {string[]}
@@ -29,4 +29,4 @@ class Format3Output {
   }
 }
 
-module.exports = Format3Output;
+module.exports = Output;

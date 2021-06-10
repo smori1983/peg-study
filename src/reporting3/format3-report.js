@@ -1,6 +1,6 @@
 const Item = require('../reporting/item');
 const Node = require('./node');
-const Output = require('./format3-output');
+const Output = require('../reporting/output');
 const Scope = require('../reporting/scope');
 
 class Format3Report {
