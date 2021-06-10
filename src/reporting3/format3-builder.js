@@ -1,8 +1,8 @@
 const Node = require('./node');
 const Report = require('./format3-report');
 const Root = require('./root');
-const ForLoop = require('./builtin-for-loop');
-const OutputLine = require('./builtin-output-line');
+const ForLoop = require('./node-for-loop');
+const OutputLine = require('./node-output-line');
 const Value = require('./value');
 const Variable = require('./variable');
 

@@ -2,7 +2,7 @@ const Node = require('./node');
 const Scope = require('../reporting/scope');
 const Variable = require('./variable');
 
-class BuiltinForLoop extends Node {
+class NodeForLoop extends Node {
   /**
    * @param {Variable} array
    * @param {Variable} variable
@@ -44,4 +44,4 @@ class BuiltinForLoop extends Node {
   }
 }
 
-module.exports = BuiltinForLoop;
+module.exports = NodeForLoop;
