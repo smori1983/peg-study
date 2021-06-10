@@ -13,7 +13,7 @@ const Output = require('../reporting/output');
  * @typedef {Object} Format2AstOutput
  * @property {string} type
  * @property {string} text
- * @property {Format2AstOutput[]} children
+ * @property {Format2AstOutputComponent[]} children
  */
 
 /**
@@ -62,7 +62,7 @@ class Format2Reporter {
 
     report.code.forEach((code) => {
       try {
-        result.merge(this._createOutputOfCode(report, itemContainer.getItem(code)));
+        result.merge(this._createOutputOfItem(report.output, itemContainer.getItem(code)));
       } catch (e) {}
     });
 
@@ -70,15 +70,15 @@ class Format2Reporter {
   }
 
   /**
-   * @param {Format2AstReport} report
+   * @param {Format2AstOutput[]} reportOutput
    * @param {Item} item
    * @return {Output}
    * @private
    */
-  _createOutputOfCode(report, item) {
+  _createOutputOfItem(reportOutput, item) {
     const result = new Output();
 
-    report.output.forEach((line) => {
+    reportOutput.forEach((line) => {
       result.addLine(this._createLine(line, item));
     });
 
