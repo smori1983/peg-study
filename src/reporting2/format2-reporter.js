@@ -1,4 +1,5 @@
 const parser = require('./format2');
+const Item = require('../reporting/item');
 const ItemContainer = require('../reporting/item-container');
 const Output = require('../reporting/output');
 
@@ -29,6 +30,7 @@ class Format2Reporter {
       bracket_close: ')',
     };
   }
+
   /**
    * @param {ItemContainer} itemContainer
    * @param {string} text
@@ -50,23 +52,7 @@ class Format2Reporter {
         const codeOutput = new Output();
 
         report.output.forEach((line) => {
-          const lineOutputs = [];
-
-          line.children.forEach((lineItem) => {
-            if (lineItem.type === 'variable') {
-              if (lineItem.text === 'code') {
-                lineOutputs.push(item.getCode());
-              } else if (lineItem.text === 'name') {
-                lineOutputs.push(item.getName());
-              } else if (lineItem.text === 'amount') {
-                lineOutputs.push(item.getAmount());
-              }
-            } else if (lineItem.type === 'plain') {
-              lineOutputs.push(lineItem.text);
-            }
-          });
-
-          codeOutput.addLine(lineOutputs.join(''));
+          codeOutput.addLine(this._createLine(line, item));
         });
 
         reportOutput.merge(codeOutput);
@@ -76,6 +62,32 @@ class Format2Reporter {
     });
 
     return output.getContent();
+  }
+
+  /**
+   * @param {Format2AstOutput} line
+   * @param {Item} item
+   * @return {string}
+   * @private
+   */
+  _createLine(line, item) {
+    const outputs = [];
+
+    line.children.forEach((lineItem) => {
+      if (lineItem.type === 'variable') {
+        if (lineItem.text === 'code') {
+          outputs.push(item.getCode());
+        } else if (lineItem.text === 'name') {
+          outputs.push(item.getName());
+        } else if (lineItem.text === 'amount') {
+          outputs.push(item.getAmount());
+        }
+      } else if (lineItem.type === 'plain') {
+        outputs.push(lineItem.text);
+      }
+    });
+
+    return outputs.join('');
   }
 }
 
