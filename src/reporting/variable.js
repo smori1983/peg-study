@@ -1,4 +1,4 @@
-const Scope = require('../reporting/scope');
+const Scope = require('./scope');
 const Value = require('./value');
 
 class Variable {
@@ -6,6 +6,9 @@ class Variable {
    * @param {string} name
    */
   constructor(name) {
+    /**
+     * @private
+     */
     this._name = name;
   }
 

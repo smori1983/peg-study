@@ -3,8 +3,8 @@ const Report = require('./format3-report');
 const Root = require('./node-root');
 const ForLoop = require('./node-for-loop');
 const OutputLine = require('./node-output-line');
-const Value = require('./value');
-const Variable = require('./variable');
+const Value = require('../reporting/value');
+const Variable = require('../reporting/variable');
 
 /**
  * @typedef {Object} AstReport

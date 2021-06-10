@@ -1,6 +1,6 @@
 const Node = require('./node');
-const Value = require('./value');
-const Variable = require('./variable');
+const Value = require('../reporting/value');
+const Variable = require('../reporting/variable');
 
 class NodeOutputLine extends Node {
   constructor() {

@@ -1,6 +1,6 @@
 const Node = require('./node');
 const Scope = require('../reporting/scope');
-const Variable = require('./variable');
+const Variable = require('../reporting/variable');
 
 class NodeForLoop extends Node {
   /**

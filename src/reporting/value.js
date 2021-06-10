@@ -3,6 +3,9 @@ class Value {
    * @param {*} value
    */
   constructor(value) {
+    /**
+     * @private
+     */
     this._value = value;
   }
 
