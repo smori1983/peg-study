@@ -1,5 +1,6 @@
-const ItemContainer = require('../reporting/item-container');
 const parser = require('./format2');
+const ItemContainer = require('../reporting/item-container');
+const Output = require('../reporting/output');
 
 /**
  * @typedef {Object} Format2AstReport
@@ -39,47 +40,42 @@ class Format2Reporter {
      */
     const parsed = parser.parse(text, this._options);
 
-    const outputLines = [];
+    const output = new Output();
 
     parsed.forEach((report) => {
-      const codes = report.code;
+      const reportOutput = new Output();
 
-      const outputs = report.output;
-
-      const reportOutputLines = [];
-
-      codes.forEach((code) => {
+      report.code.forEach((code) => {
         const item = itemContainer.getItem(code);
+        const codeOutput = new Output();
 
-        const codeOutputLines = [];
-
-        outputs.forEach((line) => {
-          const lineOutputLines = [];
+        report.output.forEach((line) => {
+          const lineOutputs = [];
 
           line.children.forEach((lineItem) => {
             if (lineItem.type === 'variable') {
               if (lineItem.text === 'code') {
-                lineOutputLines.push(item.getCode());
+                lineOutputs.push(item.getCode());
               } else if (lineItem.text === 'name') {
-                lineOutputLines.push(item.getName());
+                lineOutputs.push(item.getName());
               } else if (lineItem.text === 'amount') {
-                lineOutputLines.push(item.getAmount());
+                lineOutputs.push(item.getAmount());
               }
             } else if (lineItem.type === 'plain') {
-              lineOutputLines.push(lineItem.text);
+              lineOutputs.push(lineItem.text);
             }
           });
 
-          codeOutputLines.push(lineOutputLines.join(''));
+          codeOutput.addLine(lineOutputs.join(''));
         });
 
-        reportOutputLines.push(codeOutputLines.join('\n'));
+        reportOutput.merge(codeOutput);
       });
 
-      outputLines.push(reportOutputLines.join('\n'));
+      output.merge(reportOutput);
     });
 
-    return outputLines.join('\n');
+    return output.getContent();
   }
 }
 
