@@ -32,9 +32,7 @@ class Format3Reporter {
           const item = itemContainer.getItem(code);
           const result = report.evaluate(item);
 
-          result.getLines().forEach((line) => {
-            output.addLine(line);
-          });
+          output.merge(result);
         } catch (e) {}
       });
     });

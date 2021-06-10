@@ -15,6 +15,15 @@ class Output {
   }
 
   /**
+   * @param {Output} output
+   */
+  merge(output) {
+    output.getLines().forEach((line) => {
+      this.addLine(line);
+    });
+  }
+
+  /**
    * @return {string}
    */
   getContent() {
