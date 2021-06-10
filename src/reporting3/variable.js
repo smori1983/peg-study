@@ -1,4 +1,4 @@
-const Scope = require('./scope');
+const Scope = require('../reporting/scope');
 const Value = require('./value');
 
 class Variable {

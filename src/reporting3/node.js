@@ -1,5 +1,5 @@
 const Output = require('./format3-output');
-const Scope = require('./scope');
+const Scope = require('../reporting/scope');
 
 class Node {
   constructor() {

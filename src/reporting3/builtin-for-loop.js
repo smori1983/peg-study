@@ -1,5 +1,5 @@
 const Node = require('./node');
-const Scope = require('./scope');
+const Scope = require('../reporting/scope');
 const Variable = require('./variable');
 
 class BuiltinForLoop extends Node {
