@@ -66,7 +66,7 @@ output_line 'output_line'
   }
 
 item_code 'item_code'
-  = placeholder_open bracket_open  _ 'code' _ bracket_close
+  = placeholder_open bracket_open _ 'code' _ bracket_close
   {
     return {
       type: 'variable',
