@@ -1,3 +1,4 @@
+const Node = require('./node');
 const Report = require('./format3-report');
 const Root = require('./root');
 const ForLoop = require('./builtin-for-loop');
