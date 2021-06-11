@@ -30,7 +30,10 @@ delim_available
   = $([^ a-z0-9]i+)
 
 variable
-  = $[0-9a-z]i+
+  = head:[a-z] tail:[0-9a-z_]+
+  {
+    return head + tail.join('');
+  }
 
 _ 'space'
   = [ \t]*
