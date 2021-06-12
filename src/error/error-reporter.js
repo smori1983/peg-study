@@ -86,7 +86,7 @@ class ErrorReporter {
         }
         message += '| ';
 
-        for (let i = 0; i < this._error.location.start.offset; i++) {
+        for (let i = 1; i < this._error.location.start.column; i++) {
           message += '-';
         }
         message += '^';
