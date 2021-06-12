@@ -7,9 +7,12 @@ start
   = placeholder
 
 placeholder 'placeholder'
-  = _ o:delim_open _ v:variable _ c:delim_close
+  = _ delim_open _ v:variable _ delim_close
   {
-    return [o, v, c];
+    return {
+      type: 'variable',
+      text: v,
+    };
   }
 
 delim_open 'delim_open'

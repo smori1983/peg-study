@@ -142,8 +142,11 @@ function peg$parse(input, options) {
       peg$startRuleFunction  = peg$parsestart,
 
       peg$c0 = peg$otherExpectation("placeholder"),
-      peg$c1 = function(o, v, c) {
-          return [o, v, c];
+      peg$c1 = function(v) {
+          return {
+            type: 'variable',
+            text: v,
+          };
         },
       peg$c2 = peg$otherExpectation("delim_open"),
       peg$c3 = function(w) { return w === delimiter_open; },
@@ -329,7 +332,7 @@ function peg$parse(input, options) {
               s6 = peg$parsedelim_close();
               if (s6 !== peg$FAILED) {
                 peg$savedPos = s0;
-                s1 = peg$c1(s2, s4, s6);
+                s1 = peg$c1(s4);
                 s0 = s1;
               } else {
                 peg$currPos = s0;
