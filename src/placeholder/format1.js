@@ -141,8 +141,8 @@ function peg$parse(input, options) {
       peg$startRuleFunctions = { start: peg$parsestart },
       peg$startRuleFunction  = peg$parsestart,
 
-      peg$c0 = function(delim_open, v, delim_close) {
-          return [delim_open, v, delim_close];
+      peg$c0 = function(o, v, c) {
+          return [o, v, c];
         },
       peg$c1 = function(w) { return w === delimiter_open; },
       peg$c2 = function(w) {
