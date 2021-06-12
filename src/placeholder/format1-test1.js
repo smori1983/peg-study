@@ -5,7 +5,11 @@ const parser = require('./format1');
  * @param {Object} option
  */
 const dump = (text, option) => {
-  console.log(parser.parse(text.trim(), option));
+  try {
+    console.log(JSON.stringify(parser.parse(text.trim(), option), null, 2));
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 const input1 = '{value1}';
@@ -24,7 +28,7 @@ const option2 = {
 
 dump(input2, option2);
 
-const input3 = '{{value2}}';
+const input3 = '{{value3}}';
 const option3 = {
   delimiter_open: '{{',
   delimiter_close: '}}',
@@ -32,7 +36,7 @@ const option3 = {
 
 dump(input3, option3);
 
-const input4 = '[value3]';
+const input4 = '[value4]';
 const option4 = {
   delimiter_open: '[',
   delimiter_close: ']',
