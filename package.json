@@ -16,6 +16,7 @@
     "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"
   },
   "dependencies": {
+    "chalk": "^4.1.1",
     "flatten": "^1.0.3",
     "pegjs": "^0.10.0",
     "sprintf-js": "^1.1.2"
