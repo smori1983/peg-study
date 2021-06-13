@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const sprintf = require('sprintf-js').sprintf;
 
 /**
@@ -92,6 +93,36 @@ class ErrorReporter {
         message += '^';
 
         result.push(message);
+      }
+    });
+
+    return result.join('\n');
+  }
+
+  /**
+   * @returns {string}
+   */
+  asTerminal() {
+    const result = [];
+    const lines = this._text.split(/[\r\n]+/);
+
+    const numOfDigits = lines.length.toString().length;
+    const format = sprintf('%%0%sd| %%s', numOfDigits);
+
+    let before, target, after;
+    lines.forEach((line, index) => {
+      if (index === (this._error.location.start.line - 1)) {
+        before = chalk.green(line.slice(0, this._error.location.start.column - 1));
+        if (this._error.location.start.column >= line.length) {
+          target = chalk.red('[*]');
+        } else {
+          target = chalk.red(line.charAt(this._error.location.start.column - 1));
+        }
+        after = chalk.green(line.slice(this._error.location.start.column));
+
+        result.push(sprintf(format, index + 1, before + target + after));
+      } else {
+        result.push(sprintf(format, index + 1, line));
       }
     });
 
