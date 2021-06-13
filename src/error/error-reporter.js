@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const mcw = require('monospace-char-width');
 const sprintf = require('sprintf-js').sprintf;
 
 /**
@@ -87,7 +88,11 @@ class ErrorReporter {
         }
         message += '| ';
 
-        for (let i = 1; i < this._error.location.start.column; i++) {
+        let offset = 0;
+        for (let i = 0; i < this._error.location.start.column - 1; i++) {
+          offset += this._charSize(line, i);
+        }
+        for (let i = 0; i < offset; i++) {
           message += '-';
         }
         message += '^';
@@ -127,6 +132,16 @@ class ErrorReporter {
     });
 
     return result.join('\n');
+  }
+
+  /**
+   * @param {string} text
+   * @param {number} position
+   * @return {number}
+   * @private
+   */
+  _charSize(text, position) {
+    return mcw(text.charCodeAt(position), position > 0 ? text.charCodeAt(position - 1) : 0);
   }
 }
 
