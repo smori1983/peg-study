@@ -112,9 +112,10 @@ class ErrorReporter {
     const separator = '| ';
     const format = sprintf('%%0%sd%s%%s', numOfDigits, separator);
 
-    let before, target, after;
     lines.forEach((line, index) => {
       if (index === (this._error.location.start.line - 1)) {
+        let before, target, after;
+
         before = chalk.green(line.slice(0, this._error.location.start.column - 1));
         if (this._error.location.start.column >= line.length) {
           target = chalk.red('[*]');
