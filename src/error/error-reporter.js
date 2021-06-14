@@ -6,7 +6,7 @@ const sprintf = require('sprintf-js').sprintf;
  * @typedef {Object} PegSyntaxError
  * @property {string} message
  * @property {(PegSyntaxExpectedLiteral|PegSyntaxExpectedClass|PegSyntaxExpectedAny|PegSyntaxExpectedEnd|PegSyntaxExpectedOther)[]} expected
- * @property {string} found
+ * @property {*} found
  * @property {PegSyntaxLocation} location
  * @property {string} name 'SyntaxError'
  */
@@ -48,6 +48,12 @@ const sprintf = require('sprintf-js').sprintf;
  * @property {{offset:number, line:number, column:number}} end
  */
 
+/**
+ * @typedef {Object} PegSyntaxFoundInfo
+ * @property {string} type 'char', 'end_of_input' or 'unknown'
+ * @property {string} [text]
+ */
+
 class ErrorReporter {
   /**
    * @param {string} text
@@ -65,6 +71,26 @@ class ErrorReporter {
      * @private
      */
     this._error = e;
+  }
+
+  /**
+   * @return {PegSyntaxFoundInfo}
+   */
+  getFoundInfo() {
+    if (typeof this._error.found === 'string') {
+      return {
+        type: 'chat',
+        text: this._error.found,
+      };
+    } else if (this._error.found === null) {
+      return {
+        type: 'end_of_input',
+      };
+    } else {
+      return {
+        type: 'unknown',
+      };
+    }
   }
 
   /**
