@@ -75,7 +75,8 @@ class ErrorReporter {
     const lines = this._text.split(/[\r\n]+/);
 
     const numOfDigits = lines.length.toString().length;
-    const format = sprintf('%%0%sd| %%s', numOfDigits);
+    const separator = '| ';
+    const format = sprintf('%%0%sd%s%%s', numOfDigits, separator);
 
     lines.forEach((line, index) => {
       result.push(sprintf(format, index + 1, line));
@@ -86,7 +87,7 @@ class ErrorReporter {
         for (let i = 0; i < numOfDigits; i++) {
           message += ' ';
         }
-        message += '| ';
+        message += separator;
 
         let offset = 0;
         for (let i = 0; i < this._error.location.start.column - 1; i++) {
@@ -112,7 +113,8 @@ class ErrorReporter {
     const lines = this._text.split(/[\r\n]+/);
 
     const numOfDigits = lines.length.toString().length;
-    const format = sprintf('%%0%sd| %%s', numOfDigits);
+    const separator = '| ';
+    const format = sprintf('%%0%sd%s%%s', numOfDigits, separator);
 
     let before, target, after;
     lines.forEach((line, index) => {
