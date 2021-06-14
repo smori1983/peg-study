@@ -81,6 +81,21 @@ class ErrorReporter {
   }
 
   /**
+   * @return {(PegSyntaxExpectedLiteral|PegSyntaxExpectedClass|PegSyntaxExpectedAny|PegSyntaxExpectedEnd|PegSyntaxExpectedOther)[]}
+   */
+  getExpectedInfo() {
+    const result = [];
+
+    this._error.expected.forEach((item) => {
+      if (result.indexOf(item) < 0) {
+        result.push(item);
+      }
+    });
+
+    return result;
+  }
+
+  /**
    * @return {PegSyntaxFoundInfo}
    */
   getFoundInfo() {
