@@ -74,6 +74,13 @@ class ErrorReporter {
   }
 
   /**
+   * @return {string}
+   */
+  getOriginalMessage() {
+    return this._error.message;
+  }
+
+  /**
    * @return {PegSyntaxFoundInfo}
    */
   getFoundInfo() {
