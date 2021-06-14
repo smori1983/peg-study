@@ -84,18 +84,14 @@ class ErrorReporter {
       if (index === (this._error.location.start.line - 1)) {
         let message = '';
 
-        for (let i = 0; i < numOfDigits; i++) {
-          message += ' ';
-        }
+        message += ' '.repeat(numOfDigits);
         message += separator;
 
         let offset = 0;
         for (let i = 0; i < this._error.location.start.column - 1; i++) {
           offset += this._charSize(line, i);
         }
-        for (let i = 0; i < offset; i++) {
-          message += '-';
-        }
+        message += '-'.repeat(offset);
         message += '^';
 
         result.push(message);
