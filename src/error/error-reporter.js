@@ -117,7 +117,7 @@ class ErrorReporter {
         let before, target, after;
 
         before = chalk.green(line.slice(0, this._error.location.start.column - 1));
-        if (this._error.location.start.column >= line.length) {
+        if (this._error.location.start.column > line.length) {
           target = chalk.red('[*]');
         } else {
           target = chalk.red(line.charAt(this._error.location.start.column - 1));
