@@ -70,7 +70,7 @@ class ErrorReporter {
   /**
    * @returns {string}
    */
-  asPlainText() {
+  getCodeAsPlainText() {
     const result = [];
     const lines = this._text.split(/[\r\n]+/);
 
@@ -107,7 +107,7 @@ class ErrorReporter {
   /**
    * @returns {string}
    */
-  asTerminal() {
+  getCodeAsTerminal() {
     const result = [];
     const lines = this._text.split(/[\r\n]+/);
 
