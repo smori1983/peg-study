@@ -86,7 +86,7 @@ class ErrorReporter {
   getFoundInfo() {
     if (typeof this._error.found === 'string') {
       return {
-        type: 'chat',
+        type: 'char',
         text: this._error.found,
       };
     } else if (this._error.found === null) {
