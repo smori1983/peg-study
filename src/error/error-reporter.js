@@ -54,6 +54,12 @@ const sprintf = require('sprintf-js').sprintf;
  * @property {string} [text]
  */
 
+/**
+ * @typedef {Object} PegSyntaxCodeAnnotatedLine
+ * @property {string} line
+ * @property {{type:string, value:string}[]} text
+ */
+
 class ErrorReporter {
   /**
    * @param {string} text
@@ -179,6 +185,57 @@ class ErrorReporter {
     });
 
     return result.join('\n');
+  }
+
+  /**
+   * @return {PegSyntaxCodeAnnotatedLine[]}
+   */
+  getCodeAsAnnotatedData() {
+    const result = [];
+    const lines = this._text.split(/[\r\n]+/);
+
+    const numOfDigits = lines.length.toString().length;
+    const lineNoFormat = sprintf('%%0%dd', numOfDigits);
+
+    lines.forEach((line, index) => {
+      const lineData = {
+        line: sprintf(lineNoFormat, index + 1),
+        text: [],
+      };
+
+      if (index === (this._error.location.start.line - 1)) {
+        if (this._error.location.start.column > 0) {
+          lineData.text.push({
+            type: 'normal',
+            value: line.slice(0, this._error.location.start.column - 1),
+          });
+        }
+        if (this._error.location.start.column > line.length) {
+          lineData.text.push({
+            type: 'error',
+            value: '',
+          });
+        } else {
+          lineData.text.push({
+            type: 'error',
+            value: line.charAt(this._error.location.start.column - 1),
+          });
+          lineData.text.push({
+            type: 'normal',
+            value: line.slice(this._error.location.start.column),
+          });
+        }
+      } else {
+        lineData.text.push({
+          type: 'normal',
+          value: line,
+        });
+      }
+
+      result.push(lineData);
+    });
+
+    return result;
   }
 
   /**
