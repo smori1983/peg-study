@@ -124,7 +124,7 @@ class ErrorReporter {
 
     const numOfDigits = lines.length.toString().length;
     const separator = '| ';
-    const format = sprintf('%%0%sd%s%%s', numOfDigits, separator);
+    const format = sprintf('%%0%dd%s%%s', numOfDigits, separator);
 
     lines.forEach((line, index) => {
       result.push(sprintf(format, index + 1, line));
@@ -158,7 +158,7 @@ class ErrorReporter {
 
     const numOfDigits = lines.length.toString().length;
     const separator = '| ';
-    const format = sprintf('%%0%sd%s%%s', numOfDigits, separator);
+    const format = sprintf('%%0%dd%s%%s', numOfDigits, separator);
 
     lines.forEach((line, index) => {
       if (index === (this._error.location.start.line - 1)) {
