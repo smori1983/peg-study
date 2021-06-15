@@ -21,7 +21,7 @@ const sprintf = require('sprintf-js').sprintf;
 /**
  * @typedef {Object} PegSyntaxExpectedClass
  * @property {string} type 'class'
- * @property {string[]} parts
+ * @property {(string|string[])[]} parts
  * @property {boolean} inverted
  * @property {boolean} ignoreCase
  */
