@@ -6,7 +6,7 @@
 start
   = placeholder
 
-placeholder 'placeholder'
+placeholder
   = _ delim_open _ v:variable _ delim_close
   {
     return {
@@ -15,14 +15,14 @@ placeholder 'placeholder'
     };
   }
 
-delim_open 'delim_open'
+delim_open
   = w:delim_available
     &{ return w === delimiter_open; }
   {
     return w;
   }
 
-delim_close 'delim_close'
+delim_close
   = w:delim_available
     &{ return w === delimiter_close; }
   {
@@ -32,7 +32,7 @@ delim_close 'delim_close'
 delim_available 'delim_available'
   = $([^ a-z0-9]i+)
 
-variable 'variable'
+variable
   = head:[a-z] tail:[0-9a-z_]+
   {
     return head + tail.join('');
