@@ -9,6 +9,7 @@
     "peg:compile:loop2": "pegjs src/loop/format2.pegjs",
     "peg:compile:method1": "pegjs src/method/format1.pegjs",
     "peg:compile:placeholder1": "pegjs src/placeholder/format1.pegjs",
+    "peg:compile:placeholder2": "pegjs src/placeholder/format2.pegjs",
     "peg:compile:reporting1": "pegjs src/reporting1/format1.pegjs",
     "peg:compile:reporting2": "pegjs src/reporting2/format2.pegjs",
     "peg:compile:reporting3": "pegjs src/reporting3/format3.pegjs",
