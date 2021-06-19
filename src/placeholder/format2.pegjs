@@ -10,10 +10,7 @@ start
 placeholder
   = _ delim_open _ v:variable _ delim_close
   {
-    return {
-      type: 'variable',
-      text: v,
-    };
+    return v;
   }
 
 variable

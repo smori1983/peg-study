@@ -142,10 +142,7 @@ function peg$parse(input, options) {
       peg$startRuleFunction  = peg$parsestart,
 
       peg$c0 = function(v) {
-          return {
-            type: 'variable',
-            text: v,
-          };
+          return v;
         },
       peg$c1 = /^[a-z]/,
       peg$c2 = peg$classExpectation([["a", "z"]], false, false),
