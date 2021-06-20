@@ -63,7 +63,7 @@ placeholder_fallback_as_plain_text1
 
 placeholder_fallback_as_plain_text2
   //
-  // When reached to EOL, char2 will be null.
+  // When reached to EOF, char2 will be null.
   //
   = char1:. char2:.?
     &{ return char1 === placeholder_mark; }
