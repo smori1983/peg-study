@@ -1,36 +1,42 @@
 {
-  const delimiter_open = options.delimiter_open;
-  const delimiter_close = options.delimiter_close;
+  const op_delimiter_open = options.delimiter_open;
+  const op_delimiter_close = options.delimiter_close;
 }
 
 start
   = placeholder
 
 placeholder
-  = _ delim_open:delim_open _ v:variable _ delim_close:delim_close
+  = delimiter_open _ v:variable _ delimiter_close
   {
-    return [delim_open, v, delim_close];
+    return {
+      type: 'variable',
+      text: v,
+    };
   }
 
-delim_open
-  = w:delim_available
-    &{ return w === delimiter_open; }
-  {
-    return w;
-  }
-
-delim_close
-  = w:delim_available
-    &{ return w === delimiter_close; }
+delimiter_open
+  = w:delimiter_available
+    &{ return w === op_delimiter_open; }
   {
     return w;
   }
 
-delim_available
+delimiter_close
+  = w:delimiter_available
+    &{ return w === op_delimiter_close; }
+  {
+    return w;
+  }
+
+delimiter_available 'delimiter_available'
   = $([^ a-z0-9]i+)
 
 variable
-  = $[0-9a-z]i+
+  = head:[a-z] tail:[0-9a-z_]+
+  {
+    return head + tail.join('');
+  }
 
 _ 'space'
   = [ \t]*
