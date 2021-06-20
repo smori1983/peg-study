@@ -312,28 +312,22 @@ function peg$parse(input, options) {
   }
 
   function peg$parseplaceholder() {
-    var s0, s1, s2, s3, s4, s5, s6;
+    var s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
-    s1 = peg$parse_();
+    s1 = peg$parsedelim_open();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsedelim_open();
+      s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
-        s3 = peg$parse_();
+        s3 = peg$parsevariable();
         if (s3 !== peg$FAILED) {
-          s4 = peg$parsevariable();
+          s4 = peg$parse_();
           if (s4 !== peg$FAILED) {
-            s5 = peg$parse_();
+            s5 = peg$parsedelim_close();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsedelim_close();
-              if (s6 !== peg$FAILED) {
-                peg$savedPos = s0;
-                s1 = peg$c0(s4);
-                s0 = s1;
-              } else {
-                peg$currPos = s0;
-                s0 = peg$FAILED;
-              }
+              peg$savedPos = s0;
+              s1 = peg$c0(s3);
+              s0 = s1;
             } else {
               peg$currPos = s0;
               s0 = peg$FAILED;

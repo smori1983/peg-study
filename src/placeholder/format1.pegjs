@@ -7,7 +7,7 @@ start
   = placeholder
 
 placeholder
-  = _ delim_open _ v:variable _ delim_close
+  = delim_open _ v:variable _ delim_close
   {
     return {
       type: 'variable',

@@ -14,7 +14,7 @@ component
   / plain_text
 
 placeholder
-  = _ placeholder_open delim_open _ v:variable _ delim_close
+  = placeholder_open delim_open _ v:variable _ delim_close
   {
     return v;
   }
