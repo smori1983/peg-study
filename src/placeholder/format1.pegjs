@@ -1,13 +1,13 @@
 {
-  const delimiter_open = options.delimiter_open;
-  const delimiter_close = options.delimiter_close;
+  const op_delimiter_open = options.delimiter_open;
+  const op_delimiter_close = options.delimiter_close;
 }
 
 start
   = placeholder
 
 placeholder
-  = delim_open _ v:variable _ delim_close
+  = delimiter_open _ v:variable _ delimiter_close
   {
     return {
       type: 'variable',
@@ -15,21 +15,21 @@ placeholder
     };
   }
 
-delim_open
-  = w:delim_available
-    &{ return w === delimiter_open; }
+delimiter_open
+  = w:delimiter_available
+    &{ return w === op_delimiter_open; }
   {
     return w;
   }
 
-delim_close
-  = w:delim_available
-    &{ return w === delimiter_close; }
+delimiter_close
+  = w:delimiter_available
+    &{ return w === op_delimiter_close; }
   {
     return w;
   }
 
-delim_available 'delim_available'
+delimiter_available 'delimiter_available'
   = $([^ a-z0-9]i+)
 
 variable

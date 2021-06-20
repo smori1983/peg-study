@@ -155,21 +155,21 @@ function peg$parse(input, options) {
           };
         },
       peg$c6 = peg$anyExpectation(),
-      peg$c7 = function(w) { return w === placeholder_mark; },
+      peg$c7 = function(w) { return w === op_placeholder_mark; },
       peg$c8 = function(w) {
           return w;
         },
-      peg$c9 = function(w) { return w === bracket_open; },
-      peg$c10 = function(w) { return w === bracket_close; },
-      peg$c11 = function(char1) { return char1 === placeholder_mark; },
+      peg$c9 = function(w) { return w === op_bracket_open; },
+      peg$c10 = function(w) { return w === op_bracket_close; },
+      peg$c11 = function(char1) { return char1 === op_placeholder_mark; },
       peg$c12 = function(char1) {
           return {
             type: 'plain_fallback',
             text: char1,
           };
         },
-      peg$c13 = function(char1, char2) { return char1 === placeholder_mark; },
-      peg$c14 = function(char1, char2) { return char2 !== bracket_open; },
+      peg$c13 = function(char1, char2) { return char1 === op_placeholder_mark; },
+      peg$c14 = function(char1, char2) { return char2 !== op_bracket_open; },
       peg$c15 = function(char1, char2) {
           return {
             type: 'plain_fallback',
@@ -184,7 +184,7 @@ function peg$parse(input, options) {
         },
       peg$c17 = /^[^\r\n]/,
       peg$c18 = peg$classExpectation(["\r", "\n"], true, false),
-      peg$c19 = function(char) { return char !== placeholder_mark; },
+      peg$c19 = function(char) { return char !== op_placeholder_mark; },
       peg$c20 = function(char) {
           return char;
         },
@@ -366,9 +366,9 @@ function peg$parse(input, options) {
     var s0, s1, s2, s3, s4, s5, s6;
 
     s0 = peg$currPos;
-    s1 = peg$parseplaceholder_open();
+    s1 = peg$parseplaceholder_mark();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsedelim_open();
+      s2 = peg$parsebracket_open();
       if (s2 !== peg$FAILED) {
         s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
@@ -376,7 +376,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsedelim_close();
+              s6 = peg$parsebracket_close();
               if (s6 !== peg$FAILED) {
                 peg$savedPos = s0;
                 s1 = peg$c0(s4);
@@ -455,7 +455,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parseplaceholder_open() {
+  function peg$parseplaceholder_mark() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -490,7 +490,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_open() {
+  function peg$parsebracket_open() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -525,7 +525,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_close() {
+  function peg$parsebracket_close() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -574,7 +574,7 @@ function peg$parse(input, options) {
     if (s1 !== peg$FAILED) {
       s2 = peg$currPos;
       peg$silentFails++;
-      s3 = peg$parseplaceholder_open();
+      s3 = peg$parseplaceholder_mark();
       peg$silentFails--;
       if (s3 !== peg$FAILED) {
         peg$currPos = s2;
@@ -762,9 +762,9 @@ function peg$parse(input, options) {
   }
 
 
-    const placeholder_mark = options.placeholder_mark;
-    const bracket_open = options.bracket_open;
-    const bracket_close = options.bracket_close;
+    const op_placeholder_mark = options.placeholder_mark;
+    const op_bracket_open = options.bracket_open;
+    const op_bracket_close = options.bracket_close;
 
 
   peg$result = peg$startRuleFunction();

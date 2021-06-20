@@ -1,7 +1,7 @@
 {
-  const placeholder_mark = options.placeholder_mark;
-  const bracket_open = options.bracket_open;
-  const bracket_close = options.bracket_close;
+  const op_placeholder_mark = options.placeholder_mark;
+  const op_bracket_open = options.bracket_open;
+  const op_bracket_close = options.bracket_close;
 }
 
 start
@@ -24,7 +24,7 @@ component
   / plain_text
 
 placeholder
-  = placeholder_open delim_open _ v:variable _ delim_close
+  = placeholder_mark bracket_open _ v:variable _ bracket_close
   {
     return v;
   }
@@ -38,30 +38,30 @@ variable
     };
   }
 
-placeholder_open
+placeholder_mark
   = w:.
-    &{ return w === placeholder_mark; }
+    &{ return w === op_placeholder_mark; }
   {
     return w;
   }
 
-delim_open
+bracket_open
   = w:.
-    &{ return w === bracket_open; }
+    &{ return w === op_bracket_open; }
   {
     return w;
   }
 
-delim_close
+bracket_close
   = w:.
-    &{ return w === bracket_close; }
+    &{ return w === op_bracket_close; }
   {
     return w;
   }
 
 placeholder_fallback_as_plain_text1
   = char1:. &newline
-    &{ return char1 === placeholder_mark; }
+    &{ return char1 === op_placeholder_mark; }
   {
     return {
       type: 'plain_fallback',
@@ -70,8 +70,8 @@ placeholder_fallback_as_plain_text1
   }
 
 placeholder_fallback_as_plain_text2
-  = char1:. &placeholder_open
-    &{ return char1 === placeholder_mark; }
+  = char1:. &placeholder_mark
+    &{ return char1 === op_placeholder_mark; }
   {
     return {
       type: 'plain_fallback',
@@ -84,8 +84,8 @@ placeholder_fallback_as_plain_text3
   // When reached to EOF, char2 will be null.
   //
   = char1:. char2:.?
-    &{ return char1 === placeholder_mark; }
-    &{ return char2 !== bracket_open; }
+    &{ return char1 === op_placeholder_mark; }
+    &{ return char2 !== op_bracket_open; }
   {
     return {
       type: 'plain_fallback',
@@ -104,7 +104,7 @@ plain_text
 
 plain_text_char
   = char:[^\r\n]
-    &{ return char !== placeholder_mark; }
+    &{ return char !== op_placeholder_mark; }
   {
     return char;
   }

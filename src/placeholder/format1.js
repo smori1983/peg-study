@@ -147,12 +147,12 @@ function peg$parse(input, options) {
             text: v,
           };
         },
-      peg$c1 = function(w) { return w === delimiter_open; },
+      peg$c1 = function(w) { return w === op_delimiter_open; },
       peg$c2 = function(w) {
           return w;
         },
-      peg$c3 = function(w) { return w === delimiter_close; },
-      peg$c4 = peg$otherExpectation("delim_available"),
+      peg$c3 = function(w) { return w === op_delimiter_close; },
+      peg$c4 = peg$otherExpectation("delimiter_available"),
       peg$c5 = /^[^ a-z0-9]/i,
       peg$c6 = peg$classExpectation([" ", ["a", "z"], ["0", "9"]], true, true),
       peg$c7 = /^[a-z]/,
@@ -314,7 +314,7 @@ function peg$parse(input, options) {
     var s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
-    s1 = peg$parsedelim_open();
+    s1 = peg$parsedelimiter_open();
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
@@ -322,7 +322,7 @@ function peg$parse(input, options) {
         if (s3 !== peg$FAILED) {
           s4 = peg$parse_();
           if (s4 !== peg$FAILED) {
-            s5 = peg$parsedelim_close();
+            s5 = peg$parsedelimiter_close();
             if (s5 !== peg$FAILED) {
               peg$savedPos = s0;
               s1 = peg$c0(s3);
@@ -351,11 +351,11 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_open() {
+  function peg$parsedelimiter_open() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
-    s1 = peg$parsedelim_available();
+    s1 = peg$parsedelimiter_available();
     if (s1 !== peg$FAILED) {
       peg$savedPos = peg$currPos;
       s2 = peg$c1(s1);
@@ -380,11 +380,11 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_close() {
+  function peg$parsedelimiter_close() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
-    s1 = peg$parsedelim_available();
+    s1 = peg$parsedelimiter_available();
     if (s1 !== peg$FAILED) {
       peg$savedPos = peg$currPos;
       s2 = peg$c3(s1);
@@ -409,7 +409,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_available() {
+  function peg$parsedelimiter_available() {
     var s0, s1, s2;
 
     peg$silentFails++;
@@ -532,8 +532,8 @@ function peg$parse(input, options) {
   }
 
 
-    const delimiter_open = options.delimiter_open;
-    const delimiter_close = options.delimiter_close;
+    const op_delimiter_open = options.delimiter_open;
+    const op_delimiter_close = options.delimiter_close;
 
 
   peg$result = peg$startRuleFunction();

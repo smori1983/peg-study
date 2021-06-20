@@ -155,11 +155,11 @@ function peg$parse(input, options) {
           };
         },
       peg$c6 = peg$anyExpectation(),
-      peg$c7 = function(mark, delim) { return mark === placeholder_mark && delim === bracket_open; },
+      peg$c7 = function(mark, delim) { return mark === op_placeholder_mark && delim === op_bracket_open; },
       peg$c8 = function(mark, delim) {
           return mark + delim;
         },
-      peg$c9 = function(delim) { return delim === bracket_close; },
+      peg$c9 = function(delim) { return delim === op_bracket_close; },
       peg$c10 = function(delim) {
           return delim;
         },
@@ -315,7 +315,7 @@ function peg$parse(input, options) {
     var s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
-    s1 = peg$parsedelim_open();
+    s1 = peg$parsebracket_open();
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
@@ -323,7 +323,7 @@ function peg$parse(input, options) {
         if (s3 !== peg$FAILED) {
           s4 = peg$parse_();
           if (s4 !== peg$FAILED) {
-            s5 = peg$parsedelim_close();
+            s5 = peg$parsebracket_close();
             if (s5 !== peg$FAILED) {
               peg$savedPos = s0;
               s1 = peg$c0(s3);
@@ -398,7 +398,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_open() {
+  function peg$parsebracket_open() {
     var s0, s1, s2, s3;
 
     s0 = peg$currPos;
@@ -445,7 +445,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsedelim_close() {
+  function peg$parsebracket_close() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -512,9 +512,9 @@ function peg$parse(input, options) {
   }
 
 
-    const placeholder_mark = options.placeholder_mark;
-    const bracket_open = options.bracket_open;
-    const bracket_close = options.bracket_close;
+    const op_placeholder_mark = options.placeholder_mark;
+    const op_bracket_open = options.bracket_open;
+    const op_bracket_close = options.bracket_close;
 
 
   peg$result = peg$startRuleFunction();

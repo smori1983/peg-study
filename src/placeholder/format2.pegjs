@@ -1,14 +1,14 @@
 {
-  const placeholder_mark = options.placeholder_mark;
-  const bracket_open = options.bracket_open;
-  const bracket_close = options.bracket_close;
+  const op_placeholder_mark = options.placeholder_mark;
+  const op_bracket_open = options.bracket_open;
+  const op_bracket_close = options.bracket_close;
 }
 
 start
   = placeholder
 
 placeholder
-  = delim_open _ v:variable _ delim_close
+  = bracket_open _ v:variable _ bracket_close
   {
     return v;
   }
@@ -22,16 +22,16 @@ variable
     };
   }
 
-delim_open
+bracket_open
   = mark:. delim:.
-    &{ return mark === placeholder_mark && delim === bracket_open; }
+    &{ return mark === op_placeholder_mark && delim === op_bracket_open; }
   {
     return mark + delim;
   }
 
-delim_close
+bracket_close
   = delim:.
-    &{ return delim === bracket_close; }
+    &{ return delim === op_bracket_close; }
   {
     return delim;
   }
