@@ -9,11 +9,12 @@ start
 
 component
   = placeholder
-  / placeholder_fallback_as_plain_text
+  / placeholder_fallback_as_plain_text1
+  / placeholder_fallback_as_plain_text2
   / plain_text
 
 placeholder
-  = _ delim_open _ v:variable _ delim_close
+  = _ placeholder_open delim_open _ v:variable _ delim_close
   {
     return v;
   }
@@ -27,21 +28,38 @@ variable
     };
   }
 
-delim_open
-  = mark:. delim:.
-    &{ return mark === placeholder_mark && delim === bracket_open; }
+placeholder_open
+  = w:.
+    &{ return w === placeholder_mark; }
   {
-    return mark + delim;
+    return w;
+  }
+
+delim_open
+  = w:.
+    &{ return w === bracket_open; }
+  {
+    return w;
   }
 
 delim_close
-  = delim:.
-    &{ return delim === bracket_close; }
+  = w:.
+    &{ return w === bracket_close; }
   {
-    return delim;
+    return w;
   }
 
-placeholder_fallback_as_plain_text
+placeholder_fallback_as_plain_text1
+  = char1:. &placeholder_open
+    &{ return char1 === placeholder_mark; }
+  {
+    return {
+      type: 'plain_fallback',
+      text: char1,
+    };
+  }
+
+placeholder_fallback_as_plain_text2
   //
   // When reached to EOF, char2 will be null.
   //
