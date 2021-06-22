@@ -1,5 +1,5 @@
 const Item = require('../reporting/item');
-const Node = require('./node');
+const Node = require('../reporting/node');
 const Output = require('../reporting/output');
 const Scope = require('../reporting/scope');
 
