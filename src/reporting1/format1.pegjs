@@ -1,7 +1,7 @@
 {
-  const placeholder_mark = '#';
-  const bracket_open = '{';
-  const bracket_close = '}';
+  const op_placeholder_mark = '#';
+  const op_bracket_open = '{';
+  const op_bracket_close = '}';
 }
 
 start
@@ -66,7 +66,7 @@ output_line
   }
 
 item_code
-  = placeholder_open bracket_open _ 'code' _ bracket_close
+  = placeholder_mark bracket_open _ 'code' _ bracket_close
   {
     return {
       type: 'variable',
@@ -75,7 +75,7 @@ item_code
   }
 
 item_name
-  = placeholder_open bracket_open _ 'name' _ bracket_close
+  = placeholder_mark bracket_open _ 'name' _ bracket_close
   {
     return {
       type: 'variable',
@@ -84,7 +84,7 @@ item_name
   }
 
 item_amount
-  = placeholder_open bracket_open _ 'amount' _ bracket_close
+  = placeholder_mark bracket_open _ 'amount' _ bracket_close
   {
     return {
       type: 'variable',
@@ -92,23 +92,23 @@ item_amount
     };
   }
 
-placeholder_open
+placeholder_mark
   = w:.
-    &{ return w === placeholder_mark; }
+    &{ return w === op_placeholder_mark; }
   {
     return w;
   }
 
 bracket_open
   = w:.
-    &{ return w === bracket_open; }
+    &{ return w === op_bracket_open; }
   {
     return w;
   }
 
 bracket_close
   = w:.
-    &{ return w === bracket_close; }
+    &{ return w === op_bracket_close; }
   {
     return w;
   }
@@ -124,7 +124,7 @@ text_single_quote
 
 text_single_quote_char
   = char:[^\r\n']
-    &{ return char !== placeholder_mark; }
+    &{ return char !== op_placeholder_mark; }
   {
     return char;
   }
@@ -140,7 +140,7 @@ text_double_quote
 
 text_double_quote_char
   = char:[^\r\n"]
-    &{ return char !== placeholder_mark; }
+    &{ return char !== op_placeholder_mark; }
   {
     return char;
   }
