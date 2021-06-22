@@ -16,8 +16,8 @@ report {
     300
   }
   output {
-    "[#(code)]"
-    "- #(name): #(amount)"
+    "[#{code}]"
+    "- #{name}: #{amount}"
   }
 }
 `;
