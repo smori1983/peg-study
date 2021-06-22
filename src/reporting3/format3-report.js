@@ -6,9 +6,9 @@ const Scope = require('../reporting/scope');
 class Format3Report {
   /**
    * @param {string[]} codes
-   * @param {Node} outputNode
+   * @param {Node} rootNode
    */
-  constructor(codes, outputNode) {
+  constructor(codes, rootNode) {
     /**
      * @private
      */
@@ -17,7 +17,7 @@ class Format3Report {
     /**
      * @private
      */
-    this._outputNode = outputNode;
+    this._rootNode = rootNode;
   }
 
   /**
@@ -40,7 +40,7 @@ class Format3Report {
 
     const output = new Output();
 
-    this._outputNode.evaluate(scope, output);
+    this._rootNode.evaluate(scope, output);
 
     return output;
   }
