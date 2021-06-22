@@ -1,50 +1,35 @@
 const parser = require('./format3');
-const ErrorReporter = require('../error/error-reporter');
+const helper = require('../_helper/parse')(parser);
 
-/**
- * @param {string} input
- */
-const dump = (input) => {
-  const option = {
-    placeholder_mark: '#',
-    bracket_open: '{',
-    bracket_close: '}',
-  };
-  const text = input.trim();
-
-  try {
-    console.log(text);
-    console.log(JSON.stringify(parser.parse(text, option), null, 2));
-  } catch (e) {
-    const reporter = new ErrorReporter(text, e);
-    console.log(reporter.getOriginalMessage());
-    console.log(reporter.getCodeAsPlainText());
-  }
+const options = {
+  placeholder_mark: '#',
+  bracket_open: '{',
+  bracket_close: '}',
 };
 
 const input1 = '#{value}';
-dump(input1);
+helper.dump(input1, options);
 
 const input2 = 'hello, #{value}';
-dump(input2);
+helper.dump(input2, options);
 
 const input3 = 'hello, ##{value}';
-dump(input3);
+helper.dump(input3, options);
 
 const input4 = 'hello, # #{value}';
-dump(input4);
+helper.dump(input4, options);
 
 const input5 = 'hello, # {value}';
-dump(input5);
+helper.dump(input5, options);
 
 const input6 = '#hello, #{value}';
-dump(input6);
+helper.dump(input6, options);
 
 const input7 = 'hello, #{value} #';
-dump(input7);
+helper.dump(input7, options);
 
 const input8 = '#[test] #{value}';
-dump(input8);
+helper.dump(input8, options);
 
 const input9 = '#{value1} #{value2}';
-dump(input9);
+helper.dump(input9, options);

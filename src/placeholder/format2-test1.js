@@ -1,34 +1,20 @@
 const parser = require('./format2');
-const ErrorReporter = require('../error/error-reporter');
+const helper = require('../_helper/parse')(parser);
 
-/**
- * @param {string} input
- */
-const dump = (input) => {
-  const option = {
-    placeholder_mark: '#',
-    bracket_open: '{',
-    bracket_close: '}',
-  };
-  const text = input.trim();
-
-  try {
-    console.log(JSON.stringify(parser.parse(text, option), null, 2));
-  } catch (e) {
-    const reporter = new ErrorReporter(text, e);
-    console.log(reporter.getOriginalMessage());
-    console.log(reporter.getCodeAsPlainText());
-  }
-}
+const options = {
+  placeholder_mark: '#',
+  bracket_open: '{',
+  bracket_close: '}',
+};
 
 const input1 = '#{value1}';
-dump(input1);
+helper.dump(input1, options);
 
 const input2 = '${value1}';
-dump(input2);
+helper.dump(input2, options);
 
 const input3 = '#[value1]';
-dump(input3);
+helper.dump(input3, options);
 
 const input4 = '#{!value1}';
-dump(input4);
+helper.dump(input4, options);

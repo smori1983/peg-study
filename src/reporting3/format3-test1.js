@@ -1,7 +1,10 @@
 const parser = require('./format3');
+const helper = require('../_helper/parse')(parser);
 
-const dump = (input, options) => {
-  console.log(JSON.stringify(parser.parse(input.trim(), options), null, 2));
+const options = {
+  placeholder_mark: '#',
+  bracket_open: '{',
+  bracket_close: '}',
 };
 
 const input1 = `
@@ -18,11 +21,4 @@ report {
   }
 }
 `;
-
-const options1 = {
-  placeholder_mark: '#',
-  bracket_open: '{',
-  bracket_close: '}',
-};
-
-dump(input1, options1);
+helper.dump(input1, options);

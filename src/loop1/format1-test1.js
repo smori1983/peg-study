@@ -1,16 +1,12 @@
 const parser = require('./format1');
-
-const dump = (input) => {
-  console.log(JSON.stringify(parser.parse(input.trim()), null, 2));
-};
+const helper = require('../_helper/parse')(parser);
 
 const input1 = `
 for(item in items) {
   log(item)
 }
 `;
-
-dump(input1);
+helper.dump(input1);
 
 const input2 = `
 for(b in a) {
@@ -19,5 +15,4 @@ for(b in a) {
   }
 }
 `;
-
-dump(input2);
+helper.dump(input2);
