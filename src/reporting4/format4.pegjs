@@ -49,7 +49,7 @@ output_block_element
   / for_loop
 
 output_line
-  = _ "'" t:(variable_output / text_single_quote)* "'" _ newline
+  = _ "'" t:(variable_output / variable_output_fallback / text_single_quote)* "'" _ newline
   {
     return {
       type: 'builtin',
@@ -57,7 +57,7 @@ output_line
       children: t,
     };
   }
-  / _ '"' t:(variable_output / text_double_quote)* '"' _ newline
+  / _ '"' t:(variable_output / variable_output_fallback / text_double_quote)* '"' _ newline
   {
     return {
       type: 'builtin',
@@ -116,6 +116,44 @@ bracket_close
     return w;
   }
 
+variable_output_fallback
+  = char1:. &placeholder_mark
+    &{ return char1 === op_placeholder_mark; }
+  {
+    return {
+      type: 'plain_fallback',
+      text: char1,
+    };
+  }
+  / char1:. &single_quote
+    &{ return char1 === op_placeholder_mark; }
+  {
+    return {
+      type: 'plain_fallback',
+      text: char1,
+    };
+  }
+  / char1:. &double_quote
+    &{ return char1 === op_placeholder_mark; }
+  {
+    return {
+      type: 'plain_fallback',
+      text: char1,
+    };
+  }
+  / char1:. char2:.
+    &{ return char1 === op_placeholder_mark; }
+    &{ return char2 !== op_bracket_open; }
+  {
+    return {
+      type: 'plain_fallback',
+      text: char1 + char2,
+    };
+  }
+
+single_quote
+  = "'"
+
 text_single_quote
   = chars:text_single_quote_char+
   {
@@ -131,6 +169,9 @@ text_single_quote_char
   {
     return char;
   }
+
+double_quote
+  = '"'
 
 text_double_quote
   = chars:text_double_quote_char+
