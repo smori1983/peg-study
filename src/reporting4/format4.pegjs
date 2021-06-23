@@ -164,7 +164,7 @@ text_single_quote
   }
 
 text_single_quote_char
-  = char:[^\r\n']
+  = !single_quote char:[^\r\n]
     &{ return char !== op_placeholder_mark; }
   {
     return char;
