@@ -183,7 +183,7 @@ text_double_quote
   }
 
 text_double_quote_char
-  = char:[^\r\n"]
+  = !double_quote char:[^\r\n]
     &{ return char !== op_placeholder_mark; }
   {
     return char;
