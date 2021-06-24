@@ -1,5 +1,5 @@
 const Node = require('../reporting/node');
-const Report = require('./format3-report');
+const Report = require('../reporting/report');
 const Root = require('../reporting/node-root');
 const ForLoop = require('../reporting/node-for-loop');
 const OutputLine = require('../reporting/node-output-line');

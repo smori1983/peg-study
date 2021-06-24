@@ -1,9 +1,9 @@
-const Item = require('../reporting/item');
-const Node = require('../reporting/node');
-const Output = require('../reporting/output');
-const Scope = require('../reporting/scope');
+const Item = require('./item');
+const Node = require('./node');
+const Output = require('./output');
+const Scope = require('./scope');
 
-class Format3Report {
+class Report {
   /**
    * @param {string[]} codes
    * @param {Node} rootNode
@@ -46,4 +46,4 @@ class Format3Report {
   }
 }
 
-module.exports = Format3Report;
+module.exports = Report;
