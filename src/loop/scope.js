@@ -7,14 +7,27 @@ class Scope {
     this._variables = {};
   }
 
+  /**
+   * @param {string} name
+   * @param {*} value
+   */
   addVariable(name, value) {
     this._variables[name] = value;
   }
 
+  /**
+   * @param {string} name
+   * @return {boolean}
+   */
   hasVariable(name) {
     return this._variables.hasOwnProperty(name);
   }
 
+  /**
+   * @param name
+   * @return {*}
+   * @throws {Error}
+   */
   getVariable(name) {
     if (this.hasVariable(name)) {
       return this._variables[name];
@@ -23,6 +36,11 @@ class Scope {
     throw new Error('variable not found: ' + name);
   }
 
+  /**
+   * @param {string} name
+   * @return {*}
+   * @throws {Error}
+   */
   resolveVariable(name) {
     if (this.hasVariable(name)) {
       return this.getVariable(name);
