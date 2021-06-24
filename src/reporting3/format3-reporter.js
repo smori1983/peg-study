@@ -1,5 +1,5 @@
 const parser = require('./format3');
-const Builder = require('./format3-builder');
+const Builder = require('../reporting/builder');
 const ItemContainer = require('../reporting/item-container');
 const Output = require('../reporting/output');
 

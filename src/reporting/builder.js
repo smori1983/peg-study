@@ -1,10 +1,10 @@
-const Node = require('../reporting/node');
-const Report = require('../reporting/report');
-const Root = require('../reporting/node-root');
-const ForLoop = require('../reporting/node-for-loop');
-const OutputLine = require('../reporting/node-output-line');
-const Value = require('../reporting/value');
-const Variable = require('../reporting/variable');
+const Node = require('./node');
+const Report = require('./report');
+const Root = require('./node-root');
+const ForLoop = require('./node-for-loop');
+const OutputLine = require('./node-output-line');
+const Value = require('./value');
+const Variable = require('./variable');
 
 /**
  * @typedef {Object} AstReport
@@ -27,7 +27,7 @@ const Variable = require('../reporting/variable');
  * @property {string} text
  */
 
-class Format3Builder {
+class Builder {
   /**
    * @param {AstReport[]} astReports
    * @return {Report[]}
@@ -100,4 +100,4 @@ class Format3Builder {
   }
 }
 
-module.exports = Format3Builder;
+module.exports = Builder;
