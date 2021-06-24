@@ -1,17 +1,17 @@
 const sprintf = require('sprintf-js').sprintf;
-const MethodDef = require('./method-def');
-const MethodDefJoin = require('./method-def-join');
-const MethodDefLower = require('./method-def-lower');
-const MethodDefSplit = require('./method-def-split');
-const MethodDefUpper = require('./method-def-upper');
-const Node = require('./node');
-const NodeRoot = require('./node-root');
-const NodeForLoop = require('./node-for-loop');
-const NodeLog = require('./node-log');
-const Value = require('./value');
-const Variable = require('./variable');
-const VariableMethod = require('./variable-method');
-const VariableProperty = require('./variable-property');
+const MethodDef = require('../loop/method-def');
+const MethodDefJoin = require('../loop/method-def-join');
+const MethodDefLower = require('../loop/method-def-lower');
+const MethodDefSplit = require('../loop/method-def-split');
+const MethodDefUpper = require('../loop/method-def-upper');
+const Node = require('../loop/node');
+const NodeRoot = require('../loop/node-root');
+const NodeForLoop = require('../loop/node-for-loop');
+const NodeLog = require('../loop/node-log');
+const Value = require('../loop/value');
+const Variable = require('../loop/variable');
+const VariableMethod = require('../loop/variable-method');
+const VariableProperty = require('../loop/variable-property');
 
 class Format2Builder {
   constructor() {

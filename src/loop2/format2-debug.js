@@ -1,7 +1,7 @@
 const parser = require('./format2');
 const Builder = require('./format2-builder');
-const Output = require('./output');
-const Scope = require('./scope');
+const Output = require('../loop/output');
+const Scope = require('../loop/scope');
 
 class Format2Debug {
   /**
