@@ -1,17 +1,9 @@
 const parser = require('./format2');
-const Builder = require('./format2-builder');
-const Output = require('../loop/output');
+const Debug = require('./format2-debug');
 const Scope = require('../loop/scope');
 
 const dump = (input, scope) => {
-  const parsed = parser.parse(input);
-
-  const builder = new Builder();
-  const root = builder.build(parsed);
-  const output = new Output();
-
-  root.evaluate(scope, output);
-  console.log(output.getLines().join('\n'));
+  console.log(new Debug().get(input, scope).getContent());
 };
 
 const scope1 = new Scope();
@@ -23,5 +15,4 @@ for(part in data2.split('-')) {
   log(part.upper())
 }
 `;
-
 dump(input1, scope1);
