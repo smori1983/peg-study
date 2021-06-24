@@ -72,7 +72,7 @@ class Builder {
     const outputLine = new NodeOutputLine();
 
     astOutput.children.forEach((child) => {
-      if (child.type === 'plain') {
+      if (child.type === 'plain' || child.type === 'plain_fallback') {
         outputLine.addComponent(new Value(child.text));
       } else if (child.type === 'variable') {
         outputLine.addComponent(new Variable(child.text));
