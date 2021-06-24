@@ -1,8 +1,8 @@
 const Node = require('./node');
+const NodeRoot = require('./node-root');
+const NodeForLoop = require('./node-for-loop');
+const NodeOutputLine = require('./node-output-line');
 const Report = require('./report');
-const Root = require('./node-root');
-const ForLoop = require('./node-for-loop');
-const OutputLine = require('./node-output-line');
 const Value = require('./value');
 const Variable = require('./variable');
 
@@ -36,7 +36,7 @@ class Builder {
     const result = [];
 
     astReports.forEach((astReport) => {
-      const root = new Root();
+      const root = new NodeRoot();
 
       astReport.output.forEach((astOutput) => {
         this._build(root, astOutput);
@@ -69,7 +69,7 @@ class Builder {
    * @private
    */
   _buildOutput(parentNode, astOutput) {
-    const outputLine = new OutputLine();
+    const outputLine = new NodeOutputLine();
 
     astOutput.children.forEach((child) => {
       if (child.type === 'plain') {
@@ -90,7 +90,7 @@ class Builder {
   _buildForLoop(parentNode, astOutput) {
     const array = new Variable(astOutput.array.text);
     const variable = new Variable(astOutput.variable.text);
-    const forLoop = new ForLoop(array, variable);
+    const forLoop = new NodeForLoop(array, variable);
 
     astOutput.children.forEach((child) => {
       this._build(forLoop, child);
