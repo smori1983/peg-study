@@ -15,6 +15,13 @@ class Output {
   }
 
   /**
+   * @return {string}
+   */
+  getContent() {
+    return this.getLines().join('\n');
+  }
+
+  /**
    * @return {string[]}
    */
   getLines() {
