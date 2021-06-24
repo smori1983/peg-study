@@ -1,13 +1,13 @@
 const sprintf = require('sprintf-js').sprintf;
-const BuiltinFor = require('./builtin-for');
-const BuiltinLog = require('./builtin-log');
 const MethodDef = require('./method-def');
 const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
 const MethodDefSplit = require('./method-def-split');
 const MethodDefUpper = require('./method-def-upper');
 const Node = require('./node');
-const Root = require('./root');
+const NodeRoot = require('./node-root');
+const NodeForLoop = require('./node-for-loop');
+const NodeLog = require('./node-log');
 const Value = require('./value');
 const Variable = require('./variable');
 const VariableMethod = require('./variable-method');
@@ -30,7 +30,7 @@ class Format2Builder {
    * @param {Object} astRoot
    */
   build(astRoot) {
-    const root = new Root();
+    const root = new NodeRoot();
 
     astRoot.children.forEach((child) => {
       this._build(root, child);
@@ -62,7 +62,7 @@ class Format2Builder {
   _buildFor(node, ast) {
     const array = this._buildVariable(ast.array);
     const variable = this._buildVariable(ast.variable);
-    const forLoop = new BuiltinFor(array, variable);
+    const forLoop = new NodeForLoop(array, variable);
 
     ast.children.forEach((child) => {
       this._build(forLoop, child);
@@ -79,7 +79,7 @@ class Format2Builder {
   _buildLog(node, ast) {
     const arg = this._buildVariable(ast.args[0]);
 
-    node.addChild(new BuiltinLog(arg));
+    node.addChild(new NodeLog(arg));
   }
 
   /**
