@@ -1,20 +1,20 @@
 start
-  = codes:code*
+  = components:component*
   {
     return {
       type: 'root',
       text: 'root',
-      children: codes,
+      children: components,
     };
   }
 
-code
+component
   = for_loop
   / log
 
 for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_and_method _ ')' _ '{' _
-    codes:code*
+    components:component*
     _ '}' _
   {
     return {
@@ -22,7 +22,7 @@ for_loop
       text: 'for',
       array: a,
       variable: v,
-      children: codes,
+      children: components,
     };
   }
 

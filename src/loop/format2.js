@@ -141,11 +141,11 @@ function peg$parse(input, options) {
       peg$startRuleFunctions = { start: peg$parsestart },
       peg$startRuleFunction  = peg$parsestart,
 
-      peg$c0 = function(codes) {
+      peg$c0 = function(components) {
           return {
             type: 'root',
             text: 'root',
-            children: codes,
+            children: components,
           };
         },
       peg$c1 = "for",
@@ -160,13 +160,13 @@ function peg$parse(input, options) {
       peg$c10 = peg$literalExpectation("{", false),
       peg$c11 = "}",
       peg$c12 = peg$literalExpectation("}", false),
-      peg$c13 = function(v, a, codes) {
+      peg$c13 = function(v, a, components) {
           return {
             type: 'builtin',
             text: 'for',
             array: a,
             variable: v,
-            children: codes,
+            children: components,
           };
         },
       peg$c14 = /^[a-z]/,
@@ -396,10 +396,10 @@ function peg$parse(input, options) {
 
     s0 = peg$currPos;
     s1 = [];
-    s2 = peg$parsecode();
+    s2 = peg$parsecomponent();
     while (s2 !== peg$FAILED) {
       s1.push(s2);
-      s2 = peg$parsecode();
+      s2 = peg$parsecomponent();
     }
     if (s1 !== peg$FAILED) {
       peg$savedPos = s0;
@@ -410,7 +410,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsecode() {
+  function peg$parsecomponent() {
     var s0;
 
     s0 = peg$parsefor_loop();
@@ -486,10 +486,10 @@ function peg$parse(input, options) {
                                 s15 = peg$parse_();
                                 if (s15 !== peg$FAILED) {
                                   s16 = [];
-                                  s17 = peg$parsecode();
+                                  s17 = peg$parsecomponent();
                                   while (s17 !== peg$FAILED) {
                                     s16.push(s17);
-                                    s17 = peg$parsecode();
+                                    s17 = peg$parsecomponent();
                                   }
                                   if (s16 !== peg$FAILED) {
                                     s17 = peg$parse_();
