@@ -93,8 +93,11 @@ method_arg_int
     };
   }
 
+single_quote
+  = "'"
+
 method_arg_string_single_quote
-  = "'" w:[^']* "'"
+  = single_quote w:[^']* single_quote
   {
     return {
       type: 'string',
@@ -102,8 +105,11 @@ method_arg_string_single_quote
     };
   }
 
+double_quote
+  = '"'
+
 method_arg_string_double_quote
-  = '"' w:[^"]* '"'
+  = double_quote w:[^"]* double_quote
   {
     return {
       type: 'string',
