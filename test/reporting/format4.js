@@ -55,8 +55,8 @@ describe('reporting - format4', () => {
         '    200',
         '  }',
         '  output {',
-        '    "- ##{amount}#"',
-        "    '- ##{amount}#'",
+        '    "- ##{amount}#"', // double quote
+        "    '- ##{amount}#'", // single quote
         '  }',
         '}',
       ].join('\n');
