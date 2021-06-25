@@ -15,6 +15,7 @@
     "peg:compile:reporting1": "pegjs src/reporting1/format1.pegjs",
     "peg:compile:reporting2": "pegjs src/reporting2/format2.pegjs",
     "peg:compile:reporting3": "pegjs src/reporting3/format3.pegjs",
+    "peg:compile:reporting4": "pegjs src/reporting4/format4.pegjs",
     "test": "mocha test/*",
     "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"
   },

@@ -1,10 +1,10 @@
-const Node = require('../reporting/node');
-const Report = require('./format3-report');
-const Root = require('../reporting/node-root');
-const ForLoop = require('../reporting/node-for-loop');
-const OutputLine = require('../reporting/node-output-line');
-const Value = require('../reporting/value');
-const Variable = require('../reporting/variable');
+const Node = require('./node');
+const NodeRoot = require('./node-root');
+const NodeForLoop = require('./node-for-loop');
+const NodeOutputLine = require('./node-output-line');
+const Report = require('./report');
+const Value = require('./value');
+const Variable = require('./variable');
 
 /**
  * @typedef {Object} AstReport
@@ -27,7 +27,7 @@ const Variable = require('../reporting/variable');
  * @property {string} text
  */
 
-class Format3Builder {
+class Builder {
   /**
    * @param {AstReport[]} astReports
    * @return {Report[]}
@@ -36,7 +36,7 @@ class Format3Builder {
     const result = [];
 
     astReports.forEach((astReport) => {
-      const root = new Root();
+      const root = new NodeRoot();
 
       astReport.output.forEach((astOutput) => {
         this._build(root, astOutput);
@@ -69,10 +69,10 @@ class Format3Builder {
    * @private
    */
   _buildOutput(parentNode, astOutput) {
-    const outputLine = new OutputLine();
+    const outputLine = new NodeOutputLine();
 
     astOutput.children.forEach((child) => {
-      if (child.type === 'plain') {
+      if (child.type === 'plain' || child.type === 'plain_fallback') {
         outputLine.addComponent(new Value(child.text));
       } else if (child.type === 'variable') {
         outputLine.addComponent(new Variable(child.text));
@@ -90,7 +90,7 @@ class Format3Builder {
   _buildForLoop(parentNode, astOutput) {
     const array = new Variable(astOutput.array.text);
     const variable = new Variable(astOutput.variable.text);
-    const forLoop = new ForLoop(array, variable);
+    const forLoop = new NodeForLoop(array, variable);
 
     astOutput.children.forEach((child) => {
       this._build(forLoop, child);
@@ -100,4 +100,4 @@ class Format3Builder {
   }
 }
 
-module.exports = Format3Builder;
+module.exports = Builder;

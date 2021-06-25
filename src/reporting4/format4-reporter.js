@@ -1,7 +1,7 @@
-const parser = require('./format3');
+const parser = require('./format4');
 const ReporterBase = require('../reporting/reporter-base');
 
-class Format3Reporter extends ReporterBase {
+class Format4Reporter extends ReporterBase {
   constructor() {
     super(parser, {
       placeholder_mark: '#',
@@ -11,4 +11,4 @@ class Format3Reporter extends ReporterBase {
   }
 }
 
-module.exports = Format3Reporter;
+module.exports = Format4Reporter;
