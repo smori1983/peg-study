@@ -117,33 +117,28 @@ bracket_close
   }
 
 variable_output_fallback
-  = char1:. &placeholder_mark
-    &{ return char1 === op_placeholder_mark; }
+  = char1:placeholder_mark &placeholder_mark
   {
     return {
       type: 'plain_fallback',
       text: char1,
     };
   }
-  / char1:. &single_quote
-    &{ return char1 === op_placeholder_mark; }
+  / char1:placeholder_mark &single_quote
   {
     return {
       type: 'plain_fallback',
       text: char1,
     };
   }
-  / char1:. &double_quote
-    &{ return char1 === op_placeholder_mark; }
+  / char1:placeholder_mark &double_quote
   {
     return {
       type: 'plain_fallback',
       text: char1,
     };
   }
-  / char1:. char2:.
-    &{ return char1 === op_placeholder_mark; }
-    &{ return char2 !== op_bracket_open; }
+  / char1:placeholder_mark !bracket_open char2:.
   {
     return {
       type: 'plain_fallback',
@@ -164,8 +159,7 @@ text_single_quote
   }
 
 text_single_quote_char
-  = !single_quote char:[^\r\n]
-    &{ return char !== op_placeholder_mark; }
+  = !single_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
@@ -183,8 +177,7 @@ text_double_quote
   }
 
 text_double_quote_char
-  = !double_quote char:[^\r\n]
-    &{ return char !== op_placeholder_mark; }
+  = !double_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
