@@ -97,24 +97,36 @@ single_quote
   = "'"
 
 method_arg_string_single_quote
-  = single_quote w:[^']* single_quote
+  = single_quote chars:method_arg_string_single_quote_char* single_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
+  }
+
+method_arg_string_single_quote_char
+  = !single_quote w:.
+  {
+    return w;
   }
 
 double_quote
   = '"'
 
 method_arg_string_double_quote
-  = double_quote w:[^"]* double_quote
+  = double_quote chars:method_arg_string_double_quote_char* double_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
+  }
+
+method_arg_string_double_quote_char
+  = !double_quote w:.
+  {
+    return w;
   }
 
 log
