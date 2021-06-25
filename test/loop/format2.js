@@ -117,6 +117,7 @@ describe('loop - format2', () => {
     it('pattern2', () => {
       const input = [
         'log(value.split(separator.lower()).join("_"))',
+        'log(value.split(separator.lower()).join(""))',
       ].join('\n');
 
       const scope = new Scope();
@@ -127,6 +128,7 @@ describe('loop - format2', () => {
 
       const output = [
         'a_b_c',
+        'abc',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
@@ -135,6 +137,7 @@ describe('loop - format2', () => {
     it('pattern3', () => {
       const input = [
         "log(value.split(separator.lower()).join('_'))",
+        "log(value.split(separator.lower()).join(''))",
       ].join('\n');
 
       const scope = new Scope();
@@ -145,6 +148,7 @@ describe('loop - format2', () => {
 
       const output = [
         'a_b_c',
+        'abc',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
