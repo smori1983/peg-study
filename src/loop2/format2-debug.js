@@ -1,5 +1,5 @@
 const parser = require('./format2');
-const Builder = require('./format2-builder');
+const Builder = require('../loop/builder');
 const Output = require('../loop/output');
 const Scope = require('../loop/scope');
 
