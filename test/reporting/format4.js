@@ -40,5 +40,34 @@ describe('reporting - format4', () => {
 
       assert.deepStrictEqual(output.getLines(), expected);
     });
+
+    it('pattern2', () => {
+      const itemContainer = new ItemContainer();
+      itemContainer.addItems([
+        new Item('100', 'item01', 100),
+        new Item('200', 'item02', 200),
+      ]);
+
+      const text = [
+        'report {',
+        '  code {',
+        '    100',
+        '    200',
+        '  }',
+        '  output {',
+        '    "- ##{amount}#"',
+        '  }',
+        '}',
+      ].join('\n');
+
+      const output = new Reporter().createReport(itemContainer, text);
+
+      const expected = [
+        '- #100#',
+        '- #200#',
+      ];
+
+      assert.deepStrictEqual(output.getLines(), expected);
+    });
   });
 });
