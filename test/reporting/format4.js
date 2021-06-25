@@ -56,6 +56,7 @@ describe('reporting - format4', () => {
         '  }',
         '  output {',
         '    "- ##{amount}#"',
+        "    '- ##{amount}#'",
         '  }',
         '}',
       ].join('\n');
@@ -64,6 +65,8 @@ describe('reporting - format4', () => {
 
       const expected = [
         '- #100#',
+        '- #100#',
+        '- #200#',
         '- #200#',
       ];
 
