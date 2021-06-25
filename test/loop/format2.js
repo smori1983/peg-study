@@ -134,6 +134,24 @@ describe('loop - format2', () => {
 
     it('pattern3', () => {
       const input = [
+        "log(value.split(separator.lower()).join('_'))",
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'a-b-c');
+      scope.addVariable('separator', '-');
+
+      const debug = new Debug();
+
+      const output = [
+        'a_b_c',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('pattern4', () => {
+      const input = [
         'log(config.version)',
         'log(value.split(config.separator.lower()).join("#"))',
       ].join('\n');
