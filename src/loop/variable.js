@@ -37,7 +37,7 @@ class Variable {
     let receiver = new Value(scope.resolveVariable(this._name));
 
     this._chain.forEach((item) => {
-      receiver = item.evaluate(scope, receiver);
+      receiver = item.evaluate(receiver, scope);
     });
 
     return receiver;

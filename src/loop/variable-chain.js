@@ -3,12 +3,12 @@ const Value = require('./value');
 
 class VariableChain {
   /**
-   * @param {Scope} scope
    * @param {Value} receiver
+   * @param {Scope} scope
    * @return {Value}
    * @throws {Error}
    */
-  evaluate(scope, receiver) {
+  evaluate(receiver, scope) {
   }
 }
 
