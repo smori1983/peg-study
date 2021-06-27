@@ -12,7 +12,7 @@ class VariableProperty extends VariableChain {
     this._key = key;
   }
 
-  evaluate(scope, receiver) {
+  evaluate(receiver, scope) {
     if (receiver.getType() !== 'object') {
       throw new Error('receiver should be an object');
     }

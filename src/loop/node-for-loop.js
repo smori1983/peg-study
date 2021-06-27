@@ -2,7 +2,7 @@ const Node = require('./node');
 const Scope = require('./scope');
 const Variable = require('./variable');
 
-class BuiltinFor extends Node {
+class NodeForLoop extends Node {
   /**
    * @param {Variable} array
    * @param {Variable} variable
@@ -11,13 +11,11 @@ class BuiltinFor extends Node {
     super();
 
     /**
-     * @type {Variable}
      * @private
      */
     this._array = array;
 
     /**
-     * @type {Variable}
      * @private
      */
     this._variable = variable;
@@ -30,6 +28,9 @@ class BuiltinFor extends Node {
       throw new Error(this._array.getName() + ' should be an array');
     }
 
+    /**
+     * @type {*[]}
+     */
     const array = value.getValue();
 
     for (let i = 0; i < array.length; i++) {
@@ -43,4 +44,4 @@ class BuiltinFor extends Node {
   }
 }
 
-module.exports = BuiltinFor;
+module.exports = NodeForLoop;

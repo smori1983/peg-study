@@ -1,10 +1,6 @@
 const Node = require('./node');
 
-class Root extends Node {
-  constructor() {
-    super();
-  }
-
+class NodeRoot extends Node {
   evaluate(scope, output) {
     this._children.forEach((child) => {
       child.evaluate(scope, output);
@@ -12,4 +8,4 @@ class Root extends Node {
   }
 }
 
-module.exports = Root;
+module.exports = NodeRoot;

@@ -1,20 +1,20 @@
 start
-  = codes:code*
+  = components:component*
   {
     return {
       type: 'root',
       text: 'root',
-      children: codes,
+      children: components,
     };
   }
 
-code
+component
   = for_loop
   / log
 
 for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_and_method _ ')' _ '{' _
-    codes:code*
+    components:component*
     _ '}' _
   {
     return {
@@ -22,7 +22,7 @@ for_loop
       text: 'for',
       array: a,
       variable: v,
-      children: codes,
+      children: components,
     };
   }
 
@@ -93,22 +93,40 @@ method_arg_int
     };
   }
 
+single_quote
+  = "'"
+
 method_arg_string_single_quote
-  = "'" w:[^']* "'"
+  = single_quote chars:method_arg_string_single_quote_char* single_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
   }
 
+method_arg_string_single_quote_char
+  = !single_quote w:.
+  {
+    return w;
+  }
+
+double_quote
+  = '"'
+
 method_arg_string_double_quote
-  = '"' w:[^"]* '"'
+  = double_quote chars:method_arg_string_double_quote_char* double_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
+  }
+
+method_arg_string_double_quote_char
+  = !double_quote w:.
+  {
+    return w;
   }
 
 log

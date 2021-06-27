@@ -6,7 +6,7 @@
   "scripts": {
     "peg:compile:calc": "pegjs src/calc/calc-parser-step1.pegjs; pegjs src/calc/calc-parser-step2.pegjs",
     "peg:compile:loop1": "pegjs src/loop1/format1.pegjs",
-    "peg:compile:loop2": "pegjs src/loop/format2.pegjs",
+    "peg:compile:loop2": "pegjs src/loop2/format2.pegjs",
     "peg:compile:method1": "pegjs src/method/format1.pegjs",
     "peg:compile:placeholder1": "pegjs src/placeholder/format1.pegjs",
     "peg:compile:placeholder2": "pegjs src/placeholder/format2.pegjs",

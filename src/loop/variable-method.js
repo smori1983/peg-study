@@ -27,7 +27,7 @@ class VariableMethod extends VariableChain {
     this._args.push(arg);
   }
 
-  evaluate(scope, receiver) {
+  evaluate(receiver, scope) {
     this._checkReceiverType(receiver);
 
     const args = [];

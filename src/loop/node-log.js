@@ -1,7 +1,7 @@
 const Node = require('./node');
 const Variable = require('./variable');
 
-class BuiltinLog extends Node {
+class NodeLog extends Node {
   /**
    * @param {Variable} arg
    */
@@ -20,4 +20,4 @@ class BuiltinLog extends Node {
   }
 }
 
-module.exports = BuiltinLog;
+module.exports = NodeLog;

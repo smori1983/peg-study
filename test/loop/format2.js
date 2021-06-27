@@ -1,7 +1,7 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
-const parser = require('../../src/loop/format2');
-const Debug = require('../../src/loop/format2-debug');
+const parser = require('../../src/loop2/format2');
+const Debug = require('../../src/loop2/format2-debug');
 const Scope = require('../../src/loop/scope');
 
 describe('loop - format2', () => {
@@ -117,6 +117,7 @@ describe('loop - format2', () => {
     it('pattern2', () => {
       const input = [
         'log(value.split(separator.lower()).join("_"))',
+        'log(value.split(separator.lower()).join(""))',
       ].join('\n');
 
       const scope = new Scope();
@@ -127,12 +128,33 @@ describe('loop - format2', () => {
 
       const output = [
         'a_b_c',
+        'abc',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
     it('pattern3', () => {
+      const input = [
+        "log(value.split(separator.lower()).join('_'))",
+        "log(value.split(separator.lower()).join(''))",
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'a-b-c');
+      scope.addVariable('separator', '-');
+
+      const debug = new Debug();
+
+      const output = [
+        'a_b_c',
+        'abc',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('pattern4', () => {
       const input = [
         'log(config.version)',
         'log(value.split(config.separator.lower()).join("#"))',
