@@ -52,22 +52,40 @@ arg_int
     };
   }
 
+single_quote
+  = "'"
+
 arg_string_single_quote
-  = "'" w:[^']* "'"
+  = single_quote chars:arg_string_single_quote_char* single_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
   }
 
+arg_string_single_quote_char
+  = !single_quote w:.
+  {
+    return w;
+  }
+
+double_quote
+  = '"'
+
 arg_string_double_quote
-  = '"' w:[^"]* '"'
+  = double_quote chars:arg_string_double_quote_char* double_quote
   {
     return {
       type: 'string',
-      text: w.join(''),
+      text: chars.join(''),
     };
+  }
+
+arg_string_double_quote_char
+  = !double_quote w:.
+  {
+    return w;
   }
 
 _ 'whitespace'
