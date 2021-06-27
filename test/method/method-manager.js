@@ -109,5 +109,11 @@ describe('MethodManager', () => {
       assert.deepStrictEqual(validate(input), true);
       assert.deepStrictEqual(invoke(input), 'ABC-123-XYZ');
     });
+
+    it("code.split('-').join('_').split('_').join('-').upper()", () => {
+      const input = "code.split('-').join('_').split('_').join('-').upper()";
+      assert.deepStrictEqual(validate(input), true);
+      assert.deepStrictEqual(invoke(input), 'ABC-123-XYZ');
+    });
   });
 });
