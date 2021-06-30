@@ -2,7 +2,7 @@ start
   = v:variable m:method*
   {
     return {
-      name: v,
+      variable: v,
       methods: m,
     };
   }
@@ -10,15 +10,25 @@ start
 variable
   = head:[a-z] tail:[0-9a-z_]*
   {
-    return head + tail.join('');
+    return {
+      text: head + tail.join(''),
+    };
   }
 
 method
-  = _ '.' _ head:[a-z] tail:[0-9a-z_]* _ '(' _ args:arguments* _ ')'
+  = _ '.' _ m:method_name _ '(' _ args:arguments* _ ')'
   {
     return {
-      name: head + tail.join(''),
+      method: m,
       args: args.length > 0 ? args[0] : [],
+    };
+  }
+
+method_name
+  = head:[a-z] tail:[0-9a-z_]*
+  {
+    return {
+      text: head + tail.join(''),
     };
   }
 
