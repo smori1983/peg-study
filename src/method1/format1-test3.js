@@ -1,4 +1,4 @@
-const MethodManager = require('./method-manager');
+const MethodManager = require('./format1-manager');
 const parser = require('./format1');
 
 const manager = new MethodManager();

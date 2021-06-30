@@ -1,10 +1,10 @@
 const sprintf = require('sprintf-js').sprintf;
-const MethodDefLower = require('./method-def-lower');
-const MethodDefUpper = require('./method-def-upper');
-const MethodDefSplit = require('./method-def-split');
-const MethodDefJoin = require('./method-def-join');
+const MethodDefLower = require('../method/method-def-lower');
+const MethodDefUpper = require('../method/method-def-upper');
+const MethodDefSplit = require('../method/method-def-split');
+const MethodDefJoin = require('../method/method-def-join');
 
-class MethodManager {
+class Format1Manager {
   constructor() {
     /**
      * @type {MethodDef[]}
@@ -153,4 +153,4 @@ class MethodManager {
   }
 }
 
-module.exports = MethodManager;
+module.exports = Format1Manager;
