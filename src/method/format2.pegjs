@@ -14,11 +14,19 @@ variable
   }
 
 method
-  = _ '.' _ head:[a-z] tail:[0-9a-z_]* _ '(' _ args:arguments* _ ')'
+  = _ '.' _ m:method_name _ '(' _ args:arguments* _ ')'
   {
     return {
-      name: head + tail.join(''),
+      method: m,
       args: args.length > 0 ? args[0] : [],
+    };
+  }
+
+method_name
+  = head:[a-z] tail:[0-9a-z_]*
+  {
+    return {
+      text: head + tail.join(''),
     };
   }
 
