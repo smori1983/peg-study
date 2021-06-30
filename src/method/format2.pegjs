@@ -4,6 +4,7 @@ start
     return {
       variable: v,
       methods: m,
+      location: location(),
     };
   }
 
@@ -12,6 +13,7 @@ variable
   {
     return {
       text: head + tail.join(''),
+      location: location(),
     };
   }
 
@@ -21,6 +23,7 @@ method
     return {
       method: m,
       args: args.length > 0 ? args[0] : [],
+      location: location(),
     };
   }
 
@@ -29,6 +32,7 @@ method_name
   {
     return {
       text: head + tail.join(''),
+      location: location(),
     };
   }
 
@@ -50,6 +54,7 @@ arg_bool
     return {
       type: 'bool',
       text: w,
+      location: location(),
     };
   }
 
@@ -59,6 +64,7 @@ arg_int
     return {
       type: 'int',
       text: digits.join(''),
+      location: location(),
     };
   }
 
@@ -71,6 +77,7 @@ arg_string_single_quote
     return {
       type: 'string',
       text: chars.join(''),
+      location: location(),
     };
   }
 
@@ -89,6 +96,7 @@ arg_string_double_quote
     return {
       type: 'string',
       text: chars.join(''),
+      location: location(),
     };
   }
 
