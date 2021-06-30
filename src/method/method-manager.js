@@ -24,10 +24,10 @@ class MethodManager {
   validate(variables, ast) {
     this._checkVariable(variables, ast);
 
-    let receiverType = this._getDataType(variables[ast.name])
+    let receiverType = this._getDataType(variables[ast.variable.text])
 
     ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
+      const currentMethod = this._findMethodDef(method.method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
       this._checkArgumentTypes(method.args, currentMethod);
@@ -44,11 +44,11 @@ class MethodManager {
   invoke(variables, ast) {
     this._checkVariable(variables, ast);
 
-    let currentReceiver = variables[ast.name];
+    let currentReceiver = variables[ast.variable.text];
     let receiverType = this._getDataType(currentReceiver);
 
     ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
+      const currentMethod = this._findMethodDef(method.method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
       this._checkArgumentTypes(method.args, currentMethod);
@@ -86,8 +86,8 @@ class MethodManager {
    * @private
    */
   _checkVariable(variables, ast) {
-    if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error(sprintf('variable not registered: %s', ast.name));
+    if (!variables.hasOwnProperty(ast.variable.text)) {
+      throw new Error(sprintf('variable not registered: %s', ast.variable.text));
     }
   }
 
