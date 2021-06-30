@@ -2,7 +2,7 @@ start
   = v:variable m:method*
   {
     return {
-      name: v,
+      variable: v,
       methods: m,
     };
   }
@@ -10,7 +10,9 @@ start
 variable
   = head:[a-z] tail:[0-9a-z_]*
   {
-    return head + tail.join('');
+    return {
+      text: head + tail.join(''),
+    };
   }
 
 method
