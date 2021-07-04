@@ -92,6 +92,7 @@ variable
     return {
       type: 'variable',
       text: head + tail.join(''),
+      location: location(),
     };
   }
 
