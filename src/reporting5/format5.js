@@ -173,6 +173,7 @@ function peg$parse(input, options) {
             type: 'builtin',
             text: 'output_line',
             children: t,
+            location: location(),
           };
         },
       peg$c17 = "for",
@@ -190,6 +191,7 @@ function peg$parse(input, options) {
             array: a,
             variable: v,
             children: children,
+            location: location(),
           };
         },
       peg$c26 = function(v) {
@@ -217,12 +219,14 @@ function peg$parse(input, options) {
           return {
             type: 'plain_fallback',
             text: char1,
+            location: location(),
           };
         },
       peg$c38 = function(char1, char2) {
           return {
             type: 'plain_fallback',
             text: char1 + char2,
+            location: location(),
           };
         },
       peg$c39 = "'",
@@ -231,6 +235,7 @@ function peg$parse(input, options) {
           return {
             type: 'plain',
             text: chars.join(''),
+            location: location(),
           };
         },
       peg$c42 = /^[^\r\n]/,

@@ -55,6 +55,7 @@ output_line
       type: 'builtin',
       text: 'output_line',
       children: t,
+      location: location(),
     };
   }
   / _ double_quote t:(variable_output / variable_output_fallback / text_double_quote)* double_quote _ newline
@@ -63,6 +64,7 @@ output_line
       type: 'builtin',
       text: 'output_line',
       children: t,
+      location: location(),
     };
   }
 
@@ -77,6 +79,7 @@ for_loop
       array: a,
       variable: v,
       children: children,
+      location: location(),
     };
   }
 
@@ -123,6 +126,7 @@ variable_output_fallback
     return {
       type: 'plain_fallback',
       text: char1,
+      location: location(),
     };
   }
   / char1:placeholder_mark &single_quote
@@ -130,6 +134,7 @@ variable_output_fallback
     return {
       type: 'plain_fallback',
       text: char1,
+      location: location(),
     };
   }
   / char1:placeholder_mark &double_quote
@@ -137,6 +142,7 @@ variable_output_fallback
     return {
       type: 'plain_fallback',
       text: char1,
+      location: location(),
     };
   }
   / char1:placeholder_mark !bracket_open char2:.
@@ -144,6 +150,7 @@ variable_output_fallback
     return {
       type: 'plain_fallback',
       text: char1 + char2,
+      location: location(),
     };
   }
 
@@ -156,6 +163,7 @@ text_single_quote
     return {
       type: 'plain',
       text: chars.join(''),
+      location: location(),
     };
   }
 
@@ -174,6 +182,7 @@ text_double_quote
     return {
       type: 'plain',
       text: chars.join(''),
+      location: location(),
     };
   }
 
