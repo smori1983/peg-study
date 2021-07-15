@@ -173,6 +173,29 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('pattern5', () => {
+      const input = [
+        'for (item in value.split("-").sort()) {',
+        '  log(item)',
+        '}',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'z-a-A-20-10');
+
+      const debug =new Debug();
+
+      const output = [
+        '10',
+        '20',
+        'A',
+        'a',
+        'z',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
   });
 
   describe('debug - error', () => {

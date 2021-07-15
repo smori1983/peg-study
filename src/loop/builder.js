@@ -2,6 +2,7 @@ const sprintf = require('sprintf-js').sprintf;
 const MethodDef = require('./method-def');
 const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
+const MethodDefSort = require('./method-def-sort');
 const MethodDefSplit = require('./method-def-split');
 const MethodDefUpper = require('./method-def-upper');
 const Node = require('./node');
@@ -22,6 +23,7 @@ class Builder {
     this._methods = [];
     this._methods.push(new MethodDefLower());
     this._methods.push(new MethodDefJoin());
+    this._methods.push(new MethodDefSort());
     this._methods.push(new MethodDefSplit());
     this._methods.push(new MethodDefUpper());
   }
