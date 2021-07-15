@@ -26,7 +26,7 @@ describe('MethodManager', () => {
     amount: 999,
   };
 
-  describe('error', () => {
+  describe('error case', () => {
     it('foo', () => {
       const input = 'foo';
       const message = 'variable not registered: foo';
@@ -91,7 +91,7 @@ describe('MethodManager', () => {
     });
   });
 
-  describe('normal', () => {
+  describe('normal case', () => {
     it('code', () => {
       const input = 'code';
       assert.deepStrictEqual(validate(input), true);
