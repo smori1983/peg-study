@@ -4,6 +4,7 @@ const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
 const MethodDefSort = require('./method-def-sort');
 const MethodDefSplit = require('./method-def-split');
+const MethodDefTrim = require('./method-def-trim');
 const MethodDefUpper = require('./method-def-upper');
 const Node = require('./node');
 const NodeRoot = require('./node-root');
@@ -25,6 +26,7 @@ class Builder {
     this._methods.push(new MethodDefJoin());
     this._methods.push(new MethodDefSort());
     this._methods.push(new MethodDefSplit());
+    this._methods.push(new MethodDefTrim());
     this._methods.push(new MethodDefUpper());
   }
 

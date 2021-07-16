@@ -196,6 +196,23 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('trim()', () => {
+      const input = [
+        'log(value.trim())',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', ' abc ');
+
+      const debug = new Debug();
+
+      const output = [
+        'abc',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
   });
 
   describe('debug - error', () => {
