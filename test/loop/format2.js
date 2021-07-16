@@ -184,7 +184,7 @@ describe('loop - format2', () => {
       const scope = new Scope();
       scope.addVariable('value', 'z-a-A-20-10');
 
-      const debug =new Debug();
+      const debug = new Debug();
 
       const output = [
         '10',
