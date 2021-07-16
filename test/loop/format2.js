@@ -91,7 +91,7 @@ describe('loop - format2', () => {
   });
 
   describe('debug', () => {
-    it('pattern1', () => {
+    it('pattern1 - log() and for()', () => {
       const input = [
         'log(data.upper().lower())',
         'for(part in data.split("-").join("_").split("_")) {',
@@ -114,7 +114,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern2', () => {
+    it('pattern2 - string double quote', () => {
       const input = [
         'log(value.split(separator.lower()).join("_"))',
         'log(value.split(separator.lower()).join(""))',
@@ -134,7 +134,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern3', () => {
+    it('pattern3 - string single quote', () => {
       const input = [
         "log(value.split(separator.lower()).join('_'))",
         "log(value.split(separator.lower()).join(''))",
@@ -154,7 +154,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern4', () => {
+    it('pattern4 - resolve property', () => {
       const input = [
         'log(config.version)',
         'log(value.split(config.separator.lower()).join("#"))',
@@ -174,7 +174,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern5', () => {
+    it('pattern5 - sort()', () => {
       const input = [
         'for (item in value.split("-").sort()) {',
         '  log(item)',
