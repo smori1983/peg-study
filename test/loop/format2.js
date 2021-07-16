@@ -213,6 +213,31 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('replace()', () => {
+      const input = [
+        'log(value.replace("", "="))',
+        'log(value.replace(" ", "="))',
+        'log(value.replace("-", "="))',
+        'log(value.replace("-", "=").replace("=", "#"))',
+        'log(value.replace("a", "A"))',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'a-b-c');
+
+      const debug = new Debug();
+
+      const output = [
+        'a-b-c',
+        'a-b-c',
+        'a=b=c',
+        'a#b#c',
+        'A-b-c',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
   });
 
   describe('debug - error', () => {
