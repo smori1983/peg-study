@@ -221,6 +221,7 @@ describe('loop - format2', () => {
         'log(value.replace("-", "="))',
         'log(value.replace("-", "=").replace("=", "#"))',
         'log(value.replace("a", "A"))',
+        'log(value.replace("-", "-"))',
       ].join('\n');
 
       const scope = new Scope();
@@ -234,6 +235,7 @@ describe('loop - format2', () => {
         'a=b=c',
         'a#b#c',
         'A-b-c',
+        'a-b-c',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);

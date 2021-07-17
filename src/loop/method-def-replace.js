@@ -38,6 +38,10 @@ class MethodDefReplace extends MethodDef {
       return new Value(value);
     }
 
+    if (search === replace) {
+      return new Value(value);
+    }
+
     let result = value;
 
     while (result.indexOf(search) >= 0) {
