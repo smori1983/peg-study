@@ -246,6 +246,30 @@ describe('loop - format2', () => {
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
+
+    it('filter()', () => {
+      const input = [
+        'log(values.filter(">", 200).join("_"))',
+        'log(values.filter("<", 200).join("_"))',
+        'log(values.filter(">=", 200).join("_"))',
+        'log(values.filter("<=", 200).join("_"))',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('values', [100, 200, 300]);
+
+      const debug = new Debug();
+
+      const output = [
+        '300',
+        '100',
+        '200_300',
+        '100_200',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
   });
 
   describe('debug - error', () => {

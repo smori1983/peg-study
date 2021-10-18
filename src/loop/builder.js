@@ -1,5 +1,6 @@
 const sprintf = require('sprintf-js').sprintf;
 const MethodDef = require('./method-def');
+const MethodDefFilter = require('./method-def-filter');
 const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
 const MethodDefReplace = require('./method-def-replace');
@@ -23,6 +24,7 @@ class Builder {
      * @private
      */
     this._methods = [];
+    this._methods.push(new MethodDefFilter());
     this._methods.push(new MethodDefLower());
     this._methods.push(new MethodDefReplace());
     this._methods.push(new MethodDefJoin());
