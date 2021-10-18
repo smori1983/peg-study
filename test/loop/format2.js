@@ -91,7 +91,7 @@ describe('loop - format2', () => {
   });
 
   describe('debug', () => {
-    it('pattern1', () => {
+    it('log() and for()', () => {
       const input = [
         'log(data.upper().lower())',
         'for(part in data.split("-").join("_").split("_")) {',
@@ -114,7 +114,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern2', () => {
+    it('string double quote', () => {
       const input = [
         'log(value.split(separator.lower()).join("_"))',
         'log(value.split(separator.lower()).join(""))',
@@ -134,7 +134,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern3', () => {
+    it('string single quote', () => {
       const input = [
         "log(value.split(separator.lower()).join('_'))",
         "log(value.split(separator.lower()).join(''))",
@@ -154,7 +154,7 @@ describe('loop - format2', () => {
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
 
-    it('pattern4', () => {
+    it('resolve property', () => {
       const input = [
         'log(config.version)',
         'log(value.split(config.separator.lower()).join("#"))',
@@ -169,6 +169,106 @@ describe('loop - format2', () => {
       const output = [
         '1.0.0',
         'a#b#c',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('sort()', () => {
+      const input = [
+        'for (item in value.split("-").sort()) {',
+        '  log(item)',
+        '}',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'z-a-A-20-10');
+
+      const debug = new Debug();
+
+      const output = [
+        '10',
+        '20',
+        'A',
+        'a',
+        'z',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('trim()', () => {
+      const input = [
+        'log(value.trim())',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', ' abc ');
+
+      const debug = new Debug();
+
+      const output = [
+        'abc',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('replace()', () => {
+      const input = [
+        'log(value.replace("", "="))',
+        'log(value.replace(" ", "="))',
+        'log(value.replace("-", "="))',
+        'log(value.replace("-", "=").replace("=", "#"))',
+        'log(value.replace("a", "A"))',
+        'log(value.replace("-", "-"))',
+        'log(value.replace("-", "--"))',
+        'log(value.replace("-", "---").replace("--", "++"))',
+        'log(value.replace("-", ""))',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('value', 'a-b-c');
+
+      const debug = new Debug();
+
+      const output = [
+        'a-b-c',
+        'a-b-c',
+        'a=b=c',
+        'a#b#c',
+        'A-b-c',
+        'a-b-c',
+        'a--b--c',
+        'a++-b++-c',
+        'abc',
+      ];
+
+      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
+    });
+
+    it('filter()', () => {
+      const input = [
+        'log(values.filter(">", 200).join("_"))',
+        'log(values.filter("<", 200).join("_"))',
+        'log(values.filter(">=", 200).join("_"))',
+        'log(values.filter("<=", 200).join("_"))',
+        'log(values.filter("=", 200).join("_"))',
+        'log(values.filter("!=", 200).join("_"))',
+      ].join('\n');
+
+      const scope = new Scope();
+      scope.addVariable('values', [100, 200, 300]);
+
+      const debug = new Debug();
+
+      const output = [
+        '300',
+        '100',
+        '200_300',
+        '100_200',
+        '200',
+        '100_300',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
