@@ -1,12 +1,12 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
-const MethodManager = require('../../src/method/method-manager');
-const parser = require('../../src/method/format1');
+const Manager = require('../../src/method1/format1-manager');
+const parser = require('../../src/method1/format1');
 
-describe('MethodManager', () => {
+describe('method - format1', () => {
   const validate = (input) => {
     try {
-      new MethodManager().validate(variables, parser.parse(input));
+      new Manager().validate(variables, parser.parse(input));
       return true;
     } catch (e) {
       return e.message;
@@ -15,7 +15,7 @@ describe('MethodManager', () => {
 
   const invoke = (input) => {
     try {
-      return new MethodManager().invoke(variables, parser.parse(input));
+      return new Manager().invoke(variables, parser.parse(input));
     } catch (e) {
       return e.message;
     }
