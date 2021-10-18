@@ -253,6 +253,8 @@ describe('loop - format2', () => {
         'log(values.filter("<", 200).join("_"))',
         'log(values.filter(">=", 200).join("_"))',
         'log(values.filter("<=", 200).join("_"))',
+        'log(values.filter("=", 200).join("_"))',
+        'log(values.filter("!=", 200).join("_"))',
       ].join('\n');
 
       const scope = new Scope();
@@ -265,11 +267,12 @@ describe('loop - format2', () => {
         '100',
         '200_300',
         '100_200',
+        '200',
+        '100_300',
       ];
 
       assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
-
   });
 
   describe('debug - error', () => {

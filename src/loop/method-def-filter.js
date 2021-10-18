@@ -34,6 +34,18 @@ class MethodDefFilter extends MethodDef {
      */
     const operand = args[1].getValue();
 
+    if (operator === '=') {
+      return new Value(value.filter((current) => {
+        return current === operand;
+      }));
+    }
+
+    if (operator === '!=') {
+      return new Value(value.filter((current) => {
+        return current !== operand;
+      }));
+    }
+
     if (operator === '>') {
       return new Value(value.filter((current) => {
         return current > operand;
