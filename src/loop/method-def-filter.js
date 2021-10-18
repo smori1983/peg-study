@@ -27,7 +27,7 @@ class MethodDefFilter extends MethodDef {
     /**
      * @type {string}
      */
-    const operator = args[0].getValue();
+    const operator = args[0].getValue().trim();
 
     /**
      * @type {*}
