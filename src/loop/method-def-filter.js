@@ -58,7 +58,7 @@ class MethodDefFilter extends MethodDef {
       }));
     }
 
-    throw new Error('Unknown operator: ' + operator);
+    throw new Error('Unknown operator: "' + operator + '"');
   }
 }
 
