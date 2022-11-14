@@ -14,14 +14,14 @@ start
   = add
 
 add
-  = left:multi _ op:[+\-] _ right:multi
+  = left:multi _ op:[+\-] _ right:add
   {
     return format(left, op, right);
   }
   / multi
 
 multi
-  = left:primary _ op:[*/] _ right:primary
+  = left:primary _ op:[*/] _ right:multi
   {
     return format(left, op, right);
   }
