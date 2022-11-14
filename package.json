@@ -20,7 +20,7 @@
     "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"
   },
   "dependencies": {
-    "chalk": "^4.1.1",
+    "chalk": "^5.1.2",
     "flatten": "^1.0.3",
     "monospace-char-width": "^1.0.1",
     "pegjs": "^0.10.0",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/pegjs": "^0.10.3",
-    "mocha": "^9.0.2",
+    "mocha": "^10.1.0",
     "watch": "^1.0.2"
   },
   "author": "",
