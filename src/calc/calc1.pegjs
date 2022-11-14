@@ -1,6 +1,9 @@
 {
   function format(left, op, right) {
-    return '(' + op + ' ' + left + ' ' + right + ')';
+    return {
+      text: op,
+      children: [left, right],
+    };
   }
   function makeInteger(o) {
     return parseInt(o.join(''), 10);
@@ -25,7 +28,10 @@ multi
   / primary
 
 primary
-  = integer
+  = i:integer
+  {
+    return format(null, i, null);
+  }
   / '(' _ a:add _ ')'
   {
     return a;
