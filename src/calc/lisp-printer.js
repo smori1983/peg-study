@@ -25,6 +25,10 @@ const visit = (node, outputs) => {
     outputs.push(' ');
     visit(node.children[1], outputs);
     outputs.push(')');
+  } else if (outputs.length === 0) {
+    outputs.push('(');
+    outputs.push(node.text);
+    outputs.push(')');
   } else {
     outputs.push(node.text);
   }
