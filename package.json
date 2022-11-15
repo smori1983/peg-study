@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "peg:compile:calc1": "pegjs src/calc/calc1.pegjs",
+    "peg:compile:lisp": "pegjs src/calc/lisp.pegjs",
     "peg:compile:calc": "pegjs src/calc/calc-parser-step1.pegjs; pegjs src/calc/calc-parser-step2.pegjs",
     "peg:compile:loop1": "pegjs src/loop1/format1.pegjs",
     "peg:compile:loop2": "pegjs src/loop2/format2.pegjs",
