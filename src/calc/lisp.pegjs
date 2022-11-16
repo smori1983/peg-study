@@ -18,7 +18,7 @@ set
   {
     return term;
   }
-  / '(' _ op:operator _ left:(integer/set) _ right:(integer/set) ')'
+  / '(' _ op:operator __ left:(integer/set) __ right:(integer/set) ')'
   {
     return format(left, op, right);
   }
@@ -34,3 +34,6 @@ integer
 
 _
   = [ \t\n\r]*
+
+__
+  = [ \t\n\r]+
