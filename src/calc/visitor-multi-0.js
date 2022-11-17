@@ -22,6 +22,13 @@ const visit = (node) => {
       node.children = [null, null];
     }
   }
+
+  if (node.text === '/') {
+    if (left.text === 0 && right.text !== 0) {
+      node.text = 0;
+      node.children = [null, null];
+    }
+  }
 };
 
 module.exports.visit = visit;
