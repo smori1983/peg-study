@@ -1,6 +1,7 @@
 {
-  function format(left, op, right) {
+  function format(type, op, left, right) {
     return {
+      type: type,
       text: op,
       children: [left, right],
     };
@@ -16,21 +17,21 @@ start
 add
   = left:multi _ op:[+\-] _ right:add
   {
-    return format(left, op, right);
+    return format('add', op, left, right);
   }
   / multi
 
 multi
   = left:primary _ op:[*/] _ right:multi
   {
-    return format(left, op, right);
+    return format('multi', op, left, right);
   }
   / primary
 
 primary
   = i:integer
   {
-    return format(null, i, null);
+    return format('number', i, null, null);
   }
   / '(' _ a:add _ ')'
   {
