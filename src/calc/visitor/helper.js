@@ -12,4 +12,15 @@ const createNode = (type, text, children) => {
   }
 }
 
+/**
+ * @param {Object} target
+ * @param {Object} replacer
+ */
+const replaceNode = (target, replacer) => {
+  target.type = replacer.type;
+  target.text = replacer.text;
+  target.children = replacer.children;
+};
+
 module.exports.createNode = createNode;
+module.exports.replaceNode = replaceNode;
