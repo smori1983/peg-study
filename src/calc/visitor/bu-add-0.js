@@ -32,15 +32,7 @@ const visit = (node) => {
   }
 
   if (node.text === '-') {
-    if (left.text - right.text === 0) {
-      node.text = 0;
-      node.children = [null, null];
-    }
-    else if (left.text === 0) {
-      node.text = -(right.text);
-      node.children = right.children;
-    }
-    else if (right.text === 0) {
+    if (right.text === 0) {
       node.text = left.text;
       node.children = left.children;
     }
