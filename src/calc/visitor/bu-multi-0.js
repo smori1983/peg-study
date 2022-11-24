@@ -1,3 +1,5 @@
+const helper = require('./helper');
+
 /**
  * Term rewriting
  *
@@ -18,15 +20,13 @@ const visit = (node) => {
 
   if (node.text === '*') {
     if (left.text === 0 || right.text === 0) {
-      node.text = 0;
-      node.children = [null, null];
+      helper.replaceNode(node, helper.createNode('number', 0, [null, null]));
     }
   }
 
   if (node.text === '/') {
     if (left.text === 0 && right.text !== 0) {
-      node.text = 0;
-      node.children = [null, null];
+      helper.replaceNode(node, helper.createNode('number', 0, [null, null]));
     }
   }
 };

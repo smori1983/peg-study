@@ -1,3 +1,5 @@
+const helper = require('./helper');
+
 /**
  * Term rewriting
  *
@@ -21,9 +23,9 @@ const visit = (node) => {
     if (typeof commonOperand === 'number') {
       rewrite(left, commonOperand);
       rewrite(right, commonOperand);
-      const newNode = createNode('*', [
-        createNode(commonOperand, [null, null]),
-        createNode('+', [left, right]),
+      const newNode = helper.createNode('multi', '*', [
+        helper.createNode('number', commonOperand, [null, null]),
+        helper.createNode('add', '+', [left, right]),
       ]);
       node.text = newNode.text;
       node.children = newNode.children;
@@ -47,7 +49,7 @@ const collectMultiOperands = (node) => {
   }
 
   return result;
-}
+};
 
 /**
  * @param {number[]} operands1
@@ -58,7 +60,7 @@ const findCommonOperand = (operands1, operands2) => {
   const common = operands1.filter(value => operands2.includes(value));
 
   return (common.length > 0) ? common[0] : null;
-}
+};
 
 const rewrite = (node, target) => {
   rewriteVisit(node, {
@@ -75,14 +77,10 @@ const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.text === '*') {
       if (node.children[0].text === data.target) {
-        const opposite = node.children[1];
-        node.text = opposite.text;
-        node.children = opposite.children;
+        helper.replaceNode(node, node.children[1]);
         data.done = true;
       } else if (node.children[1].text === data.target) {
-        const opposite = node.children[0];
-        node.text = opposite.text;
-        node.children = opposite.children;
+        helper.replaceNode(node, node.children[0]);
         data.done = true;
       } else {
         rewriteVisit(node.children[0], data);
@@ -90,13 +88,6 @@ const rewriteVisit = (node, data) => {
       }
     }
   }
-}
-
-const createNode = (text, children) => {
-  return {
-    text,
-    children,
-  };
 };
 
 module.exports.visit = visit;
