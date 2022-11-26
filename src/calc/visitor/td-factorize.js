@@ -16,15 +16,15 @@ const visit = (node) => {
   const right = node.children[1];
 
   if (node.text === '+' && left.text === '*' && right.text === '*') {
-    const operandsLeft = collectMultiOperands(left);
-    const operandsRight = collectMultiOperands(right);
-    const commonOperand = findCommonOperand(operandsLeft, operandsRight);
+    const subtreeLeft = collectSubtree(left);
+    const subtreeRight = collectSubtree(right);
+    const commonSubtree = findCommonSubtree(subtreeLeft, subtreeRight);
 
-    if (typeof commonOperand === 'number') {
-      rewrite(left, commonOperand);
-      rewrite(right, commonOperand);
+    if (commonSubtree !== null) {
+      rewrite(left, commonSubtree);
+      rewrite(right, commonSubtree);
       const newNode = helper.createNode('multi', '*', [
-        helper.createNode('number', commonOperand, [null, null]),
+        commonSubtree,
         helper.createNode('add', '+', [left, right]),
       ]);
       helper.replaceNode(node, newNode);
@@ -37,56 +37,63 @@ const visit = (node) => {
 
 /**
  * @param {Object} node
- * @return {number[]}
+ * @return {string[]}
  */
-const collectMultiOperands = (node) => {
+const collectSubtree = (node) => {
   let result = [];
 
   if (node !== null) {
-    if (typeof node.text === 'number') {
-      result.push(node.text);
-    } else if (node.text === '*') {
-      result = result.concat(collectMultiOperands(node.children[0]));
-      result = result.concat(collectMultiOperands(node.children[1]));
+    if (node.text === '*') {
+      result.push(node.children[0]);
+      result = result.concat(collectSubtree(node.children[0]));
+
+      result.push(node.children[1]);
+      result = result.concat(collectSubtree(node.children[1]));
     }
   }
 
   return result;
-};
+}
 
 /**
- * @param {number[]} operands1
- * @param {number[]} operands2
- * @return {number|null}
+ * @param {string[]} subtree1
+ * @param {string[]} subtree2
+ * @return {string|null}
  */
-const findCommonOperand = (operands1, operands2) => {
-  const common = operands1.filter(value => operands2.includes(value));
+const findCommonSubtree = (subtree1, subtree2) => {
+  for (let i1 = 0; i1 < subtree1.length; i1++) {
+    for (let i2 = 0; i2 < subtree2.length; i2++) {
+      if (helper.toLisp(subtree1[i1]) === helper.toLisp(subtree2[i2])) {
+        return subtree1[i1];
+      }
+    }
+  }
 
-  return (common.length > 0) ? common[0] : null;
+  return null;
 };
 
 /**
  * @param {Object} node
- * @param {number} target
+ * @param {Object} subtree
  */
-const rewrite = (node, target) => {
+const rewrite = (node, subtree) => {
   rewriteVisit(node, {
-    target: target,
+    target: helper.toLisp(subtree),
     done: false,
   });
 };
 
 /**
  * @param {Object} node
- * @param {{target: number, done: boolean}} data
+ * @param {{target: string, done: boolean}} data
  */
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.text === '*') {
-      if (node.children[0].text === data.target) {
+      if (helper.toLisp(node.children[0]) === data.target) {
         helper.replaceNode(node, node.children[1]);
         data.done = true;
-      } else if (node.children[1].text === data.target) {
+      } else if (helper.toLisp(node.children[1]) === data.target) {
         helper.replaceNode(node, node.children[0]);
         data.done = true;
       } else {
