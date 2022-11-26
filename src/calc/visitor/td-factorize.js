@@ -27,8 +27,7 @@ const visit = (node) => {
         helper.createNode('number', commonOperand, [null, null]),
         helper.createNode('add', '+', [left, right]),
       ]);
-      node.text = newNode.text;
-      node.children = newNode.children;
+      helper.replaceNode(node, newNode);
     }
   }
 
