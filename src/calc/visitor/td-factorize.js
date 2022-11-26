@@ -35,6 +35,10 @@ const visit = (node) => {
   visit(node.children[1]);
 };
 
+/**
+ * @param {Object} node
+ * @return {number[]}
+ */
 const collectMultiOperands = (node) => {
   let result = [];
 
@@ -61,6 +65,10 @@ const findCommonOperand = (operands1, operands2) => {
   return (common.length > 0) ? common[0] : null;
 };
 
+/**
+ * @param {Object} node
+ * @param {number} target
+ */
 const rewrite = (node, target) => {
   rewriteVisit(node, {
     target: target,
