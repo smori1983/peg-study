@@ -15,7 +15,7 @@ const visit = (node) => {
   const left = node.children[0];
   const right = node.children[1];
 
-  if (node.text === '+' && left.text === '*' && right.text === '*') {
+  if (node.text === '+' && left.type === 'multi' && right.type === 'multi') {
     const subtreeLeft = collectSubtree(left);
     const subtreeRight = collectSubtree(right);
     const commonSubtree = findCommonSubtree(subtreeLeft, subtreeRight);
@@ -45,9 +45,11 @@ const collectSubtree = (node) => {
   if (node !== null) {
     if (node.text === '*') {
       result.push(node.children[0]);
-      result = result.concat(collectSubtree(node.children[0]));
-
       result.push(node.children[1]);
+    }
+
+    if (node.type === 'multi') {
+      result = result.concat(collectSubtree(node.children[0]));
       result = result.concat(collectSubtree(node.children[1]));
     }
   }
@@ -89,7 +91,7 @@ const rewrite = (node, subtree) => {
  */
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
-    if (node.text === '*') {
+    if (node.type === 'multi') {
       if (helper.toLisp(node.children[0]) === data.target) {
         helper.replaceNode(node, node.children[1]);
         data.done = true;
