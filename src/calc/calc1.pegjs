@@ -15,27 +15,29 @@ start
   = add
 
 add
-  = left:multi _ op:[+\-] _ right:add
+  = head:multi tail:(_ ('+' / '-') _ multi)*
   {
-    return format('add', op, left, right);
+    return tail.reduce(function(result, element) {
+      return format('add', element[1], result, element[3]);
+    }, head);
   }
-  / multi
 
 multi
-  = left:primary _ op:[*/] _ right:multi
+  = head:primary tail:(_ ('*' / '/') _ primary)*
   {
-    return format('multi', op, left, right);
+    return tail.reduce(function(result, element) {
+      return format('multi', element[1], result, element[3]);
+    }, head);
   }
-  / primary
 
 primary
-  = i:integer
-  {
-    return format('number', i, null, null);
-  }
-  / '(' _ a:add _ ')'
+  = '(' _ a:add _ ')'
   {
     return a;
+  }
+  / i:integer
+  {
+    return format('number', i, null, null);
   }
 
 integer
