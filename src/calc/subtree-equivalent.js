@@ -20,11 +20,11 @@ const foo = (node, list) => {
   if (node.text === '+') {
     add('+', node.children[0], list);
     add('+', node.children[1], list);
-  }
-
-  if (node.text === '-') {
+  } else if (node.text === '-') {
     add('+', node.children[0], list);
     add('-', node.children[1], list);
+  } else {
+    add('+', node, list);
   }
 };
 
