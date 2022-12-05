@@ -9,6 +9,9 @@ const execute = (node) => {
 
   foo(node, list);
 
+  list['+'].sort();
+  list['-'].sort();
+
   return list;
 };
 
@@ -43,6 +46,9 @@ const executeMulti = (node) => {
   const list = {'*': [], '/': []};
 
   fooMulti(node, list);
+
+  list['*'].sort();
+  list['/'].sort();
 
   return list;
 };
