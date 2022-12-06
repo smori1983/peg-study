@@ -1,5 +1,13 @@
 /**
  * @param {Object} node
+ * @return {Object}
+ */
+const get = (node) => {
+  return addOperatorProcess(node);
+};
+
+/**
+ * @param {Object} node
  */
 const addOperatorProcess = (node) => {
   const list = {
@@ -83,4 +91,4 @@ const multiOperatorVisitChild = (operator, node, list, divisionCount) => {
   }
 };
 
-module.exports.execute = addOperatorProcess;
+module.exports.get = get;
