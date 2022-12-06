@@ -16,10 +16,6 @@ const execute = (node) => {
 };
 
 const foo = (node, list) => {
-  if (node === null) {
-    return;
-  }
-
   if (node.text === '+') {
     add('+', node.children[0], list);
     add('+', node.children[1], list);
@@ -54,10 +50,6 @@ const executeMulti = (node) => {
 };
 
 const fooMulti = (node, list, divisionCount) => {
-  if (node === null) {
-    return;
-  }
-
   if (node.text === '*') {
     if (divisionCount % 2 === 0) {
       multi('*', node.children[0], list, divisionCount);
