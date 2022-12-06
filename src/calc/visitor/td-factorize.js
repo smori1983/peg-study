@@ -1,4 +1,5 @@
 const helper = require('./helper');
+const subtreeHelper = require('../helper/subtree');
 
 /**
  * Term rewriting
@@ -65,7 +66,7 @@ const collectSubtree = (node) => {
 const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
     for (let i2 = 0; i2 < subtree2.length; i2++) {
-      if (helper.toLisp(subtree1[i1]) === helper.toLisp(subtree2[i2])) {
+      if (subtreeHelper.toLisp(subtree1[i1]) === subtreeHelper.toLisp(subtree2[i2])) {
         return subtree1[i1];
       }
     }
@@ -80,7 +81,7 @@ const findCommonSubtree = (subtree1, subtree2) => {
  */
 const rewrite = (node, subtree) => {
   rewriteVisit(node, {
-    target: helper.toLisp(subtree),
+    target: subtreeHelper.toLisp(subtree),
     done: false,
   });
 };
@@ -92,10 +93,10 @@ const rewrite = (node, subtree) => {
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
-      if (helper.toLisp(node.children[0]) === data.target) {
+      if (subtreeHelper.toLisp(node.children[0]) === data.target) {
         helper.replaceNode(node, node.children[1]);
         data.done = true;
-      } else if (helper.toLisp(node.children[1]) === data.target) {
+      } else if (subtreeHelper.toLisp(node.children[1]) === data.target) {
         helper.replaceNode(node, node.children[0]);
         data.done = true;
       } else {
