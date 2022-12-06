@@ -67,13 +67,12 @@ const fooMulti = (node, list, divisionCount) => {
       multi('/', node.children[1], list, divisionCount);
     }
   } else if (node.text === '/') {
-    divisionCount++;
     if (divisionCount % 2 === 0) {
-      multi('/', node.children[0], list, divisionCount);
-      multi('*', node.children[1], list, divisionCount);
-    } else {
       multi('*', node.children[0], list, divisionCount);
-      multi('/', node.children[1], list, divisionCount);
+      multi('/', node.children[1], list, divisionCount + 1);
+    } else {
+      multi('/', node.children[0], list, divisionCount);
+      multi('*', node.children[1], list, divisionCount + 1);
     }
   }
 };
