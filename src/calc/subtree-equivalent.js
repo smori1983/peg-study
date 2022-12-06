@@ -1,13 +1,13 @@
 /**
  * @param {Object} node
  */
-const execute = (node) => {
+const addOperatorProcess = (node) => {
   const list = {
     '+': [],
     '-': [],
   };
 
-  foo(node, list);
+  addOperatorVisit(node, list);
 
   list['+'].sort();
   list['-'].sort();
@@ -15,33 +15,36 @@ const execute = (node) => {
   return list;
 };
 
-const foo = (node, list) => {
+const addOperatorVisit = (node, list) => {
   if (node.text === '+') {
-    add('+', node.children[0], list);
-    add('+', node.children[1], list);
+    addOperatorVisitChild('+', node.children[0], list);
+    addOperatorVisitChild('+', node.children[1], list);
   } else if (node.text === '-') {
-    add('+', node.children[0], list);
-    add('-', node.children[1], list);
+    addOperatorVisitChild('+', node.children[0], list);
+    addOperatorVisitChild('-', node.children[1], list);
   } else {
-    add('+', node, list);
+    addOperatorVisitChild('+', node, list);
   }
 };
 
-const add = (operator, node, list) => {
+const addOperatorVisitChild = (operator, node, list) => {
   if (node.type === 'number') {
     list[operator].push(node.text);
   } else if (node.type === 'multi') {
-    const subList = executeMulti(node);
+    const subList = multiOperatorProcess(node);
     list[operator].push(subList);
   } else {
-    foo(node, list);
+    addOperatorVisit(node, list);
   }
 };
 
-const executeMulti = (node) => {
-  const list = {'*': [], '/': []};
+const multiOperatorProcess = (node) => {
+  const list = {
+    '*': [],
+    '/': [],
+  };
 
-  fooMulti(node, list, 0);
+  multiOperatorVisit(node, list, 0);
 
   list['*'].sort();
   list['/'].sort();
@@ -49,35 +52,35 @@ const executeMulti = (node) => {
   return list;
 };
 
-const fooMulti = (node, list, divisionCount) => {
+const multiOperatorVisit = (node, list, divisionCount) => {
   if (node.text === '*') {
     if (divisionCount % 2 === 0) {
-      multi('*', node.children[0], list, divisionCount);
-      multi('*', node.children[1], list, divisionCount);
+      multiOperatorVisitChild('*', node.children[0], list, divisionCount);
+      multiOperatorVisitChild('*', node.children[1], list, divisionCount);
     } else {
-      multi('/', node.children[0], list, divisionCount);
-      multi('/', node.children[1], list, divisionCount);
+      multiOperatorVisitChild('/', node.children[0], list, divisionCount);
+      multiOperatorVisitChild('/', node.children[1], list, divisionCount);
     }
   } else if (node.text === '/') {
     if (divisionCount % 2 === 0) {
-      multi('*', node.children[0], list, divisionCount);
-      multi('/', node.children[1], list, divisionCount + 1);
+      multiOperatorVisitChild('*', node.children[0], list, divisionCount);
+      multiOperatorVisitChild('/', node.children[1], list, divisionCount + 1);
     } else {
-      multi('/', node.children[0], list, divisionCount);
-      multi('*', node.children[1], list, divisionCount + 1);
+      multiOperatorVisitChild('/', node.children[0], list, divisionCount);
+      multiOperatorVisitChild('*', node.children[1], list, divisionCount + 1);
     }
   }
 };
 
-const multi = (operator, node, list, divisionCount) => {
+const multiOperatorVisitChild = (operator, node, list, divisionCount) => {
   if (node.type === 'number') {
     list[operator].push(node.text);
   } else if (node.type === 'multi') {
-    fooMulti(node, list, divisionCount);
+    multiOperatorVisit(node, list, divisionCount);
   } else {
-    const subList = execute(node);
+    const subList = addOperatorProcess(node);
     list[operator].push(subList);
   }
 };
 
-module.exports.execute = execute;
+module.exports.execute = addOperatorProcess;
