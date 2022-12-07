@@ -17,8 +17,8 @@ const addOperatorProcess = (node) => {
 
   addOperatorVisit(node, list, 0);
 
-  list['+'].sort();
-  list['-'].sort();
+  list['+'].sort(sortListItems);
+  list['-'].sort(sortListItems);
 
   return list;
 };
@@ -64,8 +64,8 @@ const multiOperatorProcess = (node) => {
 
   multiOperatorVisit(node, list, 0);
 
-  list['*'].sort();
-  list['/'].sort();
+  list['*'].sort(sortListItems);
+  list['/'].sort(sortListItems);
 
   return list;
 };
@@ -99,6 +99,15 @@ const multiOperatorVisitChild = (operator, node, list, divisionCount) => {
     const subList = addOperatorProcess(node);
     list[operator].push(subList);
   }
+};
+
+/**
+ * @param {number|Object} a
+ * @param {number|Object} b
+ * @return {number}
+ */
+const sortListItems = (a, b) => {
+  return JSON.stringify(a) > JSON.stringify(b) ? 1 : -1;
 };
 
 module.exports.get = get;
