@@ -15,7 +15,7 @@ const addOperatorProcess = (node) => {
     '-': [],
   };
 
-  addOperatorVisit(node, list);
+  addOperatorVisit(node, list, 0);
 
   list['+'].sort();
   list['-'].sort();
@@ -23,26 +23,36 @@ const addOperatorProcess = (node) => {
   return list;
 };
 
-const addOperatorVisit = (node, list) => {
+const addOperatorVisit = (node, list, subtractionCount) => {
   if (node.text === '+') {
-    addOperatorVisitChild('+', node.children[0], list);
-    addOperatorVisitChild('+', node.children[1], list);
+    if (subtractionCount % 2 === 0) {
+      addOperatorVisitChild('+', node.children[0], list, subtractionCount);
+      addOperatorVisitChild('+', node.children[1], list, subtractionCount);
+    } else {
+      addOperatorVisitChild('-', node.children[0], list, subtractionCount);
+      addOperatorVisitChild('-', node.children[1], list, subtractionCount);
+    }
   } else if (node.text === '-') {
-    addOperatorVisitChild('+', node.children[0], list);
-    addOperatorVisitChild('-', node.children[1], list);
+    if (subtractionCount % 2 === 0) {
+      addOperatorVisitChild('+', node.children[0], list, subtractionCount);
+      addOperatorVisitChild('-', node.children[1], list, subtractionCount + 1);
+    } else {
+      addOperatorVisitChild('-', node.children[0], list, subtractionCount);
+      addOperatorVisitChild('+', node.children[1], list, subtractionCount + 1);
+    }
   } else {
-    addOperatorVisitChild('+', node, list);
+    addOperatorVisitChild('+', node, list, subtractionCount);
   }
 };
 
-const addOperatorVisitChild = (operator, node, list) => {
+const addOperatorVisitChild = (operator, node, list, subtractionCount) => {
   if (node.type === 'number') {
     list[operator].push(node.text);
   } else if (node.type === 'multi') {
     const subList = multiOperatorProcess(node);
     list[operator].push(subList);
   } else {
-    addOperatorVisit(node, list);
+    addOperatorVisit(node, list, subtractionCount);
   }
 };
 
