@@ -1,4 +1,4 @@
-const helper = require('./helper');
+const nodeHelper = require('../helper/node');
 const subtreeHelper = require('../helper/subtree');
 
 /**
@@ -24,11 +24,11 @@ const visit = (node) => {
     if (commonSubtree !== null) {
       rewrite(left, commonSubtree);
       rewrite(right, commonSubtree);
-      const newNode = helper.createNode('multi', '*', [
+      const newNode = nodeHelper.create('multi', '*', [
         commonSubtree,
-        helper.createNode('add', '+', [left, right]),
+        nodeHelper.create('add', '+', [left, right]),
       ]);
-      helper.replaceNode(node, newNode);
+      nodeHelper.replace(node, newNode);
     }
   }
 
@@ -94,10 +94,10 @@ const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
       if (subtreeHelper.toLisp(node.children[0]) === data.target) {
-        helper.replaceNode(node, node.children[1]);
+        nodeHelper.replace(node, node.children[1]);
         data.done = true;
       } else if (subtreeHelper.toLisp(node.children[1]) === data.target) {
-        helper.replaceNode(node, node.children[0]);
+        nodeHelper.replace(node, node.children[0]);
         data.done = true;
       } else {
         rewriteVisit(node.children[0], data);

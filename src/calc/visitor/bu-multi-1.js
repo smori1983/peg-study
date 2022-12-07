@@ -1,4 +1,4 @@
-const helper = require('./helper');
+const nodeHelper = require('../helper/node');
 
 /**
  * Term rewriting
@@ -20,9 +20,9 @@ const visit = (node) => {
 
   if (node.text === '*') {
     if (left.text === 1) {
-      helper.replaceNode(node, right);
+      nodeHelper.replace(node, right);
     } else if (right.text === 1) {
-      helper.replaceNode(node, left);
+      nodeHelper.replace(node, left);
     }
   }
 };
