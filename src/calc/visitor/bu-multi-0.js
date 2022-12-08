@@ -23,7 +23,7 @@ const visit = (node) => {
       nodeHelper.replace(node, nodeHelper.create('number', 0, [null, null]));
     }
   } else if (node.text === '/') {
-    if (left.text === 0 && right.text !== 0) {
+    if (left.text === 0 && (right.type === 'number' && right.text !== 0)) {
       nodeHelper.replace(node, nodeHelper.create('number', 0, [null, null]));
     }
   }
