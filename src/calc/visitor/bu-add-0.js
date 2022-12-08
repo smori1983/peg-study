@@ -21,16 +21,12 @@ const visit = (node) => {
   if (node.text === '+') {
     if (left.text === 0 && right.text === 0) {
       nodeHelper.replace(node, nodeHelper.create('number', 0, [null, null]));
-    }
-    else if (left.text === 0) {
+    } else if (left.text === 0) {
       nodeHelper.replace(node, right);
-    }
-    else if (right.text === 0) {
+    } else if (right.text === 0) {
       nodeHelper.replace(node, left);
     }
-  }
-
-  if (node.text === '-') {
+  } else if (node.text === '-') {
     if (right.text === 0) {
       nodeHelper.replace(node, left);
     }
