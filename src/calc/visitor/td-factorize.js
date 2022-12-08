@@ -61,7 +61,7 @@ const collectSubtree = (node) => {
 /**
  * @param {string[]} subtree1
  * @param {string[]} subtree2
- * @return {string|null}
+ * @return {(string|null)}
  */
 const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
