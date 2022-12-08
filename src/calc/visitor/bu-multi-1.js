@@ -24,6 +24,10 @@ const visit = (node) => {
     } else if (right.text === 1) {
       nodeHelper.replace(node, left);
     }
+  } else if (node.text === '/') {
+    if (right.text === 1) {
+      nodeHelper.replace(node, left);
+    }
   }
 };
 
