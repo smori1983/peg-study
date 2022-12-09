@@ -66,9 +66,7 @@ const collectSubtree = (node) => {
 const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
     for (let i2 = 0; i2 < subtree2.length; i2++) {
-      const digest1 = JSON.stringify(subtreeHelper.getDigest(subtree1[i1]));
-      const digest2 = JSON.stringify(subtreeHelper.getDigest(subtree2[i2]));
-      if (digest1 === digest2) {
+      if (subtreeHelper.equal(subtree1[i1], subtree2[i2])) {
         return subtree1[i1];
       }
     }
@@ -83,22 +81,22 @@ const findCommonSubtree = (subtree1, subtree2) => {
  */
 const rewrite = (node, subtree) => {
   rewriteVisit(node, {
-    target: JSON.stringify(subtreeHelper.getDigest(subtree)),
+    target: subtree,
     done: false,
   });
 };
 
 /**
  * @param {Object} node
- * @param {{target: string, done: boolean}} data
+ * @param {{target: Object, done: boolean}} data
  */
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
-      if (JSON.stringify(subtreeHelper.getDigest(node.children[0])) === data.target) {
+      if (subtreeHelper.equal(node.children[0], data.target)) {
         nodeHelper.replace(node, node.children[1]);
         data.done = true;
-      } else if (JSON.stringify(subtreeHelper.getDigest(node.children[1])) === data.target) {
+      } else if (subtreeHelper.equal(node.children[1], data.target)) {
         nodeHelper.replace(node, node.children[0]);
         data.done = true;
       } else {

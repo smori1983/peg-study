@@ -10,6 +10,18 @@ module.exports.getDigest = (node) => {
 };
 
 /**
+ * @param {Object} node1
+ * @param {Object} node2
+ * @return {boolean}
+ */
+module.exports.equal = (node1, node2) => {
+  const digest1 = JSON.stringify(digest.get(node1));
+  const digest2 = JSON.stringify(digest.get(node2));
+
+  return digest1 === digest2;
+};
+
+/**
  * @param {Object} node
  * @return {string}
  */
