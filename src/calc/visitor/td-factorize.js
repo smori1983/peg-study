@@ -38,7 +38,7 @@ const visit = (node) => {
 
 /**
  * @param {Object} node
- * @return {string[]}
+ * @return {Object[]}
  */
 const collectSubtree = (node) => {
   let result = [];
@@ -59,9 +59,9 @@ const collectSubtree = (node) => {
 }
 
 /**
- * @param {string[]} subtree1
- * @param {string[]} subtree2
- * @return {(string|null)}
+ * @param {Object[]} subtree1
+ * @param {Object[]} subtree2
+ * @return {(Object|null)}
  */
 const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
