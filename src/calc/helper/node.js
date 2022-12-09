@@ -10,7 +10,7 @@ const create = (type, text, children) => {
     text,
     children,
   }
-}
+};
 
 /**
  * @param {Object} target

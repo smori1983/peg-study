@@ -7,7 +7,7 @@ const lisp = require('./subtree-lisp');
  */
 module.exports.getDigest = (node) => {
   return digest.get(node);
-}
+};
 
 /**
  * @param {Object} node
@@ -15,4 +15,4 @@ module.exports.getDigest = (node) => {
  */
 module.exports.toLisp = (node) => {
   return lisp.get(node);
-}
+};
