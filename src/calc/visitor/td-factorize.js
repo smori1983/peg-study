@@ -56,7 +56,7 @@ const collectSubtree = (node) => {
   }
 
   return result;
-}
+};
 
 /**
  * @param {Object[]} subtree1
