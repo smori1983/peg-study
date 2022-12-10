@@ -37,10 +37,20 @@ const visit = (node) => {
 };
 
 /**
+ * Collect whole subtree and child subtrees.
+ *
  * @param {Object} node
  * @return {Object[]}
  */
 const collectSubtree = (node) => {
+  return [node].concat(collectSubtreeInternal(node));
+};
+
+/**
+ * @param {Object} node
+ * @return {Object[]}
+ */
+const collectSubtreeInternal = (node) => {
   let result = [];
 
   if (node !== null) {
@@ -50,8 +60,8 @@ const collectSubtree = (node) => {
     }
 
     if (node.type === 'multi') {
-      result = result.concat(collectSubtree(node.children[0]));
-      result = result.concat(collectSubtree(node.children[1]));
+      result = result.concat(collectSubtreeInternal(node.children[0]));
+      result = result.concat(collectSubtreeInternal(node.children[1]));
     }
   }
 
@@ -67,7 +77,8 @@ const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
     for (let i2 = 0; i2 < subtree2.length; i2++) {
       if (subtreeHelper.equal(subtree1[i1], subtree2[i2])) {
-        return subtree1[i1];
+        // If found, return object duplicated from first subtree.
+        return JSON.parse(JSON.stringify(subtree1[i1]));
       }
     }
   }
@@ -99,7 +110,10 @@ const rewrite = (node, subtree) => {
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
-      if (subtreeHelper.equal(node.children[0], data.target)) {
+      if (subtreeHelper.equal(node, data.target)) {
+        nodeHelper.replace(node, nodeHelper.create('number', 1, [null, null]));
+        data.done = true;
+      } else if (subtreeHelper.equal(node.children[0], data.target)) {
         nodeHelper.replace(node, node.children[1]);
         data.done = true;
       } else if (subtreeHelper.equal(node.children[1], data.target)) {
