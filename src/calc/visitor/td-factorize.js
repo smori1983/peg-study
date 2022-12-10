@@ -80,10 +80,16 @@ const findCommonSubtree = (subtree1, subtree2) => {
  * @param {Object} subtree
  */
 const rewrite = (node, subtree) => {
-  rewriteVisit(node, {
+  const data = {
     target: subtree,
     done: false,
-  });
+  };
+
+  rewriteVisit(node, data);
+
+  if (data.done === false) {
+    throw new Error('Term rewriting failed, something wrong.');
+  }
 };
 
 /**
