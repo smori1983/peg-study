@@ -14,7 +14,7 @@ module.exports.getDigest = (node) => {
  * @param {Object} node2
  * @return {boolean}
  */
-module.exports.equal = (node1, node2) => {
+module.exports.equalDigest = (node1, node2) => {
   const digest1 = JSON.stringify(digest.get(node1));
   const digest2 = JSON.stringify(digest.get(node2));
 
