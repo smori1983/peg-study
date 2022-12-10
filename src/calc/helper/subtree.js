@@ -2,6 +2,14 @@ const digest = require('./subtree-digest');
 const lisp = require('./subtree-lisp');
 
 /**
+ * @param {Object} subtree
+ * @return {Object}
+ */
+module.exports.duplicate = (subtree) => {
+  return JSON.parse(JSON.stringify(subtree));
+};
+
+/**
  * @param {Object} node
  * @return {Object}
  */
