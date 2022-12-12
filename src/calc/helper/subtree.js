@@ -1,14 +1,6 @@
 const digest = require('./subtree-digest');
 
 /**
- * @param {Object} subtree
- * @return {Object}
- */
-module.exports.duplicate = (subtree) => {
-  return JSON.parse(JSON.stringify(subtree));
-};
-
-/**
  * @param {Object} node
  * @return {Object}
  */

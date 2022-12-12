@@ -22,5 +22,14 @@ const replace = (target, replacer) => {
   target.children = replacer.children;
 };
 
+/**
+ * @param {Object} node
+ * @return {Object}
+ */
+const duplicate = (node) => {
+  return JSON.parse(JSON.stringify(node));
+}
+
 module.exports.create = create;
 module.exports.replace = replace;
+module.exports.duplicate = duplicate;

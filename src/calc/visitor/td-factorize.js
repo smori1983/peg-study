@@ -78,7 +78,7 @@ const findCommonSubtree = (subtree1, subtree2) => {
     for (let i2 = 0; i2 < subtree2.length; i2++) {
       if (subtreeHelper.equalDigest(subtree1[i1], subtree2[i2])) {
         // If found, return object duplicated from first subtree.
-        return subtreeHelper.duplicate(subtree1[i1]);
+        return nodeHelper.duplicate(subtree1[i1]);
       }
     }
   }
