@@ -4,7 +4,7 @@
  * @param {Object} node
  * @return {string}
  */
-const run = (node) => {
+const get = (node) => {
   const outputs = [];
 
   visit(node, outputs);
@@ -34,4 +34,4 @@ const visit = (node, outputs) => {
   }
 };
 
-module.exports.run = run;
+module.exports.get = get;
