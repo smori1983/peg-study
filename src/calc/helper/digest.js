@@ -7,6 +7,18 @@ const get = (node) => {
 };
 
 /**
+ * @param {Object} node1
+ * @param {Object} node2
+ * @return {boolean}
+ */
+const equal = (node1, node2) => {
+  const digest1 = JSON.stringify(get(node1));
+  const digest2 = JSON.stringify(get(node2));
+
+  return digest1 === digest2;
+};
+
+/**
  * @param {Object} node
  */
 const addOperatorProcess = (node) => {
@@ -111,3 +123,4 @@ const sortListItems = (a, b) => {
 };
 
 module.exports.get = get;
+module.exports.equal = equal;

@@ -1,5 +1,5 @@
 const nodeHelper = require('../helper/node');
-const subtreeHelper = require('../helper/subtree');
+const digest = require('../helper/digest');
 
 /**
  * Term rewriting
@@ -76,7 +76,7 @@ const collectSubtreeInternal = (node) => {
 const findCommonSubtree = (subtree1, subtree2) => {
   for (let i1 = 0; i1 < subtree1.length; i1++) {
     for (let i2 = 0; i2 < subtree2.length; i2++) {
-      if (subtreeHelper.equalDigest(subtree1[i1], subtree2[i2])) {
+      if (digest.equal(subtree1[i1], subtree2[i2])) {
         // If found, return object duplicated from first subtree.
         return nodeHelper.duplicate(subtree1[i1]);
       }
@@ -110,13 +110,13 @@ const rewrite = (node, subtree) => {
 const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
-      if (subtreeHelper.equalDigest(node, data.target)) {
+      if (digest.equal(node, data.target)) {
         nodeHelper.replace(node, nodeHelper.create('number', 1, [null, null]));
         data.done = true;
-      } else if (subtreeHelper.equalDigest(node.children[0], data.target)) {
+      } else if (digest.equal(node.children[0], data.target)) {
         nodeHelper.replace(node, node.children[1]);
         data.done = true;
-      } else if (subtreeHelper.equalDigest(node.children[1], data.target)) {
+      } else if (digest.equal(node.children[1], data.target)) {
         nodeHelper.replace(node, node.children[0]);
         data.done = true;
       } else {
