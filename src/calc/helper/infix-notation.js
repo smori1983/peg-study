@@ -21,14 +21,16 @@ const visit = (node, operators, outputs) => {
       outputs.push('(');
     }
 
+    operators.push(node.text);
+
     visit(node.children[0], operators, outputs);
 
     outputs.push(' ');
     outputs.push(node.text);
     outputs.push(' ');
 
-    operators.push(node.text);
     visit(node.children[1], operators, outputs);
+
     operators.pop();
 
     if (needParenthesis(node, operators)) {
