@@ -19,37 +19,37 @@ const visit = (node, operators, outputs) => {
   if (['add', 'multi'].includes(node.type)) {
     operators.push(node.text);
 
-    const parenthesisLeft = needParenthesis('left', node.children[0], operators);
-
-    if (parenthesisLeft) {
-      outputs.push('(');
-    }
-
-    visit(node.children[0], operators, outputs);
-
-    if (parenthesisLeft) {
-      outputs.push(')');
-    }
+    visitChild('left', node.children[0], operators, outputs);
 
     outputs.push(' ');
     outputs.push(node.text);
     outputs.push(' ');
 
-    const parenthesisRight = needParenthesis('right', node.children[1], operators);
-
-    if (parenthesisRight) {
-      outputs.push('(');
-    }
-
-    visit(node.children[1], operators, outputs);
-
-    if (parenthesisRight) {
-      outputs.push(')');
-    }
+    visitChild('right', node.children[1], operators, outputs);
 
     operators.pop();
   } else if (node.type === 'number') {
     outputs.push(node.text);
+  }
+};
+
+/**
+ * @param {string} position
+ * @param {Object} node
+ * @param {string[]} operators
+ * @param {string[]} outputs
+ */
+const visitChild = (position, node, operators, outputs) => {
+  const parenthesis = needParenthesis(position, node, operators);
+
+  if (parenthesis) {
+    outputs.push('(');
+  }
+
+  visit(node, operators, outputs);
+
+  if (parenthesis) {
+    outputs.push(')');
   }
 };
 
