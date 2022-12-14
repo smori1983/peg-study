@@ -17,25 +17,37 @@ const get = (node) => {
  */
 const visit = (node, operators, outputs) => {
   if (['add', 'multi'].includes(node.type)) {
-    if (needParenthesis(node, operators)) {
+    operators.push(node.text);
+
+    const parenthesisLeft = needParenthesis(node.children[0], operators, 'left');
+
+    if (parenthesisLeft) {
       outputs.push('(');
     }
 
-    operators.push(node.text);
-
     visit(node.children[0], operators, outputs);
+
+    if (parenthesisLeft) {
+      outputs.push(')');
+    }
 
     outputs.push(' ');
     outputs.push(node.text);
     outputs.push(' ');
 
+    const parenthesisRight = needParenthesis(node.children[1], operators, 'right');
+
+    if (parenthesisRight) {
+      outputs.push('(');
+    }
+
     visit(node.children[1], operators, outputs);
 
-    operators.pop();
-
-    if (needParenthesis(node, operators)) {
+    if (parenthesisRight) {
       outputs.push(')');
     }
+
+    operators.pop();
   } else if (node.type === 'number') {
     outputs.push(node.text);
   }
@@ -44,11 +56,12 @@ const visit = (node, operators, outputs) => {
 /**
  * @param {Object} node
  * @param {string[]} operators
+ * @param {string} position
  * @return {boolean}
  */
-const needParenthesis = (node, operators) => {
+const needParenthesis = (node, operators, position) => {
   if (lookOperator(operators, 1) === '-') {
-    if (node.type === 'add') {
+    if (node.type === 'add' && position === 'right') {
       return true;
     }
   }
@@ -60,7 +73,7 @@ const needParenthesis = (node, operators) => {
   }
 
   if (lookOperator(operators, 1) === '/') {
-    if (node.type !== 'number') {
+    if (node.type !== 'number' && position === 'right') {
       return true;
     }
   }
