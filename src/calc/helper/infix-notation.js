@@ -73,7 +73,9 @@ const needParenthesis = (node, operators, position) => {
   }
 
   if (lookOperator(operators, 1) === '/') {
-    if (node.type !== 'number' && position === 'right') {
+    if (position === 'left' && node.type === 'add') {
+      return true;
+    } else if (position === 'right' && node.type !== 'number') {
       return true;
     }
   }
