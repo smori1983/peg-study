@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "test"
+  group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
