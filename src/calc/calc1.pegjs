@@ -39,10 +39,6 @@ primary
   {
     return format('number', i, null, null);
   }
-  / v:variable
-  {
-    return format('variable', v, null, null);
-  }
 
 integer
   = digits:[0-9]+
@@ -50,10 +46,5 @@ integer
     return makeInteger(digits);
   }
 
-variable
-  = chars:$([a-zA-Z][a-zA-Z0-9]*)
-  {
-    return chars;
-  }
 _
   = [ \t\n\r]*
