@@ -8,6 +8,19 @@ const buMulti0 = require('../../src/calc/visitor/bu-multi-0');
 const infixNotation = require('../../src/calc/helper/infix-notation');
 
 describe('calc2', () => {
+  describe('infix notation', () => {
+    const dataSet = require('./fixture/calc2-infix-notation');
+
+    dataSet.forEach(([input, output]) => {
+      it(`${input} = ${output}`, () => {
+        const ast = parser.parse(input);
+        const result = infixNotation.get(ast);
+
+        assert.deepStrictEqual(result, output);
+      });
+    });
+  });
+
   describe('lisp notation', () => {
     const dataSet = require('./fixture/calc2-lisp-notation');
 
