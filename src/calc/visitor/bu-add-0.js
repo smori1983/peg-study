@@ -18,16 +18,16 @@ const visit = (node) => {
   visit(left);
   visit(right);
 
-  if (node.text === '+') {
-    if (left.text === 0 && right.text === 0) {
+  if (node.type === 'add' && node.text === '+') {
+    if ((left.type === 'number' && left.text === 0) && (right.type === 'number' && right.text === 0)) {
       nodeHelper.replace(node, nodeHelper.create('number', 0, [null, null]));
-    } else if (left.text === 0) {
+    } else if (left.type === 'number' && left.text === 0) {
       nodeHelper.replace(node, right);
-    } else if (right.text === 0) {
+    } else if (right.type === 'number' && right.text === 0) {
       nodeHelper.replace(node, left);
     }
-  } else if (node.text === '-') {
-    if (right.text === 0) {
+  } else if (node.type === 'add' && node.text === '-') {
+    if (right.type === 'number' && right.text === 0) {
       nodeHelper.replace(node, left);
     }
   }
