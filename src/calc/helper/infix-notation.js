@@ -28,7 +28,7 @@ const visit = (node, operators, outputs) => {
     visitChild('right', node.children[1], operators, outputs);
 
     operators.pop();
-  } else if (node.type === 'number') {
+  } else if (['number', 'variable'].includes(node.type)) {
     outputs.push(node.text);
   }
 };
@@ -75,7 +75,7 @@ const needParenthesis = (position, node, operators) => {
   if (lookOperator(operators, 1) === '/') {
     if (position === 'left' && node.type === 'add') {
       return true;
-    } else if (position === 'right' && node.type !== 'number') {
+    } else if (position === 'right' && ['add', 'multi'].includes(node.type)) {
       return true;
     }
   }
