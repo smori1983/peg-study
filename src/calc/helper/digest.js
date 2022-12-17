@@ -58,7 +58,7 @@ const addOperatorVisit = (node, list, subtractionCount) => {
 };
 
 const addOperatorVisitChild = (operator, node, list, subtractionCount) => {
-  if (node.type === 'number') {
+  if (['number', 'variable'].includes(node.type)) {
     list[operator].push(node.text);
   } else if (node.type === 'multi') {
     const subList = multiOperatorProcess(node);
@@ -103,7 +103,7 @@ const multiOperatorVisit = (node, list, divisionCount) => {
 };
 
 const multiOperatorVisitChild = (operator, node, list, divisionCount) => {
-  if (node.type === 'number') {
+  if (['number', 'variable'].includes(node.type)) {
     list[operator].push(node.text);
   } else if (node.type === 'multi') {
     multiOperatorVisit(node, list, divisionCount);
