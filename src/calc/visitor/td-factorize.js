@@ -16,7 +16,7 @@ const visit = (node) => {
   const left = node.children[0];
   const right = node.children[1];
 
-  if (node.text === '+' && left.type === 'multi' && right.type === 'multi') {
+  if ((node.type === 'add' && node.text === '+') && left.type === 'multi' && right.type === 'multi') {
     const subtreeLeft = collectSubtree(left);
     const subtreeRight = collectSubtree(right);
     const commonSubtree = findCommonSubtree(subtreeLeft, subtreeRight);
@@ -54,12 +54,12 @@ const collectSubtreeInternal = (node) => {
   let result = [];
 
   if (node !== null) {
-    if (node.text === '*') {
-      result.push(node.children[0]);
-      result.push(node.children[1]);
-    }
-
     if (node.type === 'multi') {
+      if (node.text === '*') {
+        result.push(node.children[0]);
+        result.push(node.children[1]);
+      }
+
       result = result.concat(collectSubtreeInternal(node.children[0]));
       result = result.concat(collectSubtreeInternal(node.children[1]));
     }

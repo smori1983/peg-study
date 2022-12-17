@@ -18,14 +18,14 @@ const visit = (node) => {
   visit(left);
   visit(right);
 
-  if (node.text === '*') {
-    if (left.text === 1) {
+  if (node.type === 'multi' && node.text === '*') {
+    if (left.type === 'number' && left.text === 1) {
       nodeHelper.replace(node, right);
-    } else if (right.text === 1) {
+    } else if (right.type === 'number' && right.text === 1) {
       nodeHelper.replace(node, left);
     }
-  } else if (node.text === '/') {
-    if (right.text === 1) {
+  } else if (node.type === 'multi' && node.text === '/') {
+    if (right.type === 'number' && right.text === 1) {
       nodeHelper.replace(node, left);
     }
   }

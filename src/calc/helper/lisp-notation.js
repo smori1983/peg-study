@@ -17,7 +17,7 @@ const get = (node) => {
  * @param {string[]} outputs
  */
 const visit = (node, outputs) => {
-  if (['+', '-', '*', '/'].includes(node.text)) {
+  if (['add', 'multi'].includes(node.type)) {
     outputs.push('(');
     outputs.push(node.text);
     node.children.forEach((child) => {
