@@ -86,5 +86,30 @@ describe('calc2', () => {
         });
       });
     });
+
+    describe('combination', () => {
+      const dataSet = require('./fixture/calc2-visitor').combination;
+
+      dataSet.forEach(([input, output]) => {
+        it(`${input} = ${output}`, () => {
+          const ast1 = parser.parse(input);
+
+          buAdd0.visit(ast1);
+          buMulti0.visit(ast1);
+          buMulti1.visit(ast1);
+
+          buAdd0.visit(ast1);
+          buMulti0.visit(ast1);
+          buMulti1.visit(ast1);
+
+          const result1 = infixNotation.get(ast1);
+
+          const ast2 = parser.parse(output);
+          const result2 = infixNotation.get(ast2);
+
+          assert.deepStrictEqual(result1, result2);
+        });
+      });
+    });
   });
 });
