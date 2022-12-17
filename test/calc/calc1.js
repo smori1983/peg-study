@@ -114,7 +114,7 @@ describe('calc1', () => {
     });
 
     describe('td-factorize', () => {
-      const dataSet = require('./fixture/calc1-visitor').factorize;
+      const dataSet = require('./fixture/calc1-visitor').tdFactorize;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {

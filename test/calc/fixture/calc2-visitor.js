@@ -105,7 +105,7 @@ module.exports.combination = [
 /**
  * @type {string[][]}
  */
-module.exports.factorize = [
+module.exports.tdFactorize = [
   ['2 * 3 + 4 * 2', '2 * (3 + 4)'],
   ['2 * 3 + (2 * 3) * (5 * 2)', '(2 * 3) * (1 + 5 * 2)'],
   ['(7 + 9) * (1 + 2) + (3 + 4) * (9 + 7)', '(7 + 9) * ((1 + 2) + (3 + 4))'],
