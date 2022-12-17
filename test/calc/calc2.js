@@ -11,7 +11,7 @@ const tdFactorize = require('../../src/calc/visitor/td-factorize');
 
 describe('calc2', () => {
   describe('infix notation', () => {
-    const dataSet = require('./fixture/calc2-infix-notation');
+    const dataSet = require('./_data/calc2-infix-notation');
 
     dataSet.forEach(([input, output]) => {
       it(`${input} = ${output}`, () => {
@@ -24,7 +24,7 @@ describe('calc2', () => {
   });
 
   describe('lisp notation', () => {
-    const dataSet = require('./fixture/calc2-lisp-notation');
+    const dataSet = require('./_data/calc2-lisp-notation');
 
     dataSet.forEach(([input, output]) => {
       it(`${input} = ${output}`, () => {
@@ -38,7 +38,7 @@ describe('calc2', () => {
 
   describe('visitor', () => {
     describe('bu-add-0', () => {
-      const dataSet = require('./fixture/calc2-visitor').buAdd0;
+      const dataSet = require('./_data/calc2-visitor').buAdd0;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {
@@ -55,7 +55,7 @@ describe('calc2', () => {
     });
 
     describe('bu-multi-0', () => {
-      const dataSet = require('./fixture/calc2-visitor').buMulti0;
+      const dataSet = require('./_data/calc2-visitor').buMulti0;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {
@@ -72,7 +72,7 @@ describe('calc2', () => {
     });
 
     describe('bu-multi-1', () => {
-      const dataSet = require('./fixture/calc2-visitor').buMulti1;
+      const dataSet = require('./_data/calc2-visitor').buMulti1;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {
@@ -89,7 +89,7 @@ describe('calc2', () => {
     });
 
     describe('combination', () => {
-      const dataSet = require('./fixture/calc2-visitor').combination;
+      const dataSet = require('./_data/calc2-visitor').combination;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {
@@ -114,7 +114,7 @@ describe('calc2', () => {
     });
 
     describe('td-factorize', () => {
-      const dataSet = require('./fixture/calc2-visitor').tdFactorize;
+      const dataSet = require('./_data/calc2-visitor').tdFactorize;
 
       dataSet.forEach(([input, output]) => {
         it(`${input} = ${output}`, () => {
