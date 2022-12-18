@@ -1,17 +1,31 @@
+const Scope = require('./scope');
+
 /**
  * @param {Object} node
+ * @param {Object} [variables]
  */
-const run = (node) => {
-  return visit(node);
+const run = (node, variables) => {
+  const scope = new Scope(variables);
+
+  return visit(node, scope);
 };
 
-const visit = (node) => {
+/**
+ * @param {Object} node
+ * @param {Scope} scope
+ * @return {number}
+ */
+const visit = (node, scope) => {
   if (node.type === 'number') {
     return node.text;
   }
 
-  const left = visit(node.children[0]);
-  const right = visit(node.children[1]);
+  if (node.type === 'variable') {
+    return scope.getValue(node.text);
+  }
+
+  const left = visit(node.children[0], scope);
+  const right = visit(node.children[1], scope);
 
   if (node.type === 'add' && node.text === '+') {
     return left + right;
