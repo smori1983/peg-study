@@ -113,6 +113,7 @@ module.exports.tdFactorize = [
   ['(1 / 2) * 3 + 4 * (1 / 2)', '(1 / 2) * (3 + 4)'],
 
   // Unsupported expressions
+  ['3 * 9 + 9 * 4 * 3', '3 * (9 + 9 * 4)'],
   ['7 + (3 + 4) * 7', '7 + (3 + 4) * 7'],
   ['(1 / 2) * 3 - 4 * (1 / 2)', '(1 / 2) * 3 - 4 * (1 / 2)'],
 
@@ -123,6 +124,7 @@ module.exports.tdFactorize = [
   ['(a / b) * c + d * (a / b)', '(a / b) * (c + d)'],
 
   // Unsupported expressions
+  ['a * b + b * c * a', 'a * (b + b * c)'],
   ['a + (b + c) * a', 'a + (b + c) * a'],
   ['(a / b) * c - d * (a / b)', '(a / b) * c - d * (a / b)'],
 ];
