@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "chalk": "^5.1.2",
-    "flatten": "^1.0.3",
     "monospace-char-width": "^1.0.1",
     "pegjs": "^0.10.0",
     "sprintf-js": "^1.1.2"
