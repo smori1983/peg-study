@@ -45,6 +45,14 @@ argument
   / value_int
   / value_string_single_quote
   / value_string_double_quote
+  / v:variable m:method*
+  {
+    return toNode('variable', v, m);
+  }
+  / v:variable
+  {
+    return toNode('variable', v, []);
+  }
 
 value_bool
   = text:('true' / 'false')
