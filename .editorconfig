@@ -9,3 +9,6 @@ trim_trailing_whitespace = true
 
 [*.js]
 indent_size = 2
+
+[*.pegjs]
+indent_size = 2
