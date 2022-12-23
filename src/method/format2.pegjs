@@ -12,6 +12,9 @@
   function toInt(text) {
     return parseInt(text, 10);
   }
+  function toFloat(text) {
+    return parseFloat(text);
+  }
 }
 
 start
@@ -42,6 +45,7 @@ arguments
 
 argument
   = value_bool
+  / value_float
   / value_int
   / value_string_single_quote
   / value_string_double_quote
@@ -58,6 +62,12 @@ value_bool
   = text:('true' / 'false')
   {
     return toNode('bool', toBool(text), []);
+  }
+
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
+  {
+    return toNode('float', toFloat(text), []);
   }
 
 value_int
