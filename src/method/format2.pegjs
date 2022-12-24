@@ -30,11 +30,17 @@ variable
   }
 
 method_or_property
+  = method
+  / property
+
+method
   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
     return toNode('method', text, (args.length > 0) ? args[0] : []);
   }
-  / _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+
+property
+  = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return toNode('property', text, []);
   }
