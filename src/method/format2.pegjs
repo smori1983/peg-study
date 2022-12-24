@@ -18,9 +18,9 @@
 }
 
 start
-  = v:variable m:method*
+  = v:variable mp:method_or_property*
   {
-    return toNode('variable', v, m);
+    return toNode('variable', v, mp);
   }
 
 variable
@@ -29,10 +29,14 @@ variable
     return text;
   }
 
-method
+method_or_property
   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
     return toNode('method', text, (args.length > 0) ? args[0] : []);
+  }
+  / _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+  {
+    return toNode('property', text, []);
   }
 
 arguments
@@ -49,9 +53,9 @@ argument
   / value_int
   / value_string_single_quote
   / value_string_double_quote
-  / v:variable m:method*
+  / v:variable mp:method_or_property*
   {
-    return toNode('variable', v, m);
+    return toNode('variable', v, mp);
   }
   / v:variable
   {
