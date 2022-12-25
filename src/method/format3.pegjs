@@ -13,7 +13,7 @@ start
   = variable_chain;
 
 variable_chain
-  = v:variable chain:(method_chain / property_chain)?
+  = v:variable chain:(method_or_property)?
   {
     v.children = chain ? [chain] : [];
     return v;
@@ -25,18 +25,11 @@ variable
     return toNode('variable', text, {}, []);
   }
 
-method_chain
-  = m:method chain:(method_chain / property_chain)?
+method_or_property
+  = mp:(method / property) chain:(method_or_property)?
   {
-    m.children = chain ? [chain] : [];
-    return m;
-  }
-
-property_chain
-  = p:property chain:(method_chain / property_chain)?
-  {
-    p.children = chain ? [chain] : [];
-    return p;
+    mp.children = chain ? [chain] : [];
+    return mp;
   }
 
 method
