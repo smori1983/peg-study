@@ -142,7 +142,7 @@ function peg$parse(input, options) {
       peg$startRuleFunction  = peg$parsestart,
 
       peg$c0 = function(v, mp) {
-          return toNode('variable', v, mp);
+          return toNode('variable', v, {}, mp);
         },
       peg$c1 = /^[a-zA-Z]/,
       peg$c2 = peg$classExpectation([["a", "z"], ["A", "Z"]], false, false),
@@ -158,10 +158,10 @@ function peg$parse(input, options) {
       peg$c10 = ")",
       peg$c11 = peg$literalExpectation(")", false),
       peg$c12 = function(text, args) {
-          return toNode('method', text, (args.length > 0) ? args[0] : []);
+          return toNode('method', text, {arguments: (args.length > 0) ? args[0] : []}, []);
         },
       peg$c13 = function(text) {
-          return toNode('property', text, []);
+          return toNode('property', text, {}, []);
         },
       peg$c14 = ",",
       peg$c15 = peg$literalExpectation(",", false),
@@ -171,25 +171,25 @@ function peg$parse(input, options) {
           }, [head]);
         },
       peg$c17 = function(v) {
-          return toNode('variable', v, []);
+          return toNode('variable', v, {}, []);
         },
       peg$c18 = "true",
       peg$c19 = peg$literalExpectation("true", false),
       peg$c20 = "false",
       peg$c21 = peg$literalExpectation("false", false),
       peg$c22 = function(text) {
-          return toNode('bool', toBool(text), []);
+          return toNode('bool', toBool(text), {}, []);
         },
       peg$c23 = /^[0-9]/,
       peg$c24 = peg$classExpectation([["0", "9"]], false, false),
       peg$c25 = function(text) {
-          return toNode('float', toFloat(text), []);
+          return toNode('float', toFloat(text), {}, []);
         },
       peg$c26 = function(text) {
-          return toNode('int', toInt(text), []);
+          return toNode('int', toInt(text), {}, []);
         },
       peg$c27 = function(text) {
-          return toNode('string', text, []);
+          return toNode('string', text, {}, []);
         },
       peg$c28 = peg$anyExpectation(),
       peg$c29 = function(w) {
@@ -1167,10 +1167,11 @@ function peg$parse(input, options) {
   }
 
 
-    function toNode(type, text, children) {
+    function toNode(type, text, attributes, children) {
       return {
         type: type,
         text: text,
+        attributes: attributes,
         children: children,
       };
     }

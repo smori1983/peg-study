@@ -1,8 +1,9 @@
 {
-  function toNode(type, text, children) {
+  function toNode(type, text, attributes, children) {
     return {
       type: type,
       text: text,
+      attributes: attributes,
       children: children,
     };
   }
@@ -20,7 +21,7 @@
 start
   = v:variable mp:method_or_property*
   {
-    return toNode('variable', v, mp);
+    return toNode('variable', v, {}, mp);
   }
 
 variable
@@ -36,13 +37,13 @@ method_or_property
 method
   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
-    return toNode('method', text, (args.length > 0) ? args[0] : []);
+    return toNode('method', text, {arguments: (args.length > 0) ? args[0] : []}, []);
   }
 
 property
   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
-    return toNode('property', text, []);
+    return toNode('property', text, {}, []);
   }
 
 arguments
@@ -61,35 +62,35 @@ argument
   / value_string_double_quote
   / v:variable mp:method_or_property*
   {
-    return toNode('variable', v, mp);
+    return toNode('variable', v, {}, mp);
   }
   / v:variable
   {
-    return toNode('variable', v, []);
+    return toNode('variable', v, {}, []);
   }
 
 value_bool
   = text:('true' / 'false')
   {
-    return toNode('bool', toBool(text), []);
+    return toNode('bool', toBool(text), {}, []);
   }
 
 value_float
   = text:$([0-9]+ '.' [0-9]+)
   {
-    return toNode('float', toFloat(text), []);
+    return toNode('float', toFloat(text), {}, []);
   }
 
 value_int
   = text:$([0-9]+)
   {
-    return toNode('int', toInt(text), []);
+    return toNode('int', toInt(text), {}, []);
   }
 
 value_string_single_quote
   = single_quote text:$(value_string_single_quote_chars*) single_quote
   {
-    return toNode('string', text, []);
+    return toNode('string', text, {}, []);
   }
 
 value_string_single_quote_chars
@@ -101,7 +102,7 @@ value_string_single_quote_chars
 value_string_double_quote
   = double_quote text:$(value_string_double_quote_chars*) double_quote
   {
-    return toNode('string', text, []);
+    return toNode('string', text, {}, []);
   }
 
 value_string_double_quote_chars
