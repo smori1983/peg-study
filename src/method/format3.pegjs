@@ -51,15 +51,6 @@ property
     return toNode('property', text, {}, []);
   }
 
-method_or_property
-  = method
-  / p:property+
-  {
-    return p.reduce((result, property) => {
-      result.children.push(property);
-    });
-  }
-
 arguments
   = head:argument tail:(_ ',' _ argument)*
   {
