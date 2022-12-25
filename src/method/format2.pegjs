@@ -10,6 +10,9 @@
 }
 
 start
+  = variable_chain
+
+variable_chain
   = v:variable mp:method_or_property*
   {
     return toNode('variable', v, {}, mp);
@@ -51,14 +54,7 @@ argument
   / value_int
   / value_string_single_quote
   / value_string_double_quote
-  / v:variable mp:method_or_property*
-  {
-    return toNode('variable', v, {}, mp);
-  }
-  / v:variable
-  {
-    return toNode('variable', v, {}, []);
-  }
+  / variable_chain
 
 value_bool
   = text:('true' / 'false')
