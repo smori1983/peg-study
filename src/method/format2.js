@@ -178,15 +178,15 @@ function peg$parse(input, options) {
       peg$c20 = "false",
       peg$c21 = peg$literalExpectation("false", false),
       peg$c22 = function(text) {
-          return toNode('bool', toBool(text), {}, []);
+          return toNode('bool', text, {}, []);
         },
       peg$c23 = /^[0-9]/,
       peg$c24 = peg$classExpectation([["0", "9"]], false, false),
       peg$c25 = function(text) {
-          return toNode('float', toFloat(text), {}, []);
+          return toNode('float', text, {}, []);
         },
       peg$c26 = function(text) {
-          return toNode('int', toInt(text), {}, []);
+          return toNode('int', text, {}, []);
         },
       peg$c27 = function(text) {
           return toNode('string', text, {}, []);
@@ -1174,15 +1174,6 @@ function peg$parse(input, options) {
         attributes: attributes,
         children: children,
       };
-    }
-    function toBool(text) {
-      return text === 'true';
-    }
-    function toInt(text) {
-      return parseInt(text, 10);
-    }
-    function toFloat(text) {
-      return parseFloat(text);
     }
 
 

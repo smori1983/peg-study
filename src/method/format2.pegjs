@@ -7,15 +7,6 @@
       children: children,
     };
   }
-  function toBool(text) {
-    return text === 'true';
-  }
-  function toInt(text) {
-    return parseInt(text, 10);
-  }
-  function toFloat(text) {
-    return parseFloat(text);
-  }
 }
 
 start
@@ -72,19 +63,19 @@ argument
 value_bool
   = text:('true' / 'false')
   {
-    return toNode('bool', toBool(text), {}, []);
+    return toNode('bool', text, {}, []);
   }
 
 value_float
   = text:$([0-9]+ '.' [0-9]+)
   {
-    return toNode('float', toFloat(text), {}, []);
+    return toNode('float', text, {}, []);
   }
 
 value_int
   = text:$([0-9]+)
   {
-    return toNode('int', toInt(text), {}, []);
+    return toNode('int', text, {}, []);
   }
 
 value_string_single_quote
