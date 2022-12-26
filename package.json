@@ -10,6 +10,7 @@
     "peg:condition:format1": "pegjs src/condition/format1.pegjs",
     "peg:compile:loop:format1": "pegjs src/loop/format1.pegjs",
     "peg:compile:loop:format2": "pegjs src/loop/format2.pegjs",
+    "peg:compile:loop:format3": "pegjs src/loop/format3.pegjs",
     "peg:compile:method:method1": "pegjs src/method/format1.pegjs",
     "peg:compile:method:method2": "pegjs src/method/format2.pegjs",
     "peg:compile:method:method3": "pegjs src/method/format3.pegjs",
