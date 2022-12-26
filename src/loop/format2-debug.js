@@ -1,5 +1,5 @@
 const parser = require('./format2');
-const DebugBase = require('../loop/debug-base');
+const DebugBase = require('./debug-base');
 
 class Format2Debug extends DebugBase {
   constructor() {

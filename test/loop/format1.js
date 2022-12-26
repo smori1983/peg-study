@@ -1,6 +1,6 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
-const parser = require('../../src/loop1/format1');
+const parser = require('../../src/loop/format1');
 
 describe('loop - format1', () => {
   describe('parse', () => {

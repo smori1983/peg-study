@@ -1,6 +1,6 @@
 const parser = require('./format2');
 const Debug = require('./format2-debug');
-const Scope = require('../loop/scope');
+const Scope = require('./scope');
 
 const dump = (input, scope) => {
   console.log(new Debug().get(input, scope).getContent());
