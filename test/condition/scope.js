@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const Scope = require('../../src/condition/evaluation/scope');
 
-describe('condition', () => {
+describe('condition - scope', () => {
   describe('without parent', () => {
     describe('without variables', () => {
       const dataSet = [
