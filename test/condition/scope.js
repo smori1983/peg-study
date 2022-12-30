@@ -58,8 +58,7 @@ describe('condition', () => {
 
       dataSet.forEach(([keys], index) => {
         it('should throw error: case ' + (index + 1), () => {
-          const parent = new Scope();
-          const scope = new Scope({}, parent);
+          const scope = new Scope({}, new Scope());
 
           assert.throws(() => {
             scope.getValue(keys);
@@ -91,8 +90,7 @@ describe('condition', () => {
 
       dataSet1.forEach(([currentVariables, parentVariables, keys, value], index) => {
         it('should get value from parent scope: case ' + (index + 1), () => {
-          const parent = new Scope(parentVariables);
-          const scope = new Scope(currentVariables, parent);
+          const scope = new Scope(currentVariables, new Scope(parentVariables));
 
           assert.deepStrictEqual(scope.getValue(keys), value);
         });
@@ -114,8 +112,7 @@ describe('condition', () => {
 
       dataSet2.forEach(([currentVariables, parentVariables, keys], index) => {
         it('should not get value: case ' + (index + 1), () => {
-          const parent = new Scope(parentVariables);
-          const scope = new Scope(currentVariables, parent);
+          const scope = new Scope(currentVariables, new Scope(parentVariables));
 
           assert.throws(() => {
             scope.getValue(keys);
