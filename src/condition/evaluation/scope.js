@@ -28,7 +28,7 @@ class Scope {
       return this._parent.getValue(keys);
     }
 
-    throw new Error(`variable value not found for: [${keys.join('.')}]`);
+    throw new Error(`variable not found: ${keys.join('.')}`);
   }
 
   /**
