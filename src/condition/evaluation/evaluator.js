@@ -1,15 +1,20 @@
-const Scope = require('./scope');
+/**
+ * @typedef {import('./scope')} Scope
+ */
 
 /**
- * @param node
- * @param variables
+ * @param {Object} node
+ * @param {Scope} scope
  */
-const run = (node, variables) => {
-  const scope = new Scope(variables);
-
+const run = (node, scope) => {
   return visit(node, scope);
 };
 
+/**
+ * @param {Object} node
+ * @param {Scope} scope
+ * @return {*}
+ */
 const visit = (node, scope) => {
   if (node.type === 'bool') {
     return node.text === 'true';
