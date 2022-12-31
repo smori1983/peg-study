@@ -1,9 +1,10 @@
 {
-  function format(type, op, left, right) {
+  function toNode(type, text, attributes, children) {
     return {
       type: type,
-      text: op,
-      children: [left, right],
+      text: text,
+      attributes: attributes,
+      children: children,
     };
   }
   function makeInteger(o) {
@@ -17,16 +18,16 @@ start
 add
   = head:multi tail:(_ ('+' / '-') _ multi)*
   {
-    return tail.reduce(function(result, element) {
-      return format('add', element[1], result, element[3]);
+    return tail.reduce(function(result, elements) {
+      return toNode('add', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
 multi
   = head:primary tail:(_ ('*' / '/') _ primary)*
   {
-    return tail.reduce(function(result, element) {
-      return format('multi', element[1], result, element[3]);
+    return tail.reduce(function(result, elements) {
+      return toNode('multi', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
@@ -37,7 +38,7 @@ primary
   }
   / i:integer
   {
-    return format('number', i, null, null);
+    return toNode('number', i, {}, [null, null]);
   }
 
 integer

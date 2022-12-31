@@ -146,8 +146,8 @@ function peg$parse(input, options) {
       peg$c2 = "-",
       peg$c3 = peg$literalExpectation("-", false),
       peg$c4 = function(head, tail) {
-          return tail.reduce(function(result, element) {
-            return format('add', element[1], result, element[3]);
+          return tail.reduce(function(result, elements) {
+            return toNode('add', elements[1], {}, [result, elements[3]]);
           }, head);
         },
       peg$c5 = "*",
@@ -155,8 +155,8 @@ function peg$parse(input, options) {
       peg$c7 = "/",
       peg$c8 = peg$literalExpectation("/", false),
       peg$c9 = function(head, tail) {
-          return tail.reduce(function(result, element) {
-            return format('multi', element[1], result, element[3]);
+          return tail.reduce(function(result, elements) {
+            return toNode('multi', elements[1], {}, [result, elements[3]]);
           }, head);
         },
       peg$c10 = "(",
@@ -167,7 +167,7 @@ function peg$parse(input, options) {
           return a;
         },
       peg$c15 = function(i) {
-          return format('number', i, null, null);
+          return toNode('number', i, {}, [null, null]);
         },
       peg$c16 = /^[0-9]/,
       peg$c17 = peg$classExpectation([["0", "9"]], false, false),
@@ -664,11 +664,12 @@ function peg$parse(input, options) {
   }
 
 
-    function format(type, op, left, right) {
+    function toNode(type, text, attributes, children) {
       return {
         type: type,
-        text: op,
-        children: [left, right],
+        text: text,
+        attributes: attributes,
+        children: children,
       };
     }
     function makeInteger(o) {
