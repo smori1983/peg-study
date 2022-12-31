@@ -7,6 +7,7 @@
     "peg:compile:calc:calc1": "pegjs src/calc/calc1.pegjs",
     "peg:compile:calc:calc2": "pegjs src/calc/calc2.pegjs",
     "peg:compile:calc:lisp": "pegjs src/calc/lisp.pegjs",
+    "peg:condition:format1": "pegjs src/condition/format1.pegjs",
     "peg:compile:loop:format1": "pegjs src/loop/format1.pegjs",
     "peg:compile:loop:format2": "pegjs src/loop/format2.pegjs",
     "peg:compile:method:method1": "pegjs src/method/format1.pegjs",
