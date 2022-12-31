@@ -19,13 +19,13 @@ const visit = (node) => {
   visit(right);
 
   if (node.text === '*') {
-    nodeHelper.replace(node, nodeHelper.create('number', left.text * right.text, [null, null]));
+    nodeHelper.replace(node, nodeHelper.create('number', left.text * right.text, {}, [null, null]));
   } else if (node.text === '/') {
-    nodeHelper.replace(node, nodeHelper.create('number', left.text / right.text, [null, null]));
+    nodeHelper.replace(node, nodeHelper.create('number', left.text / right.text, {}, [null, null]));
   } else if (node.text === '+') {
-    nodeHelper.replace(node, nodeHelper.create('number', left.text + right.text, [null, null]));
+    nodeHelper.replace(node, nodeHelper.create('number', left.text + right.text, {}, [null, null]));
   } else if (node.text === '-') {
-    nodeHelper.replace(node, nodeHelper.create('number', left.text - right.text, [null, null]));
+    nodeHelper.replace(node, nodeHelper.create('number', left.text - right.text, {}, [null, null]));
   }
 };
 

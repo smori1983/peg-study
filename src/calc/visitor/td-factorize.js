@@ -24,9 +24,9 @@ const visit = (node) => {
     if (commonSubtree !== null) {
       rewrite(left, commonSubtree);
       rewrite(right, commonSubtree);
-      const newNode = nodeHelper.create('multi', '*', [
+      const newNode = nodeHelper.create('multi', '*', {}, [
         commonSubtree,
-        nodeHelper.create('add', '+', [left, right]),
+        nodeHelper.create('add', '+', {}, [left, right]),
       ]);
       nodeHelper.replace(node, newNode);
     }
@@ -111,7 +111,7 @@ const rewriteVisit = (node, data) => {
   if (node !== null && data.done === false) {
     if (node.type === 'multi') {
       if (digest.equal(node, data.target)) {
-        nodeHelper.replace(node, nodeHelper.create('number', 1, [null, null]));
+        nodeHelper.replace(node, nodeHelper.create('number', 1, {}, [null, null]));
         data.done = true;
       } else if (digest.equal(node.children[0], data.target)) {
         nodeHelper.replace(node, node.children[1]);
