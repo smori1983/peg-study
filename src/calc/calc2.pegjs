@@ -38,11 +38,11 @@ primary
   }
   / i:integer
   {
-    return toNode('number', i, {}, [null, null]);
+    return toNode('number', i, {}, []);
   }
   / v:variable
   {
-    return toNode('variable', v, {}, [null, null]);
+    return toNode('variable', v, {}, []);
   }
 
 integer

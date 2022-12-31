@@ -167,10 +167,10 @@ function peg$parse(input, options) {
           return a;
         },
       peg$c15 = function(i) {
-          return toNode('number', i, {}, [null, null]);
+          return toNode('number', i, {}, []);
         },
       peg$c16 = function(v) {
-          return toNode('variable', v, {}, [null, null]);
+          return toNode('variable', v, {}, []);
         },
       peg$c17 = /^[0-9]/,
       peg$c18 = peg$classExpectation([["0", "9"]], false, false),

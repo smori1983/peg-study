@@ -38,7 +38,7 @@ primary
   }
   / i:integer
   {
-    return toNode('number', i, {}, [null, null]);
+    return toNode('number', i, {}, []);
   }
 
 integer
