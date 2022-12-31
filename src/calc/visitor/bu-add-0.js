@@ -8,7 +8,7 @@ const nodeHelper = require('../helper/node');
  * @param {Object} node
  */
 const visit = (node) => {
-  if (node === null) {
+  if (typeof node === 'undefined') {
     return;
   }
 
@@ -20,7 +20,7 @@ const visit = (node) => {
 
   if (node.type === 'add' && node.text === '+') {
     if ((left.type === 'number' && left.text === 0) && (right.type === 'number' && right.text === 0)) {
-      nodeHelper.replace(node, nodeHelper.create('number', 0, [null, null]));
+      nodeHelper.replace(node, nodeHelper.create('number', 0, {}, []));
     } else if (left.type === 'number' && left.text === 0) {
       nodeHelper.replace(node, right);
     } else if (right.type === 'number' && right.text === 0) {

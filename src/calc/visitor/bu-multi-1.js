@@ -8,7 +8,7 @@ const nodeHelper = require('../helper/node');
  * @param {Object} node
  */
 const visit = (node) => {
-  if (node === null) {
+  if (typeof node === 'undefined') {
     return;
   }
 

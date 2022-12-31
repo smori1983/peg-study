@@ -9,26 +9,28 @@ const digest = require('../helper/digest');
  * @param {Object} node
  */
 const visit = (node) => {
-  if (node === null) {
+  if (typeof node === 'undefined') {
     return;
   }
 
-  const left = node.children[0];
-  const right = node.children[1];
+  if (node.type === 'add' && node.text === '+') {
+    const left = node.children[0];
+    const right = node.children[1];
 
-  if ((node.type === 'add' && node.text === '+') && left.type === 'multi' && right.type === 'multi') {
-    const subtreeLeft = collectSubtree(left);
-    const subtreeRight = collectSubtree(right);
-    const commonSubtree = findCommonSubtree(subtreeLeft, subtreeRight);
+    if (left.type === 'multi' && right.type === 'multi') {
+      const subtreeLeft = collectSubtree(left);
+      const subtreeRight = collectSubtree(right);
+      const commonSubtree = findCommonSubtree(subtreeLeft, subtreeRight);
 
-    if (commonSubtree !== null) {
-      rewrite(left, commonSubtree);
-      rewrite(right, commonSubtree);
-      const newNode = nodeHelper.create('multi', '*', [
-        commonSubtree,
-        nodeHelper.create('add', '+', [left, right]),
-      ]);
-      nodeHelper.replace(node, newNode);
+      if (commonSubtree !== null) {
+        rewrite(left, commonSubtree);
+        rewrite(right, commonSubtree);
+        const newNode = nodeHelper.create('multi', '*', {}, [
+          commonSubtree,
+          nodeHelper.create('add', '+', {}, [left, right]),
+        ]);
+        nodeHelper.replace(node, newNode);
+      }
     }
   }
 
@@ -53,16 +55,14 @@ const collectSubtree = (node) => {
 const collectSubtreeInternal = (node) => {
   let result = [];
 
-  if (node !== null) {
-    if (node.type === 'multi') {
-      if (node.text === '*') {
-        result.push(node.children[0]);
-        result.push(node.children[1]);
-      }
-
-      result = result.concat(collectSubtreeInternal(node.children[0]));
-      result = result.concat(collectSubtreeInternal(node.children[1]));
+  if (node.type === 'multi') {
+    if (node.text === '*') {
+      result.push(node.children[0]);
+      result.push(node.children[1]);
     }
+
+    result = result.concat(collectSubtreeInternal(node.children[0]));
+    result = result.concat(collectSubtreeInternal(node.children[1]));
   }
 
   return result;
@@ -108,21 +108,23 @@ const rewrite = (node, subtree) => {
  * @param {{target: Object, done: boolean}} data
  */
 const rewriteVisit = (node, data) => {
-  if (node !== null && data.done === false) {
-    if (node.type === 'multi') {
-      if (digest.equal(node, data.target)) {
-        nodeHelper.replace(node, nodeHelper.create('number', 1, [null, null]));
-        data.done = true;
-      } else if (digest.equal(node.children[0], data.target)) {
-        nodeHelper.replace(node, node.children[1]);
-        data.done = true;
-      } else if (digest.equal(node.children[1], data.target)) {
-        nodeHelper.replace(node, node.children[0]);
-        data.done = true;
-      } else {
-        rewriteVisit(node.children[0], data);
-        rewriteVisit(node.children[1], data);
-      }
+  if (data.done) {
+    return;
+  }
+
+  if (node.type === 'multi') {
+    if (digest.equal(node, data.target)) {
+      nodeHelper.replace(node, nodeHelper.create('number', 1, {}, []));
+      data.done = true;
+    } else if (digest.equal(node.children[0], data.target)) {
+      nodeHelper.replace(node, node.children[1]);
+      data.done = true;
+    } else if (digest.equal(node.children[1], data.target)) {
+      nodeHelper.replace(node, node.children[0]);
+      data.done = true;
+    } else {
+      rewriteVisit(node.children[0], data);
+      rewriteVisit(node.children[1], data);
     }
   }
 };

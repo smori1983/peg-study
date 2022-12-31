@@ -1,15 +1,17 @@
 /**
  * @param {string} type
  * @param {string|number} text
+ * @param {Object} attributes
  * @param {Object[]} children
  * @return {Object}
  */
-const create = (type, text, children) => {
+const create = (type, text, attributes, children) => {
   return {
     type,
     text,
+    attributes,
     children,
-  }
+  };
 };
 
 /**
@@ -19,6 +21,7 @@ const create = (type, text, children) => {
 const replace = (target, replacer) => {
   target.type = replacer.type;
   target.text = replacer.text;
+  target.attributes = replacer.attributes;
   target.children = replacer.children;
 };
 
