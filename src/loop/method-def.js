@@ -1,4 +1,6 @@
-const Value = require('./value');
+/**
+ * @typedef {import('./value')} Value
+ */
 
 class MethodDef {
   /**

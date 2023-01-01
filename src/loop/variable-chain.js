@@ -1,5 +1,7 @@
-const Scope = require('./scope');
-const Value = require('./value');
+/**
+ * @typedef {import('./scope')} Scope
+ * @typedef {import('./value')} Value
+ */
 
 class VariableChain {
   /**

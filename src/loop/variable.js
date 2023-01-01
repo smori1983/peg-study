@@ -1,4 +1,8 @@
-const Scope = require('./scope');
+/**
+ * @typedef {import('./scope')} Scope
+ * @typedef {import('./variable-chain')} VariableChain
+ */
+
 const Value = require('./value');
 
 class Variable {

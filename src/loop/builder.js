@@ -1,5 +1,9 @@
+/**
+ * @typedef {import('./method-def')} MethodDef
+ * @typedef {import('./node')} Node
+ */
+
 const sprintf = require('sprintf-js').sprintf;
-const MethodDef = require('./method-def');
 const MethodDefFilter = require('./method-def-filter');
 const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
@@ -8,7 +12,6 @@ const MethodDefSort = require('./method-def-sort');
 const MethodDefSplit = require('./method-def-split');
 const MethodDefTrim = require('./method-def-trim');
 const MethodDefUpper = require('./method-def-upper');
-const Node = require('./node');
 const NodeRoot = require('./node-root');
 const NodeForLoop = require('./node-for-loop');
 const NodeLog = require('./node-log');

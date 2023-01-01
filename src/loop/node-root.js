@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('./scope')} Scope
+ */
+
 const Node = require('./node');
 
 class NodeRoot extends Node {

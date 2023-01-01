@@ -1,6 +1,9 @@
+/**
+ * @typedef {import('./method-def')} MethodDef
+ * @typedef {import('./value')} Value
+ */
+
 const sprintf = require('sprintf-js').sprintf;
-const MethodDef = require('./method-def');
-const Value = require('./value');
 const Variable = require('./variable');
 const VariableChain = require('./variable-chain');
 
