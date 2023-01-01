@@ -19,7 +19,7 @@ code
 log
   = _ 'log' _ '(' _ v:variable_chain _ ')' _
   {
-    return toNode('builtin:log', 'log', {argument: v}, []);
+    return toNode('builtin', 'log', {argument: v}, []);
   }
 
 for_loop
@@ -27,7 +27,7 @@ for_loop
     children: code*
     _ '}' _
   {
-    return toNode('builtin:loop', 'loop', {
+    return toNode('builtin', 'loop', {
       array: a,
       variable: v,
     }, children);

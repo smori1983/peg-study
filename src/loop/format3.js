@@ -148,7 +148,7 @@ function peg$parse(input, options) {
       peg$c4 = ")",
       peg$c5 = peg$literalExpectation(")", false),
       peg$c6 = function(v) {
-          return toNode('builtin:log', 'log', {argument: v}, []);
+          return toNode('builtin', 'log', {argument: v}, []);
         },
       peg$c7 = "for",
       peg$c8 = peg$literalExpectation("for", false),
@@ -159,7 +159,7 @@ function peg$parse(input, options) {
       peg$c13 = "}",
       peg$c14 = peg$literalExpectation("}", false),
       peg$c15 = function(v, a, children) {
-          return toNode('builtin:loop', 'loop', {
+          return toNode('builtin', 'loop', {
             array: a,
             variable: v,
           }, children);
