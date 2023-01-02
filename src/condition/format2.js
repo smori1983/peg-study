@@ -586,13 +586,13 @@ function peg$parse(input, options) {
                         s11 = peg$parse_();
                         if (s11 !== peg$FAILED) {
                           s12 = [];
-                          s13 = peg$parsecondition_if();
+                          s13 = peg$parsecondition_block();
                           if (s13 === peg$FAILED) {
                             s13 = peg$parselog();
                           }
                           while (s13 !== peg$FAILED) {
                             s12.push(s13);
-                            s13 = peg$parsecondition_if();
+                            s13 = peg$parsecondition_block();
                             if (s13 === peg$FAILED) {
                               s13 = peg$parselog();
                             }
@@ -728,13 +728,13 @@ function peg$parse(input, options) {
                         s11 = peg$parse_();
                         if (s11 !== peg$FAILED) {
                           s12 = [];
-                          s13 = peg$parsecondition_if();
+                          s13 = peg$parsecondition_block();
                           if (s13 === peg$FAILED) {
                             s13 = peg$parselog();
                           }
                           while (s13 !== peg$FAILED) {
                             s12.push(s13);
-                            s13 = peg$parsecondition_if();
+                            s13 = peg$parsecondition_block();
                             if (s13 === peg$FAILED) {
                               s13 = peg$parselog();
                             }
@@ -846,13 +846,13 @@ function peg$parse(input, options) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
               s6 = [];
-              s7 = peg$parsecondition_if();
+              s7 = peg$parsecondition_block();
               if (s7 === peg$FAILED) {
                 s7 = peg$parselog();
               }
               while (s7 !== peg$FAILED) {
                 s6.push(s7);
-                s7 = peg$parsecondition_if();
+                s7 = peg$parsecondition_block();
                 if (s7 === peg$FAILED) {
                   s7 = peg$parselog();
                 }

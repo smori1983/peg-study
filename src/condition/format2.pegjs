@@ -26,7 +26,7 @@ condition_block
 
 condition_if
   = _ 'if' _ '(' _ c:logical_or _ ')' _ '{' _
-    children:(condition_if / log)*
+    children:(condition_block / log)*
     _ '}' _
   {
     return toNode('condition', 'if', {condition: c}, children);
@@ -34,7 +34,7 @@ condition_if
 
 condition_elseif
   = _ 'elseif' _ '(' _ c:logical_or _ ')' _ '{' _
-    children:(condition_if / log)*
+    children:(condition_block / log)*
     _ '}' _
   {
     return toNode('condition', 'elseif', {condition: c}, children);
@@ -42,7 +42,7 @@ condition_elseif
 
 condition_else
   = _ 'else' _ '{' _
-    children:(condition_if / log)*
+    children:(condition_block / log)*
     _ '}' _
   {
     return toNode('condition', 'else', {}, children);
