@@ -10,15 +10,9 @@ start
 placeholder
   = bracket_open _ v:variable _ bracket_close
   {
-    return v;
-  }
-
-variable
-  = head:[a-z] tail:[0-9a-z_]*
-  {
     return {
       type: 'variable',
-      text: head + tail.join(''),
+      text: v,
     };
   }
 
@@ -35,6 +29,9 @@ bracket_close
   {
     return delim;
   }
+
+variable
+  = $([a-z] [0-9a-z_]*)
 
 _ 'space'
   = [ \t]*
