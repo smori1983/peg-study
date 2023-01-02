@@ -16,17 +16,14 @@ component
 placeholder
   = placeholder_mark bracket_open _ v:variable _ bracket_close
   {
-    return v;
+    return {
+      type: 'variable',
+      text: v,
+    };
   }
 
 variable
-  = head:[a-z] tail:[0-9a-z_]*
-  {
-    return {
-      type: 'variable',
-      text: head + tail.join(''),
-    };
-  }
+  = $([a-z] [0-9a-z_]*)
 
 placeholder_mark
   = w:.
@@ -50,12 +47,12 @@ bracket_close
   }
 
 placeholder_fallback_as_plain_text1
-  = char1:. &placeholder_mark
-    &{ return char1 === op_placeholder_mark; }
+  = char:. &placeholder_mark
+    &{ return char === op_placeholder_mark; }
   {
     return {
       type: 'plain_fallback',
-      text: char1,
+      text: char,
     };
   }
 
@@ -74,11 +71,11 @@ placeholder_fallback_as_plain_text2
   }
 
 plain_text
-  = chars:plain_text_char+
+  = chars:$(plain_text_char+)
   {
     return {
       type: 'plain',
-      text: chars.join(''),
+      text: chars,
     };
   }
 
