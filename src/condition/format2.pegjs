@@ -13,9 +13,9 @@ start
   = condition_block
 
 log
-  = _ 'log' _ '(' _ v:variable_chain _ ')' _
+  = _ 'log' _ '(' _ args:arguments* _ ')' _
   {
-    return toNode('builtin', 'log', {argument: v}, []);
+    return toNode('builtin', 'log', {arguments: (args.length > 0) ? args[0] : []}, []);
   }
 
 condition_block

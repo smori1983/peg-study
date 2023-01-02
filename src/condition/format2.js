@@ -147,8 +147,8 @@ function peg$parse(input, options) {
       peg$c3 = peg$literalExpectation("(", false),
       peg$c4 = ")",
       peg$c5 = peg$literalExpectation(")", false),
-      peg$c6 = function(v) {
-          return toNode('builtin', 'log', {argument: v}, []);
+      peg$c6 = function(args) {
+          return toNode('builtin', 'log', {arguments: (args.length > 0) ? args[0] : []}, []);
         },
       peg$c7 = function(c_if, c_elseif, c_else) {
           return toNode('condition_block', 'condition', {}, [c_if].concat(c_elseif).concat(c_else));
@@ -434,7 +434,12 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsevariable_chain();
+              s6 = [];
+              s7 = peg$parsearguments();
+              while (s7 !== peg$FAILED) {
+                s6.push(s7);
+                s7 = peg$parsearguments();
+              }
               if (s6 !== peg$FAILED) {
                 s7 = peg$parse_();
                 if (s7 !== peg$FAILED) {
