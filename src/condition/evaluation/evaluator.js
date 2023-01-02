@@ -6,8 +6,8 @@
  * @param {Object} node
  * @param {Scope} scope
  */
-const run = (node, scope) => {
-  return visit(node, scope);
+const runCondition = (node, scope) => {
+  return visitCondition(node, scope);
 };
 
 /**
@@ -15,7 +15,7 @@ const run = (node, scope) => {
  * @param {Scope} scope
  * @return {*}
  */
-const visit = (node, scope) => {
+const visitCondition = (node, scope) => {
   if (node.type === 'bool') {
     return node.text === 'true';
   }
@@ -36,8 +36,8 @@ const visit = (node, scope) => {
     return scope.getValue(prepareVariable(node));
   }
 
-  const left = visit(node.children[0], scope);
-  const right = visit(node.children[1], scope);
+  const left = visitCondition(node.children[0], scope);
+  const right = visitCondition(node.children[1], scope);
 
   if (node.type === 'logical' && ['&&', 'and'].includes(node.text)) {
     return left && right;
@@ -92,4 +92,4 @@ const visitProperty = (node, keys) => {
   }
 };
 
-module.exports.run = run;
+module.exports.runCondition = runCondition;

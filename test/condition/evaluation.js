@@ -75,7 +75,7 @@ describe('condition - evaluation', () => {
         const scope = new Scope(variables);
         const ast = parser.parse(expression);
 
-        assert.deepStrictEqual(evaluator.run(ast, scope), result);
+        assert.deepStrictEqual(evaluator.runCondition(ast, scope), result);
       });
     });
   });
