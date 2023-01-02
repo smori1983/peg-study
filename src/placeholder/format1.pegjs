@@ -33,10 +33,7 @@ delimiter_available 'delimiter_available'
   = $([^ a-z0-9]i+)
 
 variable
-  = head:[a-z] tail:[0-9a-z_]+
-  {
-    return head + tail.join('');
-  }
+  = $([a-z] [0-9a-z_]*)
 
 _ 'space'
   = [ \t]*
