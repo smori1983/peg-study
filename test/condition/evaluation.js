@@ -5,7 +5,7 @@ const parser = require('../../src/condition/format1');
 const Scope = require('../../src/condition/evaluation/scope');
 const evaluator = require('../../src/condition/evaluation/evaluator');
 
-describe('condition - evaluation', () => {
+describe('condition - evaluation - condition', () => {
   describe('without parent', () => {
     const variables = {
       c1: 10,
@@ -71,7 +71,7 @@ describe('condition - evaluation', () => {
     ];
 
     dataSet.forEach(([expression, result], index) => {
-      it('evaluate: case ' + (index + 1), () => {
+      it('evaluate condition: case ' + (index + 1), () => {
         const scope = new Scope(variables);
         const ast = parser.parse(expression);
 
