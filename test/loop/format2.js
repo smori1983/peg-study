@@ -15,75 +15,109 @@ describe('loop - format2', () => {
       ].join('\n');
 
       const ast = {
-        "type": "root",
-        "text": "root",
-        "children": [
+        type: 'root',
+        text: 'root',
+        attributes: {},
+        children: [
           {
-            "type": "builtin",
-            "text": "log",
-            "args": [
-              {
-                "type": "variable",
-                "text": "data",
-                "methods": [
-                  {
-                    "type": "method",
-                    "text": "upper",
-                    "args": []
+            type: 'builtin',
+            text: 'log',
+            attributes: {
+              arguments: [
+                {
+                  type: 'variable',
+                  text: 'data',
+                  attributes: {
+                    methods: [
+                      {
+                        type: 'method',
+                        text: 'upper',
+                        attributes: {
+                          arguments: [],
+                        },
+                        children: [],
+                      },
+                      {
+                        type: 'method',
+                        text: 'lower',
+                        attributes: {
+                          arguments: [],
+                        },
+                        children: [],
+                      },
+                    ],
                   },
-                  {
-                    "type": "method",
-                    "text": "lower",
-                    "args": []
-                  }
-                ]
-              }
-            ]
+                  children: [],
+                },
+              ],
+            },
+            children: [],
           },
           {
-            "type": "builtin",
-            "text": "for",
-            "array": {
-              "type": "variable",
-              "text": "data",
-              "methods": [
-                {
-                  "type": "method",
-                  "text": "split",
-                  "args": [
+            type: 'builtin',
+            text: 'loop',
+            attributes: {
+              array: {
+                type: 'variable',
+                text: 'data',
+                attributes: {
+                  methods: [
                     {
-                      "type": "string",
-                      "text": "-"
-                    }
-                  ]
-                }
-              ]
+                      type: 'method',
+                      text: 'split',
+                      attributes: {
+                        arguments: [
+                          {
+                            type: 'string',
+                            text: '-',
+                            attributes: {},
+                            children: [],
+                          },
+                        ],
+                      },
+                      children: [],
+                    },
+                  ],
+                },
+                children: [],
+              },
+              variable: {
+                type: 'variable',
+                text: 'part',
+                attributes: {},
+                children: [],
+              },
             },
-            "variable": {
-              "type": "variable",
-              "text": "part"
-            },
-            "children": [
+            children: [
               {
-                "type": "builtin",
-                "text": "log",
-                "args": [
-                  {
-                    "type": "variable",
-                    "text": "part",
-                    "methods": [
-                      {
-                        "type": "method",
-                        "text": "upper",
-                        "args": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                type: 'builtin',
+                text: 'log',
+                attributes: {
+                  arguments: [
+                    {
+                      type: 'variable',
+                      text: 'part',
+                      attributes: {
+                        methods: [
+                          {
+                            type: 'method',
+                            text: 'upper',
+                            attributes: {
+                              arguments: [],
+                            },
+                            children: [],
+                          },
+                        ],
+                      },
+                      children: [],
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       assert.deepStrictEqual(parser.parse(input), ast);

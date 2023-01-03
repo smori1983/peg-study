@@ -12,28 +12,40 @@ describe('loop - format1', () => {
       ].join('\n');
 
       const ast = {
-        "type": "root",
-        "text": "root",
-        "children": [
+        type: 'root',
+        text: 'root',
+        attributes: {},
+        children: [
           {
-            "type": "builtin",
-            "text": "for",
-            "array": {
-              "type": "variable",
-              "text": "items"
+            type: 'builtin',
+            text: 'loop',
+            attributes: {
+              array: {
+                type: 'variable',
+                text: 'items',
+                attributes: {},
+                children: [],
+              },
+              variable: {
+                type: 'variable',
+                text: 'item',
+                attributes: {},
+                children: [],
+              },
             },
-            "variable": {
-              "type": "variable",
-              "text": "item"
-            },
-            "children": [
+            children: [
               {
-                "type": "builtin",
-                "text": "log",
-                "variable": {
-                  "type": "variable",
-                  "text": "item"
-                }
+                type: 'builtin',
+                text: 'log',
+                attributes: {
+                  argument: {
+                    type: 'variable',
+                    text: 'item',
+                    attributes: {},
+                    children: [],
+                  },
+                },
+                children: [],
               }
             ]
           }
@@ -53,46 +65,64 @@ describe('loop - format1', () => {
       ].join('\n');
 
       const ast = {
-        "type": "root",
-        "text": "root",
-        "children": [
+        type: 'root',
+        text: 'root',
+        attributes: {},
+        children: [
           {
-            "type": "builtin",
-            "text": "for",
-            "array": {
-              "type": "variable",
-              "text": "a"
+            type: 'builtin',
+            text: 'loop',
+            attributes: {
+              array: {
+                type: 'variable',
+                text: 'a',
+                attributes: {},
+                children: [],
+              },
+              variable: {
+                type: 'variable',
+                text: 'b',
+                attributes: {},
+                children: [],
+              },
             },
-            "variable": {
-              "type": "variable",
-              "text": "b"
-            },
-            "children": [
+            children: [
               {
-                "type": "builtin",
-                "text": "for",
-                "array": {
-                  "type": "variable",
-                  "text": "b"
+                type: 'builtin',
+                text: 'loop',
+                attributes: {
+                  array: {
+                    type: 'variable',
+                    text: 'b',
+                    attributes: {},
+                    children: [],
+                  },
+                  variable: {
+                    type: 'variable',
+                    text: 'c',
+                    attributes: {},
+                    children: [],
+                  },
                 },
-                "variable": {
-                  "type": "variable",
-                  "text": "c"
-                },
-                "children": [
+                children: [
                   {
-                    "type": "builtin",
-                    "text": "log",
-                    "variable": {
-                      "type": "variable",
-                      "text": "c"
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: 'builtin',
+                    text: 'log',
+                    attributes: {
+                      argument: {
+                        type: 'variable',
+                        text: 'c',
+                        attributes: {},
+                        children: [],
+                      },
+                    },
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
 
       assert.deepStrictEqual(parser.parse(input), ast);

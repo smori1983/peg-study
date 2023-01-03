@@ -13,24 +13,21 @@ start
   = code*
 
 code
-  = log
-  / for_loop
+  = builtin_log
+  / builtin_for_loop
 
-log
+builtin_log
   = _ 'log' _ '(' _ v:variable_chain _ ')' _
   {
     return toNode('builtin', 'log', {argument: v}, []);
   }
 
-for_loop
+builtin_for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _
     children: code*
     _ '}' _
   {
-    return toNode('builtin', 'loop', {
-      array: a,
-      variable: v,
-    }, children);
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
 variable_chain

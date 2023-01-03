@@ -159,10 +159,7 @@ function peg$parse(input, options) {
       peg$c13 = "}",
       peg$c14 = peg$literalExpectation("}", false),
       peg$c15 = function(v, a, children) {
-          return toNode('builtin', 'loop', {
-            array: a,
-            variable: v,
-          }, children);
+          return toNode('builtin', 'loop', {array: a, variable: v}, children);
         },
       peg$c16 = function(v, chain) {
           v.children = chain ? [chain] : [];
@@ -377,15 +374,15 @@ function peg$parse(input, options) {
   function peg$parsecode() {
     var s0;
 
-    s0 = peg$parselog();
+    s0 = peg$parsebuiltin_log();
     if (s0 === peg$FAILED) {
-      s0 = peg$parsefor_loop();
+      s0 = peg$parsebuiltin_for_loop();
     }
 
     return s0;
   }
 
-  function peg$parselog() {
+  function peg$parsebuiltin_log() {
     var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
 
     s0 = peg$currPos;
@@ -468,7 +465,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsefor_loop() {
+  function peg$parsebuiltin_for_loop() {
     var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19;
 
     s0 = peg$currPos;
