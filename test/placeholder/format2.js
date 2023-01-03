@@ -2,6 +2,8 @@ const {describe, it} = require('mocha');
 const assert = require('assert');
 
 const parser = require('../../src/placeholder/format2');
+const Scope = require('../../src/placeholder/evaluation/scope');
+const evaluator = require('../../src/placeholder/evaluation/evaluator');
 
 describe('placeholder - format2', () => {
   const dataSet = [
@@ -11,6 +13,10 @@ describe('placeholder - format2', () => {
         placeholder_mark: '#',
         bracket_open: '{',
         bracket_close: '}',
+      },
+      variables: {
+        v: 'v',
+        value1: 'value1',
       },
       ok: [
         ['#{v}', 'v'],
@@ -36,6 +42,10 @@ describe('placeholder - format2', () => {
         bracket_open: '[',
         bracket_close: ']',
       },
+      variables: {
+        v: 'v',
+        value1: 'value1',
+      },
       ok: [
         ['$[v]', 'v'],
         ['$[value1]', 'value1'],
@@ -53,9 +63,11 @@ describe('placeholder - format2', () => {
     describe(`notation: ${set.notation}`, () => {
       set.ok.forEach(([input, result], index) => {
         it('should parse: case ' + (index + 1), () => {
+          const scope = new Scope(set.variables);
           const ast = parser.parse(input, set.option);
+          const output = evaluator.run(ast, scope);
 
-          assert.deepStrictEqual(ast.text, result);
+          assert.deepStrictEqual(output, result);
         });
       });
 

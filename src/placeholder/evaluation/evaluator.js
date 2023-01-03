@@ -3,32 +3,36 @@
  */
 
 /**
- * @param {Object[]} nodes
+ * @param {Object} node
  * @param {Scope} scope
  * @return {string}
  */
-const run = (nodes, scope) => {
-  const output = [];
+const run = (node, scope) => {
+  const outputs = [];
 
-  nodes.forEach((node) => {
-    visit(node, scope, output);
-  })
+  visit(node, scope, outputs);
 
-  return output.join('');
+  return outputs.join('');
 };
 
 /**
  * @param {Object} node
  * @param {Scope} scope
- * @param {string[]} output
+ * @param {string[]} outputs
  */
-const visit = (node, scope, output) => {
+const visit = (node, scope, outputs) => {
+  if (node.type === 'line_text') {
+    node.children.forEach((child) => {
+      visit(child, scope, outputs);
+    });
+  }
+
   if (node.type === 'variable') {
-    output.push(scope.getValue([node.text]));
+    outputs.push(scope.getValue([node.text]));
   }
 
   if (node.type === 'plain' || node.type === 'plain_fallback') {
-    output.push(node.text);
+    outputs.push(node.text);
   }
 };
 

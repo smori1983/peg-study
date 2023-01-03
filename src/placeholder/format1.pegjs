@@ -1,18 +1,27 @@
 {
   const op_delimiter_open = options.delimiter_open;
   const op_delimiter_close = options.delimiter_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
-  = placeholder
+  = p:placeholder
+  {
+    return toNode('line_text', 'line_text', {}, [p]);
+  }
 
 placeholder
   = delimiter_open _ v:variable _ delimiter_close
   {
-    return {
-      type: 'variable',
-      text: v,
-    };
+    return toNode('variable', v, {}, []);
   }
 
 delimiter_open

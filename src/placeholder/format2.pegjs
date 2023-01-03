@@ -2,18 +2,27 @@
   const op_placeholder_mark = options.placeholder_mark;
   const op_bracket_open = options.bracket_open;
   const op_bracket_close = options.bracket_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
-  = placeholder
+  = p:placeholder
+  {
+    return toNode('line_text', 'line_text', {}, [p]);
+  }
 
 placeholder
   = bracket_open _ v:variable _ bracket_close
   {
-    return {
-      type: 'variable',
-      text: v,
-    };
+    return toNode('variable', v, {}, []);
   }
 
 bracket_open

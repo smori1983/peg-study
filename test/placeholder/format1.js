@@ -2,6 +2,8 @@ const {describe, it} = require('mocha');
 const assert = require('assert');
 
 const parser = require('../../src/placeholder/format1');
+const Scope = require('../../src/placeholder/evaluation/scope');
+const evaluator = require('../../src/placeholder/evaluation/evaluator');
 
 describe('placeholder - format1', () => {
   const dataSet = [
@@ -10,6 +12,10 @@ describe('placeholder - format1', () => {
       option: {
         delimiter_open: '{',
         delimiter_close: '}',
+      },
+      variables: {
+        v: 'v',
+        value1: 'value1',
       },
       ok: [
         ['{v}', 'v'],
@@ -33,6 +39,10 @@ describe('placeholder - format1', () => {
       option: {
         delimiter_open: '${',
         delimiter_close: '}',
+      },
+      variables: {
+        v: 'v',
+        value2: 'value2',
       },
       ok: [
         ['${v}', 'v'],
@@ -58,6 +68,10 @@ describe('placeholder - format1', () => {
       option: {
         delimiter_open: '{{',
         delimiter_close: '}}',
+      },
+      variables: {
+        v: 'v',
+        value3: 'value3',
       },
       ok: [
         ['{{v}}', 'v'],
@@ -86,9 +100,11 @@ describe('placeholder - format1', () => {
     describe(`notation: ${set.notation}`, () => {
       set.ok.forEach(([input, result], index) => {
         it('should parse: case ' + (index + 1), () => {
+          const scope = new Scope(set.variables);
           const ast = parser.parse(input, set.option);
+          const output = evaluator.run(ast, scope);
 
-          assert.deepStrictEqual(ast.text, result);
+          assert.deepStrictEqual(output, result);
         });
       });
 

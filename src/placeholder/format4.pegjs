@@ -2,6 +2,15 @@
   const op_placeholder_mark = options.placeholder_mark;
   const op_bracket_open = options.bracket_open;
   const op_bracket_close = options.bracket_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
@@ -10,10 +19,7 @@ start
 line
   = c:component+ newline*
   {
-    return {
-      type: 'line',
-      components: c,
-    };
+    return toNode('line_text', 'line_text', {}, c);
   }
 
 component
@@ -26,17 +32,11 @@ component
 placeholder
   = placeholder_mark bracket_open _ v:variable _ bracket_close
   {
-    return v;
+    return toNode('variable', v, {}, []);
   }
 
 variable
-  = head:[a-z] tail:[0-9a-z_]*
-  {
-    return {
-      type: 'variable',
-      text: head + tail.join(''),
-    };
-  }
+  = $([a-z] [0-9a-z_]*)
 
 placeholder_mark
   = w:.
@@ -60,23 +60,17 @@ bracket_close
   }
 
 placeholder_fallback_as_plain_text1
-  = char1:. &newline
-    &{ return char1 === op_placeholder_mark; }
+  = char:. &newline
+    &{ return char === op_placeholder_mark; }
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('plain_fallback', char, {}, []);
   }
 
 placeholder_fallback_as_plain_text2
-  = char1:. &placeholder_mark
-    &{ return char1 === op_placeholder_mark; }
+  = char:. &placeholder_mark
+    &{ return char === op_placeholder_mark; }
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('plain_fallback', char, {}, []);
   }
 
 placeholder_fallback_as_plain_text3
@@ -87,19 +81,13 @@ placeholder_fallback_as_plain_text3
     &{ return char1 === op_placeholder_mark; }
     &{ return char2 !== op_bracket_open; }
   {
-    return {
-      type: 'plain_fallback',
-      text: char1 + (char2 ? char2 : ''),
-    };
+    return toNode('plain_fallback', char1 + (char2 ? char2 : ''), {}, []);
   }
 
 plain_text
-  = chars:plain_text_char+
+  = chars:$(plain_text_char+)
   {
-    return {
-      type: 'plain',
-      text: chars.join(''),
-    };
+    return toNode('plain', chars, {}, []);
   }
 
 plain_text_char

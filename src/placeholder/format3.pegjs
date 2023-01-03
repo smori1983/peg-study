@@ -2,10 +2,22 @@
   const op_placeholder_mark = options.placeholder_mark;
   const op_bracket_open = options.bracket_open;
   const op_bracket_close = options.bracket_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
-  = component+
+  = c:component+
+  {
+    return toNode('line_text', 'line_text', {}, c);
+  }
 
 component
   = placeholder
@@ -16,10 +28,7 @@ component
 placeholder
   = placeholder_mark bracket_open _ v:variable _ bracket_close
   {
-    return {
-      type: 'variable',
-      text: v,
-    };
+    return toNode('variable', v, {}, []);
   }
 
 variable
@@ -50,10 +59,7 @@ placeholder_fallback_as_plain_text1
   = char:. &placeholder_mark
     &{ return char === op_placeholder_mark; }
   {
-    return {
-      type: 'plain_fallback',
-      text: char,
-    };
+    return toNode('plain_fallback', char, {}, []);
   }
 
 placeholder_fallback_as_plain_text2
@@ -64,19 +70,13 @@ placeholder_fallback_as_plain_text2
     &{ return char1 === op_placeholder_mark; }
     &{ return char2 !== op_bracket_open; }
   {
-    return {
-      type: 'plain_fallback',
-      text: char1 + (char2 ? char2 : ''),
-    };
+    return toNode('plain_fallback', char1 + (char2 ? char2 : ''), {}, []);
   }
 
 plain_text
   = chars:$(plain_text_char+)
   {
-    return {
-      type: 'plain',
-      text: chars,
-    };
+    return toNode('plain', chars, {}, []);
   }
 
 plain_text_char
