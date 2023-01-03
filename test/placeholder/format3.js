@@ -11,8 +11,8 @@ describe('placeholder - format3', () => {
       notation: '#{...}',
       option: {
         placeholder_mark: '#',
-        bracket_open: '{',
-        bracket_close: '}',
+        placeholder_bracket_open: '{',
+        placeholder_bracket_close: '}',
       },
       variables: {
         v: 'a',

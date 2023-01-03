@@ -1,7 +1,7 @@
 {
   const op_placeholder_mark = options.placeholder_mark;
-  const op_bracket_open = options.bracket_open;
-  const op_bracket_close = options.bracket_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
 
   function toNode(type, text, attributes, children) {
     return {
@@ -20,23 +20,23 @@ start
   }
 
 placeholder
-  = bracket_open _ v:variable _ bracket_close
+  = placeholder_bracket_open _ v:variable _ placeholder_bracket_close
   {
     return toNode('variable', v, {}, []);
   }
 
-bracket_open
-  = mark:. delim:.
-    &{ return mark === op_placeholder_mark && delim === op_bracket_open; }
+placeholder_bracket_open
+  = char1:. char2:.
+    &{ return char1 === op_placeholder_mark && char2 === op_placeholder_bracket_open; }
   {
-    return mark + delim;
+    return char1 + char2;
   }
 
-bracket_close
-  = delim:.
-    &{ return delim === op_bracket_close; }
+placeholder_bracket_close
+  = char:.
+    &{ return char === op_placeholder_bracket_close; }
   {
-    return delim;
+    return char;
   }
 
 variable

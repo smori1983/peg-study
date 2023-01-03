@@ -10,8 +10,8 @@ describe('placeholder - format1', () => {
     {
       notation: '{...}',
       option: {
-        delimiter_open: '{',
-        delimiter_close: '}',
+        placeholder_bracket_open: '{',
+        placeholder_bracket_close: '}',
       },
       variables: {
         v: 'v',
@@ -37,8 +37,8 @@ describe('placeholder - format1', () => {
     {
       notation: '${...}',
       option: {
-        delimiter_open: '${',
-        delimiter_close: '}',
+        placeholder_bracket_open: '${',
+        placeholder_bracket_close: '}',
       },
       variables: {
         v: 'v',
@@ -66,8 +66,8 @@ describe('placeholder - format1', () => {
     {
       notation: '{{...}}',
       option: {
-        delimiter_open: '{{',
-        delimiter_close: '}}',
+        placeholder_bracket_open: '{{',
+        placeholder_bracket_close: '}}',
       },
       variables: {
         v: 'v',

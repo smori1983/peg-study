@@ -1,7 +1,7 @@
 {
   const op_placeholder_mark = options.placeholder_mark;
-  const op_bracket_open = options.bracket_open;
-  const op_bracket_close = options.bracket_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
 
   function toNode(type, text, attributes, children) {
     return {
@@ -30,7 +30,7 @@ component
   / plain_text
 
 placeholder
-  = placeholder_mark bracket_open _ v:variable _ bracket_close
+  = placeholder_mark placeholder_bracket_open _ v:variable _ placeholder_bracket_close
   {
     return toNode('variable', v, {}, []);
   }
@@ -39,24 +39,24 @@ variable
   = $([a-z] [0-9a-z_]*)
 
 placeholder_mark
-  = w:.
-    &{ return w === op_placeholder_mark; }
+  = char:.
+    &{ return char === op_placeholder_mark; }
   {
-    return w;
+    return char;
   }
 
-bracket_open
-  = w:.
-    &{ return w === op_bracket_open; }
+placeholder_bracket_open
+  = char:.
+    &{ return char === op_placeholder_bracket_open; }
   {
-    return w;
+    return char;
   }
 
-bracket_close
-  = w:.
-    &{ return w === op_bracket_close; }
+placeholder_bracket_close
+  = char:.
+    &{ return char === op_placeholder_bracket_close; }
   {
-    return w;
+    return char;
   }
 
 placeholder_fallback_as_plain_text1
@@ -79,7 +79,7 @@ placeholder_fallback_as_plain_text3
   //
   = char1:. char2:.?
     &{ return char1 === op_placeholder_mark; }
-    &{ return char2 !== op_bracket_open; }
+    &{ return char2 !== op_placeholder_bracket_open; }
   {
     return toNode('plain_fallback', char1 + (char2 ? char2 : ''), {}, []);
   }

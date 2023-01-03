@@ -1,6 +1,6 @@
 {
-  const op_delimiter_open = options.delimiter_open;
-  const op_delimiter_close = options.delimiter_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
 
   function toNode(type, text, attributes, children) {
     return {
@@ -19,26 +19,26 @@ start
   }
 
 placeholder
-  = delimiter_open _ v:variable _ delimiter_close
+  = placeholder_bracket_open _ v:variable _ placeholder_bracket_close
   {
     return toNode('variable', v, {}, []);
   }
 
-delimiter_open
-  = w:delimiter_available
-    &{ return w === op_delimiter_open; }
+placeholder_bracket_open
+  = w:placeholder_bracket_available
+    &{ return w === op_placeholder_bracket_open; }
   {
     return w;
   }
 
-delimiter_close
-  = w:delimiter_available
-    &{ return w === op_delimiter_close; }
+placeholder_bracket_close
+  = w:placeholder_bracket_available
+    &{ return w === op_placeholder_bracket_close; }
   {
     return w;
   }
 
-delimiter_available 'delimiter_available'
+placeholder_bracket_available 'placeholder_bracket_available'
   = $([^ a-z0-9]i+)
 
 variable

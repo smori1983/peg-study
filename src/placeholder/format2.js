@@ -148,13 +148,13 @@ function peg$parse(input, options) {
           return toNode('variable', v, {}, []);
         },
       peg$c2 = peg$anyExpectation(),
-      peg$c3 = function(mark, delim) { return mark === op_placeholder_mark && delim === op_bracket_open; },
-      peg$c4 = function(mark, delim) {
-          return mark + delim;
+      peg$c3 = function(char1, char2) { return char1 === op_placeholder_mark && char2 === op_placeholder_bracket_open; },
+      peg$c4 = function(char1, char2) {
+          return char1 + char2;
         },
-      peg$c5 = function(delim) { return delim === op_bracket_close; },
-      peg$c6 = function(delim) {
-          return delim;
+      peg$c5 = function(char) { return char === op_placeholder_bracket_close; },
+      peg$c6 = function(char) {
+          return char;
         },
       peg$c7 = /^[a-z]/,
       peg$c8 = peg$classExpectation([["a", "z"]], false, false),
@@ -318,7 +318,7 @@ function peg$parse(input, options) {
     var s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
-    s1 = peg$parsebracket_open();
+    s1 = peg$parseplaceholder_bracket_open();
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
@@ -326,7 +326,7 @@ function peg$parse(input, options) {
         if (s3 !== peg$FAILED) {
           s4 = peg$parse_();
           if (s4 !== peg$FAILED) {
-            s5 = peg$parsebracket_close();
+            s5 = peg$parseplaceholder_bracket_close();
             if (s5 !== peg$FAILED) {
               peg$savedPos = s0;
               s1 = peg$c1(s3);
@@ -355,7 +355,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsebracket_open() {
+  function peg$parseplaceholder_bracket_open() {
     var s0, s1, s2, s3;
 
     s0 = peg$currPos;
@@ -402,7 +402,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsebracket_close() {
+  function peg$parseplaceholder_bracket_close() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -521,8 +521,8 @@ function peg$parse(input, options) {
 
 
     const op_placeholder_mark = options.placeholder_mark;
-    const op_bracket_open = options.bracket_open;
-    const op_bracket_close = options.bracket_close;
+    const op_placeholder_bracket_open = options.placeholder_bracket_open;
+    const op_placeholder_bracket_close = options.placeholder_bracket_close;
 
     function toNode(type, text, attributes, children) {
       return {
