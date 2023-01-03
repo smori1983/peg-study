@@ -1,5 +1,9 @@
+/**
+ * @typedef {import('./method-def')} MethodDef
+ * @typedef {import('./node')} Node
+ */
+
 const sprintf = require('sprintf-js').sprintf;
-const MethodDef = require('./method-def');
 const MethodDefFilter = require('./method-def-filter');
 const MethodDefJoin = require('./method-def-join');
 const MethodDefLower = require('./method-def-lower');
@@ -8,7 +12,6 @@ const MethodDefSort = require('./method-def-sort');
 const MethodDefSplit = require('./method-def-split');
 const MethodDefTrim = require('./method-def-trim');
 const MethodDefUpper = require('./method-def-upper');
-const Node = require('./node');
 const NodeRoot = require('./node-root');
 const NodeForLoop = require('./node-for-loop');
 const NodeLog = require('./node-log');
@@ -53,10 +56,10 @@ class Builder {
    * @private
    */
   _build(node, ast) {
-    if (ast.type === 'builtin' && ast.text === 'for') {
-      this._buildFor(node, ast);
-    } else if (ast.type === 'builtin' && ast.text === 'log') {
+    if (ast.type === 'builtin' && ast.text === 'log') {
       this._buildLog(node, ast);
+    } else if (ast.type === 'builtin' && ast.text === 'loop') {
+      this._buildLoop(node, ast);
     } else {
       throw new Error('unknown type: ' + ast.type);
     }
@@ -67,9 +70,20 @@ class Builder {
    * @param {Object} ast
    * @private
    */
-  _buildFor(node, ast) {
-    const array = this._buildVariable(ast.array);
-    const variable = this._buildVariable(ast.variable);
+  _buildLog(node, ast) {
+    const arg = this._buildVariable(ast.attributes.arguments[0]);
+
+    node.addChild(new NodeLog(arg));
+  }
+
+  /**
+   * @param {Node} node
+   * @param {Object} ast
+   * @private
+   */
+  _buildLoop(node, ast) {
+    const array = this._buildVariable(ast.attributes.array);
+    const variable = this._buildVariable(ast.attributes.variable);
     const forLoop = new NodeForLoop(array, variable);
 
     ast.children.forEach((child) => {
@@ -80,17 +94,6 @@ class Builder {
   }
 
   /**
-   * @param {Node} node
-   * @param {Object} ast
-   * @private
-   */
-  _buildLog(node, ast) {
-    const arg = this._buildVariable(ast.args[0]);
-
-    node.addChild(new NodeLog(arg));
-  }
-
-  /**
    * @param ast
    * @returns {Variable}
    * @private
@@ -98,13 +101,13 @@ class Builder {
   _buildVariable(ast) {
     const variable = new Variable(ast.text);
 
-    (ast.methods || []).forEach((astMethod) => {
+    (ast.attributes.methods || []).forEach((astMethod) => {
       if (astMethod.type === 'property') {
         variable.addChainItem(new VariableProperty(astMethod.text));
       } else {
         const item = new VariableMethod(this._buildMethod(astMethod));
 
-        astMethod.args.forEach((astMethodArg) => {
+        astMethod.attributes.arguments.forEach((astMethodArg) => {
           if (astMethodArg.type === 'variable') {
             item.addArg(this._buildVariable(astMethodArg));
           } else {

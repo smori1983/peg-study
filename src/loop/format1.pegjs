@@ -1,48 +1,42 @@
-start
-  = components:component*
-  {
+{
+  function toNode(type, text, attributes, children) {
     return {
-      type: 'root',
-      text: 'root',
-      children: components,
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
     };
+  }
+}
+
+start
+  = c:component*
+  {
+    return toNode('root', 'root', {}, c);
   }
 
 component
-  = for_loop
-  / log
+  = builtin_log
+  / builtin_for_loop
 
-for_loop
+builtin_log
+  = _ 'log' _ '(' _ v:variable _ ')' _
+  {
+    return toNode('builtin', 'log', {argument: v}, []);
+  }
+
+builtin_for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _
-    components:component*
+    c:component*
     _ '}' _
   {
-    return {
-      type: 'builtin',
-      text: 'for',
-      array: a,
-      variable: v,
-      children: components,
-    };
+    return toNode('builtin', 'loop', {array: a, variable: v}, c);
   }
 
 variable
-  = head:[a-z] tail:[0-9a-z_]*
+  = v:$([a-z] [0-9a-z_]*)
   {
-    return {
-      type: 'variable',
-      text: head + tail.join(''),
-    };
-  }
-
-log
-  = _ 'log' _ '(' _ v:variable _ ')' _
-  {
-    return {
-      type: 'builtin',
-      text: 'log',
-      variable: v,
-    };
+    return toNode('variable', v, {}, []);
   }
 
 _ 'whitespace'

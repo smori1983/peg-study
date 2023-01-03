@@ -1,5 +1,8 @@
+/**
+ * @typedef {import('./variable')} Variable
+ */
+
 const Node = require('./node');
-const Variable = require('./variable');
 
 class NodeLog extends Node {
   /**

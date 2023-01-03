@@ -15,75 +15,109 @@ describe('loop - format2', () => {
       ].join('\n');
 
       const ast = {
-        "type": "root",
-        "text": "root",
-        "children": [
+        type: 'root',
+        text: 'root',
+        attributes: {},
+        children: [
           {
-            "type": "builtin",
-            "text": "log",
-            "args": [
-              {
-                "type": "variable",
-                "text": "data",
-                "methods": [
-                  {
-                    "type": "method",
-                    "text": "upper",
-                    "args": []
+            type: 'builtin',
+            text: 'log',
+            attributes: {
+              arguments: [
+                {
+                  type: 'variable',
+                  text: 'data',
+                  attributes: {
+                    methods: [
+                      {
+                        type: 'method',
+                        text: 'upper',
+                        attributes: {
+                          arguments: [],
+                        },
+                        children: [],
+                      },
+                      {
+                        type: 'method',
+                        text: 'lower',
+                        attributes: {
+                          arguments: [],
+                        },
+                        children: [],
+                      },
+                    ],
                   },
-                  {
-                    "type": "method",
-                    "text": "lower",
-                    "args": []
-                  }
-                ]
-              }
-            ]
+                  children: [],
+                },
+              ],
+            },
+            children: [],
           },
           {
-            "type": "builtin",
-            "text": "for",
-            "array": {
-              "type": "variable",
-              "text": "data",
-              "methods": [
-                {
-                  "type": "method",
-                  "text": "split",
-                  "args": [
+            type: 'builtin',
+            text: 'loop',
+            attributes: {
+              array: {
+                type: 'variable',
+                text: 'data',
+                attributes: {
+                  methods: [
                     {
-                      "type": "string",
-                      "text": "-"
-                    }
-                  ]
-                }
-              ]
+                      type: 'method',
+                      text: 'split',
+                      attributes: {
+                        arguments: [
+                          {
+                            type: 'string',
+                            text: '-',
+                            attributes: {},
+                            children: [],
+                          },
+                        ],
+                      },
+                      children: [],
+                    },
+                  ],
+                },
+                children: [],
+              },
+              variable: {
+                type: 'variable',
+                text: 'part',
+                attributes: {},
+                children: [],
+              },
             },
-            "variable": {
-              "type": "variable",
-              "text": "part"
-            },
-            "children": [
+            children: [
               {
-                "type": "builtin",
-                "text": "log",
-                "args": [
-                  {
-                    "type": "variable",
-                    "text": "part",
-                    "methods": [
-                      {
-                        "type": "method",
-                        "text": "upper",
-                        "args": []
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                type: 'builtin',
+                text: 'log',
+                attributes: {
+                  arguments: [
+                    {
+                      type: 'variable',
+                      text: 'part',
+                      attributes: {
+                        methods: [
+                          {
+                            type: 'method',
+                            text: 'upper',
+                            attributes: {
+                              arguments: [],
+                            },
+                            children: [],
+                          },
+                        ],
+                      },
+                      children: [],
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       assert.deepStrictEqual(parser.parse(input), ast);
@@ -99,8 +133,9 @@ describe('loop - format2', () => {
         '}',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('data', 'a-b-c');
+      const scope = new Scope({
+        data: 'a-b-c',
+      });
 
       const debug = new Debug();
 
@@ -120,9 +155,10 @@ describe('loop - format2', () => {
         'log(value.split(separator.lower()).join(""))',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', 'a-b-c');
-      scope.addVariable('separator', '-');
+      const scope = new Scope({
+        value: 'a-b-c',
+        separator: '-',
+      });
 
       const debug = new Debug();
 
@@ -140,9 +176,10 @@ describe('loop - format2', () => {
         "log(value.split(separator.lower()).join(''))",
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', 'a-b-c');
-      scope.addVariable('separator', '-');
+      const scope = new Scope({
+        value: 'a-b-c',
+        separator: '-',
+      });
 
       const debug = new Debug();
 
@@ -160,9 +197,13 @@ describe('loop - format2', () => {
         'log(value.split(config.separator.lower()).join("#"))',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', 'a-b-c');
-      scope.addVariable('config', {version: '1.0.0', separator: '-'});
+      const scope = new Scope({
+        value: 'a-b-c',
+        config: {
+          version: '1.0.0',
+          separator: '-',
+        },
+      });
 
       const debug = new Debug();
 
@@ -181,8 +222,9 @@ describe('loop - format2', () => {
         '}',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', 'z-a-A-20-10');
+      const scope = new Scope({
+        value: 'z-a-A-20-10',
+      });
 
       const debug = new Debug();
 
@@ -202,8 +244,9 @@ describe('loop - format2', () => {
         'log(value.trim())',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', ' abc ');
+      const scope = new Scope({
+        value: ' abc ',
+      });
 
       const debug = new Debug();
 
@@ -227,8 +270,9 @@ describe('loop - format2', () => {
         'log(value.replace("-", ""))',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('value', 'a-b-c');
+      const scope = new Scope({
+        value: 'a-b-c',
+      });
 
       const debug = new Debug();
 
@@ -257,8 +301,9 @@ describe('loop - format2', () => {
         'log(values.filter("!=", 200).join("_"))',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('values', [100, 200, 300]);
+      const scope = new Scope({
+        values: [100, 200, 300],
+      });
 
       const debug = new Debug();
 
@@ -286,9 +331,10 @@ describe('loop - format2', () => {
         '}',
       ].join('\n');
 
-      const scope = new Scope();
-      scope.addVariable('data1', ['a', 'b', 'c']);
-      scope.addVariable('data2', ['x', 'y', 'z']);
+      const scope = new Scope({
+        data1: ['a', 'b', 'c'],
+        data2: ['x', 'y', 'z'],
+      });
 
       const debug = new Debug();
 

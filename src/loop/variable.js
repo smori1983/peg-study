@@ -1,4 +1,8 @@
-const Scope = require('./scope');
+/**
+ * @typedef {import('./scope')} Scope
+ * @typedef {import('./variable-chain')} VariableChain
+ */
+
 const Value = require('./value');
 
 class Variable {
@@ -34,7 +38,7 @@ class Variable {
    * @return {Value}
    */
   resolve(scope) {
-    let receiver = new Value(scope.resolveVariable(this._name));
+    let receiver = new Value(scope.getValue([this._name]));
 
     this._chain.forEach((item) => {
       receiver = item.evaluate(receiver, scope);

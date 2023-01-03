@@ -1,6 +1,9 @@
+/**
+ * @typedef {import('./scope')} Scope
+ */
+
 const Builder = require('../loop/builder');
 const Output = require('../loop/output');
-const Scope = require('../loop/scope');
 
 class DebugBase {
   /**

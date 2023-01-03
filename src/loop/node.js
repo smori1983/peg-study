@@ -1,5 +1,7 @@
-const Output = require('./output');
-const Scope = require('./scope');
+/**
+ * @typedef {import('./output')} Output
+ * @typedef {import('./scope')} Scope
+ */
 
 class Node {
   constructor() {
