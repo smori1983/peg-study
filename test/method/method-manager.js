@@ -41,4 +41,43 @@ describe('method - MethodManager', () => {
       runner.normalCase(variables, dataSet, format1Parser);
     });
   });
+
+  describe('format2', () => {
+    const variables = {
+      amount: 999,
+      key1: 'ABC-123-xyz',
+      key2: {
+        name: 'DEF-999-xyz',
+        amount: 100,
+      },
+    };
+
+    describe('error case', () => {
+      const dataSet = [
+        ['foo', 'variable not found: foo'],
+        ['key1.foo()', 'method not found: foo'],
+        ['amount.upper()', 'number cannot use method upper'],
+        ['key1.upper(true)', 'number of arguments of method upper should be 0'],
+        ['key1.split()', 'number of arguments of method split should be 1'],
+        ['key1.split("-", true)', 'number of arguments of method split should be 1'],
+        ['key1.split(3)', 'argument type does not match for method split'],
+        ['key1.split("-").lower()', 'array cannot use method lower'],
+        ['key1.upper().split("-").join("_").join("*")', 'string cannot use method join'],
+      ];
+
+      runner.errorCase(variables, dataSet, format2Parser);
+    });
+
+    describe('normal case', () => {
+      const dataSet = [
+        ['amount', 999],
+        ['key1', 'ABC-123-xyz'],
+        ['key1.upper()', 'ABC-123-XYZ'],
+        ['key1.split("-").join("_").split("_").join("-").upper()', 'ABC-123-XYZ'],
+        ["key1.split('-').join('_').split('_').join('-').upper()", 'ABC-123-XYZ'],
+      ];
+
+      runner.normalCase(variables, dataSet, format2Parser);
+    });
+  });
 });
