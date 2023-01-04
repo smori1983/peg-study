@@ -31,34 +31,10 @@ class MethodManager {
     let receiverType = this._getDataType(currentReceiver);
 
     node.children.forEach((child) => {
-      if (child.type === 'method') {
-        const currentMethod = this._findMethodDef(child.text);
-
-        this._checkReceiverType(receiverType, currentMethod);
-        this._checkArgumentTypes(child.attributes.arguments, currentMethod);
-
-        const args = child.attributes.arguments.map((arg) => {
-          if (arg.type === 'bool') {
-            return arg.text === 'true';
-          } else if (arg.type === 'int') {
-            return parseInt(arg.text, 10);
-          } else if (arg.type === 'string') {
-            return arg.text;
-          } else {
-            throw new Error(sprintf('unknown argument type: %s', arg.type));
-          }
-        });
-
-        const returnValue = currentMethod.evaluate(currentReceiver, args);
-        const returnValueType = this._getDataType(returnValue);
-
-        if (returnValueType !== currentMethod.getReturnType()) {
-          throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
-        }
-
-        currentReceiver = returnValue;
-      } else if (child.type === 'property') {
-        currentReceiver = this._getProperty(currentReceiver, child.text);
+      if (child.type === 'property') {
+        currentReceiver = this._invokeProperty(currentReceiver, child);
+      } else if (child.type === 'method') {
+        currentReceiver = this._invokeMethod(currentReceiver, child);
       }
 
       receiverType = this._getDataType(currentReceiver);
@@ -68,18 +44,54 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} object
-   * @param {string} property
+   * @param {Object} receiver
+   * @param {Object} node
    * @return {*}
    * @throws {Error}
    * @private
    */
-  _getProperty(object, property) {
-    if (object.hasOwnProperty(property)) {
-      return object[property];
+  _invokeProperty(receiver, node) {
+    if (receiver.hasOwnProperty(node.text)) {
+      return receiver[node.text];
     }
 
-    throw new Error(sprintf('property not found: %s', property));
+    throw new Error(sprintf('property not found: %s', node.text));
+  }
+
+  /**
+   * @param {*} receiver
+   * @param {Object} node
+   * @return {*}
+   * @throws {Error}
+   * @private
+   */
+  _invokeMethod(receiver, node) {
+    const receiverType = this._getDataType(receiver);
+    const currentMethod = this._findMethodDef(node.text);
+
+    this._checkReceiverType(receiverType, currentMethod);
+    this._checkArgumentTypes(node.attributes.arguments, currentMethod);
+
+    const args = node.attributes.arguments.map((arg) => {
+      if (arg.type === 'bool') {
+        return arg.text === 'true';
+      } else if (arg.type === 'int') {
+        return parseInt(arg.text, 10);
+      } else if (arg.type === 'string') {
+        return arg.text;
+      } else {
+        throw new Error(sprintf('unknown argument type: %s', arg.type));
+      }
+    });
+
+    const returnValue = currentMethod.evaluate(receiver, args);
+    const returnValueType = this._getDataType(returnValue);
+
+    if (returnValueType !== currentMethod.getReturnType()) {
+      throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
+    }
+
+    return returnValue;
   }
 
   /**
