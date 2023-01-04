@@ -1,6 +1,6 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
-const MethodManager = require('../../src/method/method-manager');
+const MethodManager = require('../../src/method/evaluation/method-manager');
 const parser = require('../../src/method/format1');
 
 const variables = {
