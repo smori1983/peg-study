@@ -23,24 +23,6 @@ class MethodManager {
   /**
    * @param {Object} node
    * @param {Scope} scope
-   * @throws {Error}
-   */
-  validate(node, scope) {
-    let receiverType = this._getDataType(scope.getValue([node.text]));
-
-    node.children.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.text);
-
-      this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.attributes.arguments, currentMethod);
-
-      receiverType = currentMethod.getReturnType();
-    });
-  }
-
-  /**
-   * @param {Object} node
-   * @param {Scope} scope
    * @return {*}
    * @throws {Error}
    */
