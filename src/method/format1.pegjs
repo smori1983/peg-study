@@ -1,25 +1,27 @@
-start
-  = v:variable m:method*
-  {
+{
+  function toNode(type, text, attributes, children) {
     return {
-      name: v,
-      methods: m,
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
     };
   }
+}
+
+start
+  = variable
 
 variable
-  = head:[a-z] tail:[0-9a-z_]*
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) m:method*
   {
-    return head + tail.join('');
+    return toNode('variable', v, {}, m);
   }
 
 method
-  = _ '.' _ head:[a-z] tail:[0-9a-z_]* _ '(' _ args:arguments* _ ')'
+  = _ '.' _ m:$([a-z][0-9a-z_]*) _ '(' _ args:arguments* _ ')'
   {
-    return {
-      name: head + tail.join(''),
-      args: args.length > 0 ? args[0] : [],
-    };
+    return toNode('method', m, {arguments: args.length > 0 ? args[0] : []}, []);
   }
 
 arguments
@@ -29,68 +31,59 @@ arguments
   }
 
 argument
-  = arg_bool
-  / arg_int
-  / arg_string_single_quote
-  / arg_string_double_quote
+  = value_bool
+  / value_float
+  / value_int
+  / value_string_single_quote
+  / value_string_double_quote
 
-arg_bool
-  = w:('true' / 'false')
+value_bool
+  = text:('true' / 'false')
   {
-    return {
-      type: 'bool',
-      text: w,
-    };
+    return toNode('bool', text, {}, []);
   }
 
-arg_int
-  = digits:[0-9]+
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
   {
-    return {
-      type: 'int',
-      text: digits.join(''),
-    };
+    return toNode('float', text, {}, []);
+  }
+
+value_int
+  = text:$([0-9]+)
+  {
+    return toNode('int', text, {}, []);
+  }
+
+value_string_single_quote
+  = single_quote text:$(value_string_single_quote_char*) single_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_single_quote_char
+  = !single_quote char:.
+  {
+    return char;
+  }
+
+value_string_double_quote
+  = double_quote text:$(value_string_double_quote_char*) double_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_double_quote_char
+  = !double_quote char:.
+  {
+    return char;
   }
 
 single_quote
   = "'"
 
-arg_string_single_quote
-  = single_quote chars:arg_string_single_quote_char* single_quote
-  {
-    return {
-      type: 'string',
-      text: chars.join(''),
-    };
-  }
-
-arg_string_single_quote_char
-  = !single_quote w:.
-  {
-    return w;
-  }
-
 double_quote
   = '"'
 
-arg_string_double_quote
-  = double_quote chars:arg_string_double_quote_char* double_quote
-  {
-    return {
-      type: 'string',
-      text: chars.join(''),
-    };
-  }
-
-arg_string_double_quote_char
-  = !double_quote w:.
-  {
-    return w;
-  }
-
-_ 'whitespace'
+_
   = [ \t\r\n]*
-
-__ 'space'
-  = [ \t]*
-

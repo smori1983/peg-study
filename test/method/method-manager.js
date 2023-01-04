@@ -6,6 +6,7 @@ const parser = require('../../src/method/format1');
 const variables = {
   code: 'ABC-123-xyz',
   amount: 999,
+  rate: 0.9,
 };
 
 const validate = (input) => {
@@ -50,6 +51,8 @@ describe('method - MethodManager', () => {
   describe('normal case', () => {
     const dataSet = [
       ['code', 'ABC-123-xyz'],
+      ['amount', 999],
+      ['rate', 0.9],
       ['code.upper()', 'ABC-123-XYZ'],
       ['code.split("-").join("_").split("_").join("-").upper()', 'ABC-123-XYZ'],
       ["code.split('-').join('_').split('_').join('-').upper()", 'ABC-123-XYZ'],

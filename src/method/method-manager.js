@@ -18,19 +18,19 @@ class MethodManager {
 
   /**
    * @param {Object} variables
-   * @param {Object} ast
+   * @param {Object} node
    * @throws {Error}
    */
-  validate(variables, ast) {
-    this._checkVariable(variables, ast);
+  validate(variables, node) {
+    this._checkVariable(variables, node);
 
-    let receiverType = this._getDataType(variables[ast.name])
+    let receiverType = this._getDataType(variables[node.text])
 
-    ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
+    node.children.forEach((method) => {
+      const currentMethod = this._findMethodDef(method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.args, currentMethod);
+      this._checkArgumentTypes(method.attributes.arguments, currentMethod);
 
       receiverType = currentMethod.getReturnType();
     });
@@ -38,22 +38,23 @@ class MethodManager {
 
   /**
    * @param {Object} variables
-   * @param {Object} ast
+   * @param {Object} node
+   * @return {*}
    * @throws {Error}
    */
-  invoke(variables, ast) {
-    this._checkVariable(variables, ast);
+  invoke(variables, node) {
+    this._checkVariable(variables, node);
 
-    let currentReceiver = variables[ast.name];
+    let currentReceiver = variables[node.text];
     let receiverType = this._getDataType(currentReceiver);
 
-    ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
+    node.children.forEach((method) => {
+      const currentMethod = this._findMethodDef(method.text);
 
       this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.args, currentMethod);
+      this._checkArgumentTypes(method.attributes.arguments, currentMethod);
 
-      const args = method.args.map((arg) => {
+      const args = method.attributes.arguments.map((arg) => {
         if (arg.type === 'bool') {
           return arg.text === 'true';
         } else if (arg.type === 'int') {
@@ -81,13 +82,13 @@ class MethodManager {
 
   /**
    * @param {Object} variables
-   * @param {Object} ast
+   * @param {Object} node
    * @throws {Error}
    * @private
    */
-  _checkVariable(variables, ast) {
-    if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error(sprintf('variable not registered: %s', ast.name));
+  _checkVariable(variables, node) {
+    if (!variables.hasOwnProperty(node.text)) {
+      throw new Error(sprintf('variable not registered: %s', node.text));
     }
   }
 
@@ -104,7 +105,7 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} args
+   * @param {Object[]} args
    * @param {MethodDef} methodDef
    * @throws {Error}
    * @private
