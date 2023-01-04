@@ -64,10 +64,10 @@ class MethodManager {
    */
   _invokeMethod(receiver, node) {
     const receiverType = this._getDataType(receiver);
-    const currentMethod = this._findMethodDef(node.text);
+    const method = this._findMethodDef(node.text);
 
-    this._checkReceiverType(receiverType, currentMethod);
-    this._checkArgumentTypes(node.attributes.arguments, currentMethod);
+    this._checkReceiverType(receiverType, method);
+    this._checkArgumentTypes(node.attributes.arguments, method);
 
     const args = node.attributes.arguments.map((arg) => {
       if (arg.type === 'bool') {
@@ -81,11 +81,11 @@ class MethodManager {
       }
     });
 
-    const returnValue = currentMethod.evaluate(receiver, args);
+    const returnValue = method.evaluate(receiver, args);
     const returnValueType = this._getDataType(returnValue);
 
-    if (returnValueType !== currentMethod.getReturnType()) {
-      throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
+    if (returnValueType !== method.getReturnType()) {
+      throw new Error(sprintf('return value of %s should be %s, actual was %s', method.getName(), method.getReturnType(), returnValueType));
     }
 
     return returnValue;
