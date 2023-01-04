@@ -30,36 +30,56 @@ class MethodManager {
     let currentReceiver = scope.getValue([node.text]);
     let receiverType = this._getDataType(currentReceiver);
 
-    node.children.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.text);
+    node.children.forEach((child) => {
+      if (child.type === 'method') {
+        const currentMethod = this._findMethodDef(child.text);
 
-      this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.attributes.arguments, currentMethod);
+        this._checkReceiverType(receiverType, currentMethod);
+        this._checkArgumentTypes(child.attributes.arguments, currentMethod);
 
-      const args = method.attributes.arguments.map((arg) => {
-        if (arg.type === 'bool') {
-          return arg.text === 'true';
-        } else if (arg.type === 'int') {
-          return parseInt(arg.text, 10);
-        } else if (arg.type === 'string') {
-          return arg.text;
-        } else {
-          throw new Error(sprintf('unknown argument type: %s', arg.type));
+        const args = child.attributes.arguments.map((arg) => {
+          if (arg.type === 'bool') {
+            return arg.text === 'true';
+          } else if (arg.type === 'int') {
+            return parseInt(arg.text, 10);
+          } else if (arg.type === 'string') {
+            return arg.text;
+          } else {
+            throw new Error(sprintf('unknown argument type: %s', arg.type));
+          }
+        });
+
+        const returnValue = currentMethod.evaluate(currentReceiver, args);
+        const returnValueType = this._getDataType(returnValue);
+
+        if (returnValueType !== currentMethod.getReturnType()) {
+          throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
         }
-      });
 
-      const returnValue = currentMethod.evaluate(currentReceiver, args);
-      const returnValueType = this._getDataType(returnValue);
-
-      if (returnValueType !== currentMethod.getReturnType()) {
-        throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
+        currentReceiver = returnValue;
+      } else if (child.type === 'property') {
+        currentReceiver = this._getProperty(currentReceiver, child.text);
       }
 
-      currentReceiver = returnValue;
       receiverType = this._getDataType(currentReceiver);
     });
 
     return currentReceiver;
+  }
+
+  /**
+   * @param {Object} object
+   * @param {string} property
+   * @return {*}
+   * @throws {Error}
+   * @private
+   */
+  _getProperty(object, property) {
+    if (object.hasOwnProperty(property)) {
+      return object[property];
+    }
+
+    throw new Error(sprintf('property not found: %s', property));
   }
 
   /**

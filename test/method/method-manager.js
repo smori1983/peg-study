@@ -56,6 +56,8 @@ describe('method - MethodManager', () => {
       const dataSet = [
         ['foo', 'variable not found: foo'],
         ['key1.foo()', 'method not found: foo'],
+        ['key1.value', 'property not found: value'],
+        ['key2.value', 'property not found: value'],
         ['amount.upper()', 'number cannot use method upper'],
         ['key1.upper(true)', 'number of arguments of method upper should be 0'],
         ['key1.split()', 'number of arguments of method split should be 1'],
@@ -72,6 +74,8 @@ describe('method - MethodManager', () => {
       const dataSet = [
         ['amount', 999],
         ['key1', 'ABC-123-xyz'],
+        ['key2.name', 'DEF-999-xyz'],
+        ['key2.amount', 100],
         ['key1.upper()', 'ABC-123-XYZ'],
         ['key1.split("-").join("_").split("_").join("-").upper()', 'ABC-123-XYZ'],
         ["key1.split('-').join('_').split('_').join('-').upper()", 'ABC-123-XYZ'],
