@@ -28,7 +28,6 @@ class MethodManager {
    */
   invoke(node, scope) {
     let currentReceiver = scope.getValue([node.text]);
-    let receiverType = this._getDataType(currentReceiver);
 
     node.children.forEach((child) => {
       if (child.type === 'property') {
@@ -36,8 +35,6 @@ class MethodManager {
       } else if (child.type === 'method') {
         currentReceiver = this._invokeMethod(currentReceiver, child);
       }
-
-      receiverType = this._getDataType(currentReceiver);
     });
 
     return currentReceiver;
