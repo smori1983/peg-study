@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('./scope')} Scope
+ */
+
 const sprintf = require('sprintf-js').sprintf;
 const MethodDefLower = require('./method-def-lower');
 const MethodDefUpper = require('./method-def-upper');
@@ -17,14 +21,12 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} variables
    * @param {Object} node
+   * @param {Scope} scope
    * @throws {Error}
    */
-  validate(variables, node) {
-    this._checkVariable(variables, node);
-
-    let receiverType = this._getDataType(variables[node.text])
+  validate(node, scope) {
+    let receiverType = this._getDataType(scope.getValue([node.text]));
 
     node.children.forEach((method) => {
       const currentMethod = this._findMethodDef(method.text);
@@ -37,15 +39,13 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} variables
    * @param {Object} node
+   * @param {Scope} scope
    * @return {*}
    * @throws {Error}
    */
-  invoke(variables, node) {
-    this._checkVariable(variables, node);
-
-    let currentReceiver = variables[node.text];
+  invoke(node, scope) {
+    let currentReceiver = scope.getValue([node.text]);
     let receiverType = this._getDataType(currentReceiver);
 
     node.children.forEach((method) => {
@@ -78,18 +78,6 @@ class MethodManager {
     });
 
     return currentReceiver;
-  }
-
-  /**
-   * @param {Object} variables
-   * @param {Object} node
-   * @throws {Error}
-   * @private
-   */
-  _checkVariable(variables, node) {
-    if (!variables.hasOwnProperty(node.text)) {
-      throw new Error(sprintf('variable not registered: %s', node.text));
-    }
   }
 
   /**

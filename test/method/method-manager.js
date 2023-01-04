@@ -1,6 +1,7 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
 const MethodManager = require('../../src/method/evaluation/method-manager');
+const Scope = require('../../src/method/evaluation/scope');
 const parser = require('../../src/method/format1');
 
 const variables = {
@@ -11,7 +12,7 @@ const variables = {
 
 const validate = (input) => {
   try {
-    new MethodManager().validate(variables, parser.parse(input));
+    new MethodManager().validate(parser.parse(input), new Scope(variables));
     return true;
   } catch (e) {
     return e.message;
@@ -20,7 +21,7 @@ const validate = (input) => {
 
 const invoke = (input) => {
   try {
-    return new MethodManager().invoke(variables, parser.parse(input));
+    return new MethodManager().invoke(parser.parse(input), new Scope(variables));
   } catch (e) {
     return e.message;
   }
@@ -29,7 +30,7 @@ const invoke = (input) => {
 describe('method - MethodManager', () => {
   describe('error case', () => {
     const dataSet = [
-      ['foo', 'variable not registered: foo'],
+      ['foo', 'variable not found: foo'],
       ['code.foo()', 'method not found: foo'],
       ['amount.upper()', 'number cannot use method upper'],
       ['code.upper(true)', 'number of arguments of method upper should be 0'],
