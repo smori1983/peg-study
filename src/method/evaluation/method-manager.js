@@ -33,7 +33,7 @@ class MethodManager {
       if (child.type === 'property') {
         currentReceiver = this._invokeProperty(currentReceiver, child);
       } else if (child.type === 'method') {
-        currentReceiver = this._invokeMethod(currentReceiver, child);
+        currentReceiver = this._invokeMethod(currentReceiver, child, scope);
       }
     });
 
@@ -58,11 +58,12 @@ class MethodManager {
   /**
    * @param {*} receiver
    * @param {Object} node
+   * @param {Scope} scope
    * @return {*}
    * @throws {Error}
    * @private
    */
-  _invokeMethod(receiver, node) {
+  _invokeMethod(receiver, node, scope) {
     const receiverType = this._getDataType(receiver);
     const method = this._findMethodDef(node.text);
 
@@ -76,6 +77,8 @@ class MethodManager {
         return parseInt(arg.text, 10);
       } else if (arg.type === 'string') {
         return arg.text;
+      } else if (arg.type === 'variable') {
+        return this.invoke(arg, scope);
       } else {
         throw new Error(sprintf('unknown argument type: %s', arg.type));
       }
@@ -115,6 +118,10 @@ class MethodManager {
     }
 
     for (let i = 0; i < args.length; i++) {
+      // ToDo: handle variable node.
+      if (args[i].type === 'variable') {
+        continue;
+      }
       if (args[i].type !== methodDef.getArgTypes()[i]) {
         throw new Error(sprintf('argument type does not match for method %s', methodDef.getName()));
       }
