@@ -1,119 +1,56 @@
-const {describe, it} = require('mocha');
-const assert = require('assert');
-const MethodManager = require('../../src/method/method-manager');
-const parser = require('../../src/method/format1');
+const {describe} = require('mocha');
+const runner = require('./runner');
 
-describe('MethodManager', () => {
-  const validate = (input) => {
-    try {
-      new MethodManager().validate(variables, parser.parse(input));
-      return true;
-    } catch (e) {
-      return e.message;
-    }
-  };
+const format3Parser = require('../../src/method/format3');
 
-  const invoke = (input) => {
-    try {
-      return new MethodManager().invoke(variables, parser.parse(input));
-    } catch (e) {
-      return e.message;
-    }
-  }
+describe('method - MethodManager', () => {
+  describe('format3', () => {
+    const variables = {
+      amount: 999,
+      key1: 'ABC-123-xyz',
+      key2: {
+        name: 'AAA-999-BBB',
+        amount: 100,
+      },
+      config: {
+        delimiter1: '-',
+        delimiter2: '_',
+        delimiter3: 'X',
+      }
+    };
 
-  const variables = {
-    code: 'ABC-123-xyz',
-    amount: 999,
-  };
+    describe('error case', () => {
+      const dataSet = [
+        ['foo', 'variable not found: foo'],
+        ['key1.foo()', 'method not found: foo'],
+        ['key1.value', 'property not found: value'],
+        ['key2.value', 'property not found: value'],
+        ['amount.upper()', 'number cannot use method upper'],
+        ['key1.upper(true)', 'number of arguments of method upper should be 0'],
+        ['key1.split()', 'number of arguments of method split should be 1'],
+        ['key1.split("-", true)', 'number of arguments of method split should be 1'],
+        ['key1.split(3)', 'argument type does not match for method split'],
+        ['key1.split("-").lower()', 'array cannot use method lower'],
+        ['key1.upper().split("-").join("_").join("*")', 'string cannot use method join'],
+      ];
 
-  describe('error case', () => {
-    it('foo', () => {
-      const input = 'foo';
-      const message = 'variable not registered: foo';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
+      runner.errorCase(variables, dataSet, format3Parser);
     });
 
-    it('code.foo()', () => {
-      const input = 'code.foo()';
-      const message = 'method not found: foo';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
+    describe('normal case', () => {
+      const dataSet = [
+        ['amount', 999],
+        ['key1', 'ABC-123-xyz'],
+        ['key2.name', 'AAA-999-BBB'],
+        ['key2.amount', 100],
+        ['key1.upper()', 'ABC-123-XYZ'],
+        ['key1.split("-").join("_").split("_").join("-").upper()', 'ABC-123-XYZ'],
+        ["key1.split('-').join('_').split('_').join('-').upper()", 'ABC-123-XYZ'],
+        ['key2.name.split(config.delimiter1).join(config.delimiter2)', 'AAA_999_BBB'],
+        ['key2.name.split(config.delimiter1).join(config.delimiter3.lower())', 'AAAx999xBBB'],
+      ];
 
-    it('amount.upper()', () => {
-      const input = 'amount.upper()';
-      const message = 'number cannot use method upper';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.upper(true)', () => {
-      const input = 'code.upper(true)';
-      const message = 'number of arguments of method upper should be 0';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.split()', () => {
-      const input = 'code.split()';
-      const message = 'number of arguments of method split should be 1';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.split("-", true)', () => {
-      const input = 'code.split("-", true)';
-      const message = 'number of arguments of method split should be 1';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.split(3)', () => {
-      const input = 'code.split(3)';
-      const message = 'argument type does not match for method split';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.split("-").lower()', () => {
-      const input = 'code.split("-").lower()';
-      const message = 'array cannot use method lower';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-
-    it('code.upper().split("-").join("_").join("*")', () => {
-      const input = 'code.upper().split("-").join("_").join("*")';
-      const message = 'string cannot use method join';
-      assert.deepStrictEqual(validate(input), message);
-      assert.deepStrictEqual(invoke(input), message);
-    });
-  });
-
-  describe('normal case', () => {
-    it('code', () => {
-      const input = 'code';
-      assert.deepStrictEqual(validate(input), true);
-      assert.deepStrictEqual(invoke(input), 'ABC-123-xyz');
-    });
-
-    it('code.upper()', () => {
-      const input = 'code.upper()';
-      assert.deepStrictEqual(validate(input), true);
-      assert.deepStrictEqual(invoke(input), 'ABC-123-XYZ');
-    });
-
-    it('code.split("-").join("_").split("_").join("-").upper()', () => {
-      const input = 'code.split("-").join("_").split("_").join("-").upper()';
-      assert.deepStrictEqual(validate(input), true);
-      assert.deepStrictEqual(invoke(input), 'ABC-123-XYZ');
-    });
-
-    it("code.split('-').join('_').split('_').join('-').upper()", () => {
-      const input = "code.split('-').join('_').split('_').join('-').upper()";
-      assert.deepStrictEqual(validate(input), true);
-      assert.deepStrictEqual(invoke(input), 'ABC-123-XYZ');
+      runner.normalCase(variables, dataSet, format3Parser);
     });
   });
 });

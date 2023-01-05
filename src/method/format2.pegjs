@@ -13,15 +13,9 @@ start
   = variable_chain
 
 variable_chain
-  = v:variable mp:method_or_property*
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) mp:method_or_property*
   {
     return toNode('variable', v, {}, mp);
-  }
-
-variable
-  = text:$([a-zA-Z][0-9a-zA-Z_]*)
-  {
-    return text;
   }
 
 method_or_property
@@ -29,15 +23,15 @@ method_or_property
   / property
 
 method
-  = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
+  = _ '.' _ m:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
-    return toNode('method', text, {arguments: (args.length > 0) ? args[0] : []}, []);
+    return toNode('method', m, {arguments: (args.length > 0) ? args[0] : []}, []);
   }
 
 property
-  = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+  = _ '.' _ p:$([a-zA-Z][0-9a-zA-Z_]*)
   {
-    return toNode('property', text, {}, []);
+    return toNode('property', p, {}, []);
   }
 
 arguments
@@ -75,27 +69,27 @@ value_int
   }
 
 value_string_single_quote
-  = single_quote text:$(value_string_single_quote_chars*) single_quote
+  = single_quote text:$(value_string_single_quote_char*) single_quote
   {
     return toNode('string', text, {}, []);
   }
 
-value_string_single_quote_chars
-  = !single_quote w:.
+value_string_single_quote_char
+  = !single_quote char:.
   {
-    return w;
+    return char;
   }
 
 value_string_double_quote
-  = double_quote text:$(value_string_double_quote_chars*) double_quote
+  = double_quote text:$(value_string_double_quote_char*) double_quote
   {
     return toNode('string', text, {}, []);
   }
 
-value_string_double_quote_chars
+value_string_double_quote_char
   = !double_quote w:.
   {
-    return w;
+    return char;
   }
 
 single_quote

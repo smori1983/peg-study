@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('./scope')} Scope
+ */
+
 const sprintf = require('sprintf-js').sprintf;
 const MethodDefLower = require('./method-def-lower');
 const MethodDefUpper = require('./method-def-upper');
@@ -17,78 +21,82 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} variables
-   * @param {Object} ast
+   * @param {Object} node
+   * @param {Scope} scope
+   * @return {*}
    * @throws {Error}
    */
-  validate(variables, ast) {
-    this._checkVariable(variables, ast);
+  invoke(node, scope) {
+    let currentReceiver = scope.getValue([node.text]);
+    let chain = node;
 
-    let receiverType = this._getDataType(variables[ast.name])
+    while (chain.children.length > 0) {
+      const child = chain.children[0];
 
-    ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
-
-      this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.args, currentMethod);
-
-      receiverType = currentMethod.getReturnType();
-    });
-  }
-
-  /**
-   * @param {Object} variables
-   * @param {Object} ast
-   * @throws {Error}
-   */
-  invoke(variables, ast) {
-    this._checkVariable(variables, ast);
-
-    let currentReceiver = variables[ast.name];
-    let receiverType = this._getDataType(currentReceiver);
-
-    ast.methods.forEach((method) => {
-      const currentMethod = this._findMethodDef(method.name);
-
-      this._checkReceiverType(receiverType, currentMethod);
-      this._checkArgumentTypes(method.args, currentMethod);
-
-      const args = method.args.map((arg) => {
-        if (arg.type === 'bool') {
-          return arg.text === 'true';
-        } else if (arg.type === 'int') {
-          return parseInt(arg.text, 10);
-        } else if (arg.type === 'string') {
-          return arg.text;
-        } else {
-          throw new Error(sprintf('unknown argument type: %s', arg.type));
-        }
-      });
-
-      const returnValue = currentMethod.evaluate(currentReceiver, args);
-      const returnValueType = this._getDataType(returnValue);
-
-      if (returnValueType !== currentMethod.getReturnType()) {
-        throw new Error(sprintf('return value of %s should be %s, actual was %s', currentMethod.getName(), currentMethod.getReturnType(), returnValueType));
+      if (child.type === 'property') {
+        currentReceiver = this._invokeProperty(currentReceiver, child);
+      } else if (child.type === 'method') {
+        currentReceiver = this._invokeMethod(currentReceiver, child, scope);
       }
 
-      currentReceiver = returnValue;
-      receiverType = this._getDataType(currentReceiver);
-    });
+      chain = child;
+    }
 
     return currentReceiver;
   }
 
   /**
-   * @param {Object} variables
-   * @param {Object} ast
+   * @param {Object} receiver
+   * @param {Object} node
+   * @return {*}
    * @throws {Error}
    * @private
    */
-  _checkVariable(variables, ast) {
-    if (!variables.hasOwnProperty(ast.name)) {
-      throw new Error(sprintf('variable not registered: %s', ast.name));
+  _invokeProperty(receiver, node) {
+    if (receiver.hasOwnProperty(node.text)) {
+      return receiver[node.text];
     }
+
+    throw new Error(sprintf('property not found: %s', node.text));
+  }
+
+  /**
+   * @param {*} receiver
+   * @param {Object} node
+   * @param {Scope} scope
+   * @return {*}
+   * @throws {Error}
+   * @private
+   */
+  _invokeMethod(receiver, node, scope) {
+    const receiverType = this._getDataType(receiver);
+    const method = this._findMethodDef(node.text);
+
+    this._checkReceiverType(receiverType, method);
+    this._checkArgumentTypes(node.attributes.arguments, method);
+
+    const args = node.attributes.arguments.map((arg) => {
+      if (arg.type === 'bool') {
+        return arg.text === 'true';
+      } else if (arg.type === 'int') {
+        return parseInt(arg.text, 10);
+      } else if (arg.type === 'string') {
+        return arg.text;
+      } else if (arg.type === 'variable') {
+        return this.invoke(arg, scope);
+      } else {
+        throw new Error(sprintf('unknown argument type: %s', arg.type));
+      }
+    });
+
+    const returnValue = method.evaluate(receiver, args);
+    const returnValueType = this._getDataType(returnValue);
+
+    if (returnValueType !== method.getReturnType()) {
+      throw new Error(sprintf('return value of %s should be %s, actual was %s', method.getName(), method.getReturnType(), returnValueType));
+    }
+
+    return returnValue;
   }
 
   /**
@@ -104,7 +112,7 @@ class MethodManager {
   }
 
   /**
-   * @param {Object} args
+   * @param {Object[]} args
    * @param {MethodDef} methodDef
    * @throws {Error}
    * @private
@@ -115,6 +123,10 @@ class MethodManager {
     }
 
     for (let i = 0; i < args.length; i++) {
+      // ToDo: handle variable node.
+      if (args[i].type === 'variable') {
+        continue;
+      }
       if (args[i].type !== methodDef.getArgTypes()[i]) {
         throw new Error(sprintf('argument type does not match for method %s', methodDef.getName()));
       }
