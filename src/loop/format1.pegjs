@@ -10,12 +10,12 @@
 }
 
 start
-  = c:component*
+  = b:builtin*
   {
-    return toNode('root', 'root', {}, c);
+    return toNode('root', 'root', {}, b);
   }
 
-component
+builtin
   = builtin_log
   / builtin_for_loop
 
@@ -27,19 +27,19 @@ builtin_log
 
 builtin_for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _
-    c:component*
+    children:builtin*
     _ '}' _
   {
-    return toNode('builtin', 'loop', {array: a, variable: v}, c);
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
 variable
-  = v:$([a-z] [0-9a-z_]*)
+  = v:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return toNode('variable', v, {}, []);
   }
 
-_ 'whitespace'
+_
   = [ \t\r\n]*
 
 __ 'space'
