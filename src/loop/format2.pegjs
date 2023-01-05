@@ -68,6 +68,7 @@ arguments
 
 argument
   = value_bool
+  / value_float
   / value_int
   / value_string_single_quote
   / value_string_double_quote
@@ -77,6 +78,12 @@ value_bool
   = text:('true' / 'false')
   {
     return toNode('bool', text, {}, []);
+  }
+
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
+  {
+    return toNode('float', text, {}, []);
   }
 
 value_int
