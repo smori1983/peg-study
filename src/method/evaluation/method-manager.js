@@ -28,14 +28,19 @@ class MethodManager {
    */
   invoke(node, scope) {
     let currentReceiver = scope.getValue([node.text]);
+    let chain = node;
 
-    node.children.forEach((child) => {
+    while (chain.children.length > 0) {
+      const child = chain.children[0];
+
       if (child.type === 'property') {
         currentReceiver = this._invokeProperty(currentReceiver, child);
       } else if (child.type === 'method') {
         currentReceiver = this._invokeMethod(currentReceiver, child, scope);
       }
-    });
+
+      chain = child;
+    }
 
     return currentReceiver;
   }
