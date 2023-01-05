@@ -13,16 +13,9 @@ start
   = variable_chain;
 
 variable_chain
-  = v:variable chain:(method_or_property)?
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(method_or_property)?
   {
-    v.children = chain ? [chain] : [];
-    return v;
-  }
-
-variable
-  = text:$([a-zA-Z][0-9a-zA-Z_]*)
-  {
-    return toNode('variable', text, {}, []);
+    return toNode('variable', v, {}, chain ? [chain] : []);
   }
 
 method_or_property
