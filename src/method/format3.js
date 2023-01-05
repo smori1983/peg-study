@@ -190,8 +190,8 @@ function peg$parse(input, options) {
           return toNode('string', text, {}, []);
         },
       peg$c27 = peg$anyExpectation(),
-      peg$c28 = function(w) {
-          return w;
+      peg$c28 = function(char) {
+          return char;
         },
       peg$c29 = "'",
       peg$c30 = peg$literalExpectation("'", false),
@@ -944,10 +944,10 @@ function peg$parse(input, options) {
     if (s1 !== peg$FAILED) {
       s2 = peg$currPos;
       s3 = [];
-      s4 = peg$parsevalue_string_single_quote_chars();
+      s4 = peg$parsevalue_string_single_quote_char();
       while (s4 !== peg$FAILED) {
         s3.push(s4);
-        s4 = peg$parsevalue_string_single_quote_chars();
+        s4 = peg$parsevalue_string_single_quote_char();
       }
       if (s3 !== peg$FAILED) {
         s2 = input.substring(s2, peg$currPos);
@@ -976,7 +976,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsevalue_string_single_quote_chars() {
+  function peg$parsevalue_string_single_quote_char() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -1022,10 +1022,10 @@ function peg$parse(input, options) {
     if (s1 !== peg$FAILED) {
       s2 = peg$currPos;
       s3 = [];
-      s4 = peg$parsevalue_string_double_quote_chars();
+      s4 = peg$parsevalue_string_double_quote_char();
       while (s4 !== peg$FAILED) {
         s3.push(s4);
-        s4 = peg$parsevalue_string_double_quote_chars();
+        s4 = peg$parsevalue_string_double_quote_char();
       }
       if (s3 !== peg$FAILED) {
         s2 = input.substring(s2, peg$currPos);
@@ -1054,7 +1054,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsevalue_string_double_quote_chars() {
+  function peg$parsevalue_string_double_quote_char() {
     var s0, s1, s2;
 
     s0 = peg$currPos;

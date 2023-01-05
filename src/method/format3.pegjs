@@ -72,27 +72,27 @@ value_int
   }
 
 value_string_single_quote
-  = single_quote text:$(value_string_single_quote_chars*) single_quote
+  = single_quote text:$(value_string_single_quote_char*) single_quote
   {
     return toNode('string', text, {}, []);
   }
 
-value_string_single_quote_chars
-  = !single_quote w:.
+value_string_single_quote_char
+  = !single_quote char:.
   {
-    return w;
+    return char;
   }
 
 value_string_double_quote
-  = double_quote text:$(value_string_double_quote_chars*) double_quote
+  = double_quote text:$(value_string_double_quote_char*) double_quote
   {
     return toNode('string', text, {}, []);
   }
 
-value_string_double_quote_chars
-  = !double_quote w:.
+value_string_double_quote_char
+  = !double_quote char:.
   {
-    return w;
+    return char;
   }
 
 single_quote
