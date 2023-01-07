@@ -10,6 +10,10 @@ class Variable {
    * @param {string} name
    */
   constructor(name) {
+    /**
+     * @type {string}
+     * @private
+     */
     this._name = name;
 
     /**
