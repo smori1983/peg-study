@@ -38,12 +38,12 @@ class Builder {
   }
 
   /**
-   * @param {Object} astRoot
+   * @param {Object} astNode
    */
-  build(astRoot) {
+  build(astNode) {
     const root = new NodeRoot();
 
-    astRoot.children.forEach((child) => {
+    astNode.children.forEach((child) => {
       this._build(root, child);
     });
 
@@ -52,41 +52,41 @@ class Builder {
 
   /**
    * @param {Node} node
-   * @param {Object} ast
+   * @param {Object} astNode
    * @private
    */
-  _build(node, ast) {
-    if (ast.type === 'builtin' && ast.text === 'log') {
-      this._buildLog(node, ast);
-    } else if (ast.type === 'builtin' && ast.text === 'loop') {
-      this._buildLoop(node, ast);
+  _build(node, astNode) {
+    if (astNode.type === 'builtin' && astNode.text === 'log') {
+      this._buildLog(node, astNode);
+    } else if (astNode.type === 'builtin' && astNode.text === 'loop') {
+      this._buildLoop(node, astNode);
     } else {
-      throw new Error('unknown type: ' + ast.type);
+      throw new Error('unknown type: ' + astNode.type);
     }
   }
 
   /**
    * @param {Node} node
-   * @param {Object} ast
+   * @param {Object} astNode
    * @private
    */
-  _buildLog(node, ast) {
-    const arg = this._buildVariable(ast.attributes.arguments[0]);
+  _buildLog(node, astNode) {
+    const arg = this._buildVariable(astNode.attributes.arguments[0]);
 
     node.addChild(new NodeLog(arg));
   }
 
   /**
    * @param {Node} node
-   * @param {Object} ast
+   * @param {Object} astNode
    * @private
    */
-  _buildLoop(node, ast) {
-    const array = this._buildVariable(ast.attributes.array);
-    const variable = this._buildVariable(ast.attributes.variable);
+  _buildLoop(node, astNode) {
+    const array = this._buildVariable(astNode.attributes.array);
+    const variable = this._buildVariable(astNode.attributes.variable);
     const forLoop = new NodeForLoop(array, variable);
 
-    ast.children.forEach((child) => {
+    astNode.children.forEach((child) => {
       this._build(forLoop, child);
     });
 
@@ -94,14 +94,14 @@ class Builder {
   }
 
   /**
-   * @param ast
+   * @param astNode
    * @returns {Variable}
    * @private
    */
-  _buildVariable(ast) {
-    const variable = new Variable(ast.text);
+  _buildVariable(astNode) {
+    const variable = new Variable(astNode.text);
 
-    (ast.attributes.methods || []).forEach((astMethod) => {
+    (astNode.attributes.methods || []).forEach((astMethod) => {
       if (astMethod.type === 'property') {
         variable.addChainItem(new VariableProperty(astMethod.text));
       } else {
@@ -123,37 +123,37 @@ class Builder {
   }
 
   /**
-   * @param {Object} ast
+   * @param {Object} astNode
    * @return {MethodDef}
    * @throws {Error}
    * @private
    */
-  _buildMethod(ast) {
+  _buildMethod(astNode) {
     for (let i = 0; i < this._methods.length; i++) {
-      if (this._methods[i].getName() === ast.text) {
+      if (this._methods[i].getName() === astNode.text) {
         return this._methods[i];
       }
     }
 
-    throw new Error(sprintf('method not found: %s', ast.text));
+    throw new Error(sprintf('method not found: %s', astNode.text));
   }
 
   /**
-   * @param {Object} ast
+   * @param {Object} astNode
    * @return {Value}
    * @throws {Error}
    * @private
    */
-  _buildMethodArg(ast) {
-    if (ast.type === 'bool') {
-      return new Value(ast.text === 'true');
-    } else if (ast.type === 'int') {
-      return new Value(parseInt(ast.text, 10));
-    } else if (ast.type === 'string') {
-      return new Value(ast.text);
+  _buildMethodArg(astNode) {
+    if (astNode.type === 'bool') {
+      return new Value(astNode.text === 'true');
+    } else if (astNode.type === 'int') {
+      return new Value(parseInt(astNode.text, 10));
+    } else if (astNode.type === 'string') {
+      return new Value(astNode.text);
     }
 
-    throw new Error(sprintf('unknown argument type: %s', ast.type));
+    throw new Error(sprintf('unknown argument type: %s', astNode.type));
   }
 }
 
