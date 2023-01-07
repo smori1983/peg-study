@@ -105,17 +105,7 @@ class Builder {
       if (astMethod.type === 'property') {
         variable.addChainItem(this._buildVariableProperty(astMethod));
       } else {
-        const item = new VariableMethod(this._buildMethod(astMethod));
-
-        astMethod.attributes.arguments.forEach((astMethodArg) => {
-          if (astMethodArg.type === 'variable') {
-            item.addArg(this._buildVariable(astMethodArg));
-          } else {
-            item.addArg(this._buildMethodArg(astMethodArg));
-          }
-        });
-
-        variable.addChainItem(item);
+        variable.addChainItem(this._buildVariableMethod(astMethod));
       }
     });
 
@@ -129,6 +119,25 @@ class Builder {
    */
   _buildVariableProperty(astNode) {
     return new VariableProperty(astNode.text);
+  }
+
+  /**
+   * @param {Object} astNode
+   * @return {VariableMethod}
+   * @private
+   */
+  _buildVariableMethod(astNode) {
+    const item = new VariableMethod(this._buildMethod(astNode));
+
+    astNode.attributes.arguments.forEach((astArg) => {
+      if (astArg.type === 'variable') {
+        item.addArg(this._buildVariable(astArg));
+      } else {
+        item.addArg(this._buildMethodArg(astArg));
+      }
+    });
+
+    return item;
   }
 
   /**
