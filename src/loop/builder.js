@@ -71,7 +71,7 @@ class Builder {
    * @private
    */
   _buildLog(node, astNode) {
-    const arg = this._buildVariable(astNode.attributes.arguments[0]);
+    const arg = this._variable(astNode.attributes.arguments[0]);
 
     node.addChild(new NodeLog(arg));
   }
@@ -82,8 +82,8 @@ class Builder {
    * @private
    */
   _buildLoop(node, astNode) {
-    const array = this._buildVariable(astNode.attributes.array);
-    const variable = this._buildVariable(astNode.attributes.variable);
+    const array = this._variable(astNode.attributes.array);
+    const variable = this._variable(astNode.attributes.variable);
     const forLoop = new NodeForLoop(array, variable);
 
     astNode.children.forEach((child) => {
@@ -98,14 +98,14 @@ class Builder {
    * @returns {Variable}
    * @private
    */
-  _buildVariable(astNode) {
+  _variable(astNode) {
     const variable = new Variable(astNode.text);
 
     (astNode.attributes.methods || []).forEach((astMethod) => {
       if (astMethod.type === 'property') {
-        variable.addChainItem(this._buildVariableProperty(astMethod));
+        variable.addChainItem(this._variableProperty(astMethod));
       } else {
-        variable.addChainItem(this._buildVariableMethod(astMethod));
+        variable.addChainItem(this._variableMethod(astMethod));
       }
     });
 
@@ -117,7 +117,7 @@ class Builder {
    * @return {VariableProperty}
    * @private
    */
-  _buildVariableProperty(astNode) {
+  _variableProperty(astNode) {
     return new VariableProperty(astNode.text);
   }
 
@@ -126,14 +126,14 @@ class Builder {
    * @return {VariableMethod}
    * @private
    */
-  _buildVariableMethod(astNode) {
-    const item = new VariableMethod(this._buildMethod(astNode));
+  _variableMethod(astNode) {
+    const item = new VariableMethod(this._method(astNode));
 
     astNode.attributes.arguments.forEach((astArg) => {
       if (astArg.type === 'variable') {
-        item.addArg(this._buildVariable(astArg));
+        item.addArg(this._variable(astArg));
       } else {
-        item.addArg(this._buildMethodArg(astArg));
+        item.addArg(this._methodArg(astArg));
       }
     });
 
@@ -146,7 +146,7 @@ class Builder {
    * @throws {Error}
    * @private
    */
-  _buildMethod(astNode) {
+  _method(astNode) {
     for (let i = 0; i < this._methods.length; i++) {
       if (this._methods[i].getName() === astNode.text) {
         return this._methods[i];
@@ -162,7 +162,7 @@ class Builder {
    * @throws {Error}
    * @private
    */
-  _buildMethodArg(astNode) {
+  _methodArg(astNode) {
     if (astNode.type === 'bool') {
       return new Value(astNode.text === 'true');
     } else if (astNode.type === 'int') {
