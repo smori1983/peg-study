@@ -103,7 +103,7 @@ class Builder {
 
     (astNode.attributes.methods || []).forEach((astMethod) => {
       if (astMethod.type === 'property') {
-        variable.addChainItem(new VariableProperty(astMethod.text));
+        variable.addChainItem(this._buildVariableProperty(astMethod));
       } else {
         const item = new VariableMethod(this._buildMethod(astMethod));
 
@@ -120,6 +120,15 @@ class Builder {
     });
 
     return variable;
+  }
+
+  /**
+   * @param {Object} astNode
+   * @return {VariableProperty}
+   * @private
+   */
+  _buildVariableProperty(astNode) {
+    return new VariableProperty(astNode.text);
   }
 
   /**
