@@ -1,9 +1,9 @@
 /**
- * @typedef {import('../../src/loop/scope')} Scope
+ * @typedef {import('../../src/loop/evaluation/scope')} Scope
  */
 
-const Builder = require('../../src/loop/builder');
-const Output = require('../../src/loop/output');
+const Builder = require('../../src/loop/evaluation/builder');
+const Output = require('../../src/loop/evaluation/output');
 
 class Debug {
   /**

@@ -3,7 +3,7 @@ const assert = require('assert');
 const Debug = require('./debug');
 
 const parser = require('../../src/loop/format3');
-const Scope = require('../../src/loop/scope');
+const Scope = require('../../src/loop/evaluation/scope');
 
 describe('loop - format3', () => {
   describe('ok', () => {
