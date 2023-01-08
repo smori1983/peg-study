@@ -10,7 +10,10 @@
 }
 
 start
-  = builtin*
+  = b:builtin*
+  {
+    return toNode('root', 'root', {}, b);
+  }
 
 builtin
   = builtin_log
