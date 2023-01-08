@@ -101,13 +101,19 @@ class Builder {
   _variable(astNode) {
     const variable = new Variable(astNode.text);
 
-    (astNode.attributes.methods || []).forEach((astMethod) => {
-      if (astMethod.type === 'property') {
-        variable.addChainItem(this._variableProperty(astMethod));
+    let chain = astNode;
+
+    while (chain.children.length > 0) {
+      const child = chain.children[0];
+
+      if (child.type === 'property') {
+        variable.addChainItem(this._variableProperty(child));
       } else {
-        variable.addChainItem(this._variableMethod(astMethod));
+        variable.addChainItem(this._variableMethod(child));
       }
-    });
+
+      chain = child;
+    }
 
     return variable;
   }
