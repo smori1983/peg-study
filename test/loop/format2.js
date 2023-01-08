@@ -6,223 +6,195 @@ const parser = require('../../src/loop/format2');
 const Scope = require('../../src/loop/scope');
 
 describe('loop - format2', () => {
-  describe('debug', () => {
-    it('log() and for()', () => {
-      const input = [
-        'log(data.upper().lower())',
-        'for(part in data.split("-").join("_").split("_")) {',
-        '  log(part.upper())',
-        '}',
-      ].join('\n');
-
-      const scope = new Scope({
-        data: 'a-b-c',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        'a-b-c',
-        'A',
-        'B',
-        'C',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('string double quote', () => {
-      const input = [
-        'log(value.split(separator.lower()).join("_"))',
-        'log(value.split(separator.lower()).join(""))',
-      ].join('\n');
-
-      const scope = new Scope({
-        value: 'a-b-c',
-        separator: '-',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        'a_b_c',
-        'abc',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('string single quote', () => {
-      const input = [
-        "log(value.split(separator.lower()).join('_'))",
-        "log(value.split(separator.lower()).join(''))",
-      ].join('\n');
-
-      const scope = new Scope({
-        value: 'a-b-c',
-        separator: '-',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        'a_b_c',
-        'abc',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('resolve property', () => {
-      const input = [
-        'log(config.version)',
-        'log(value.split(config.separator.lower()).join("#"))',
-      ].join('\n');
-
-      const scope = new Scope({
-        value: 'a-b-c',
-        config: {
-          version: '1.0.0',
+  describe('ok', () => {
+    const dataSet = [
+      {
+        name: 'log() and for()',
+        input: [
+          'log(data.upper().lower())',
+          'for(part in data.split("-").join("_").split("_")) {',
+          '  log(part.upper())',
+          '}',
+        ],
+        variables: {
+          data: 'a-b-c',
+        },
+        output: [
+          'a-b-c',
+          'A',
+          'B',
+          'C',
+        ],
+      },
+      {
+        name: 'string double quote',
+        input: [
+          'log(value.split(separator.lower()).join("_"))',
+          'log(value.split(separator.lower()).join(""))',
+        ],
+        variables: {
+          value: 'a-b-c',
           separator: '-',
         },
+        output: [
+          'a_b_c',
+          'abc',
+        ],
+      },
+      {
+        name: 'string single quote',
+        input: [
+          "log(value.split(separator.lower()).join('_'))",
+          "log(value.split(separator.lower()).join(''))",
+        ],
+        variables: {
+          value: 'a-b-c',
+          separator: '-',
+        },
+        output: [
+          'a_b_c',
+          'abc',
+        ],
+      },
+      {
+        name: 'resolve property',
+        input: [
+          'log(config.version)',
+          'log(value.split(config.separator.lower()).join("#"))',
+        ],
+        variables: {
+          value: 'a-b-c',
+          config: {
+            version: '1.0.0',
+            separator: '-',
+          },
+        },
+        output: [
+          '1.0.0',
+          'a#b#c',
+        ],
+      },
+      {
+        name: 'sort()',
+        input: [
+          'for (item in value.split("-").sort()) {',
+          '  log(item)',
+          '}',
+        ],
+        variables: {
+          value: 'z-a-A-20-10',
+        },
+        output: [
+          '10',
+          '20',
+          'A',
+          'a',
+          'z',
+        ],
+      },
+      {
+        name: 'trim()',
+        input: [
+          'log(value.trim())',
+        ],
+        variables: {
+          value: ' abc ',
+        },
+        output: [
+          'abc',
+        ],
+      },
+      {
+        name: 'replace()',
+        input: [
+          'log(value.replace("", "="))',
+          'log(value.replace(" ", "="))',
+          'log(value.replace("-", "="))',
+          'log(value.replace("-", "=").replace("=", "#"))',
+          'log(value.replace("a", "A"))',
+          'log(value.replace("-", "-"))',
+          'log(value.replace("-", "--"))',
+          'log(value.replace("-", "---").replace("--", "++"))',
+          'log(value.replace("-", ""))',
+        ],
+        variables: {
+          value: 'a-b-c',
+        },
+        output: [
+          'a-b-c',
+          'a-b-c',
+          'a=b=c',
+          'a#b#c',
+          'A-b-c',
+          'a-b-c',
+          'a--b--c',
+          'a++-b++-c',
+          'abc',
+        ],
+      },
+      {
+        name: 'filter()',
+        input: [
+          'log(values.filter(">", 200).join("_"))',
+          'log(values.filter("<", 200).join("_"))',
+          'log(values.filter(">=", 200).join("_"))',
+          'log(values.filter("<=", 200).join("_"))',
+          'log(values.filter("=", 200).join("_"))',
+          'log(values.filter("!=", 200).join("_"))',
+        ],
+        variables: {
+          values: [100, 200, 300],
+        },
+        output: [
+          '300',
+          '100',
+          '200_300',
+          '100_200',
+          '200',
+          '100_300',
+        ],
+      },
+    ];
+
+    dataSet.forEach((set) => {
+      it(set.name, () => {
+        const scope = new Scope(set.variables);
+        const debug = new Debug(parser);
+
+        assert.deepStrictEqual(debug.get(set.input.join('\n'), scope).getLines(), set.output);
       });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        '1.0.0',
-        'a#b#c',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('sort()', () => {
-      const input = [
-        'for (item in value.split("-").sort()) {',
-        '  log(item)',
-        '}',
-      ].join('\n');
-
-      const scope = new Scope({
-        value: 'z-a-A-20-10',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        '10',
-        '20',
-        'A',
-        'a',
-        'z',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('trim()', () => {
-      const input = [
-        'log(value.trim())',
-      ].join('\n');
-
-      const scope = new Scope({
-        value: ' abc ',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        'abc',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('replace()', () => {
-      const input = [
-        'log(value.replace("", "="))',
-        'log(value.replace(" ", "="))',
-        'log(value.replace("-", "="))',
-        'log(value.replace("-", "=").replace("=", "#"))',
-        'log(value.replace("a", "A"))',
-        'log(value.replace("-", "-"))',
-        'log(value.replace("-", "--"))',
-        'log(value.replace("-", "---").replace("--", "++"))',
-        'log(value.replace("-", ""))',
-      ].join('\n');
-
-      const scope = new Scope({
-        value: 'a-b-c',
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        'a-b-c',
-        'a-b-c',
-        'a=b=c',
-        'a#b#c',
-        'A-b-c',
-        'a-b-c',
-        'a--b--c',
-        'a++-b++-c',
-        'abc',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
-    });
-
-    it('filter()', () => {
-      const input = [
-        'log(values.filter(">", 200).join("_"))',
-        'log(values.filter("<", 200).join("_"))',
-        'log(values.filter(">=", 200).join("_"))',
-        'log(values.filter("<=", 200).join("_"))',
-        'log(values.filter("=", 200).join("_"))',
-        'log(values.filter("!=", 200).join("_"))',
-      ].join('\n');
-
-      const scope = new Scope({
-        values: [100, 200, 300],
-      });
-
-      const debug = new Debug(parser);
-
-      const output = [
-        '300',
-        '100',
-        '200_300',
-        '100_200',
-        '200',
-        '100_300',
-      ];
-
-      assert.deepStrictEqual(debug.get(input, scope).getLines(), output);
     });
   });
 
-  describe('debug - error', () => {
-    it('pattern1', () => {
-      const input = [
-        'for(item1 in data1) {',
-        '  log(item1)',
-        '}',
-        'for(item2 in data2) {',
-        '  log(item1)',
-        '}',
-      ].join('\n');
+  describe('error', () => {
+    const dataSet = [
+      {
+        name: 'scope',
+        input: [
+          'for(item1 in data1) {',
+          '  log(item1)',
+          '}',
+          'for(item2 in data2) {',
+          '  log(item1)',
+          '}',
+        ],
+        variables: {
+          data1: ['a', 'b', 'c'],
+          data2: ['x', 'y', 'z'],
+        },
+        message: /variable not found: item1/,
+      }
+    ];
 
-      const scope = new Scope({
-        data1: ['a', 'b', 'c'],
-        data2: ['x', 'y', 'z'],
+    dataSet.forEach((set) => {
+      it(set.name, () => {
+        const scope = new Scope(set.variables);
+        const debug = new Debug(parser);
+
+        assert.throws(() => {
+          debug.get(set.input.join('\n'), scope);
+        }, set.message);
       });
-
-      const debug = new Debug(parser);
-
-      assert.throws(() => {
-        debug.get(input, scope);
-      }, /variable not found: item1/);
     });
   });
 });
