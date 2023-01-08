@@ -14,11 +14,13 @@ class NodeForLoop extends Node {
     super();
 
     /**
+     * @param {Variable}
      * @private
      */
     this._array = array;
 
     /**
+     * @param {Variable}
      * @private
      */
     this._variable = variable;

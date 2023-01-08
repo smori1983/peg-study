@@ -10,107 +10,119 @@
 }
 
 start
-  = c:component*
+  = b:builtin*
   {
-    return toNode('root', 'root', {}, c);
+    return toNode('root', 'root', {}, b);
   }
 
-component
+builtin
   = builtin_log
   / builtin_for_loop
 
 builtin_log
-  = _ 'log' _ '(' _ v:variable_and_method _ ')' _
+  = _ 'log' _ '(' _ v:variable_chain _ ')' _
   {
     return toNode('builtin', 'log', {arguments: [v]}, []);
   }
 
 builtin_for_loop
-  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_and_method _ ')' _ '{' _
-    c:component*
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _
+    children:builtin*
     _ '}' _
   {
-    return toNode('builtin', 'loop', {array: a, variable: v}, c);
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
 variable
-  = v:$([a-z] [0-9a-z_]*)
+  = v:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return toNode('variable', v, {}, []);
   }
 
-variable_and_method
-  = v:variable m:method_or_property*
+variable_chain
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(method_or_property)*
   {
-    return toNode('variable', v.text, {methods: m}, []);
+    return toNode('variable', v, {methods: chain}, []);
   }
 
 method_or_property
-  = _ '.' _ m:$([a-z] [0-9a-z_]*) _ '(' _ args:method_args* _ ')'
+  = method / property
+
+method
+  = _ '.' _ m:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
     return toNode('method', m, {arguments: args.length > 0 ? args[0] : []}, []);
   }
-  / _ '.' _ p:$(head:[a-z] tail:[0-9a-z_]*)
+
+property
+  = _ '.' _ p:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return toNode('property', p, {}, []);
   }
 
-method_args
-  = head:method_arg tail:(_ ',' _ p:method_arg { return p; })*
+arguments
+  = head:argument tail:(_ ',' _ p:argument { return p; })*
   {
     return [head].concat(tail);
   }
 
-method_arg
-  = method_arg_bool
-  / method_arg_int
-  / method_arg_string_single_quote
-  / method_arg_string_double_quote
-  / variable_and_method
+argument
+  = value_bool
+  / value_float
+  / value_int
+  / value_string_single_quote
+  / value_string_double_quote
+  / variable_chain
 
-method_arg_bool
-  = w:('true' / 'false')
+value_bool
+  = text:('true' / 'false')
   {
-    return toNode('bool', w, {}, []);
+    return toNode('bool', text, {}, []);
   }
 
-method_arg_int
-  = digits:$([0-9]+)
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
   {
-    return toNode('int', digits, {}, []);
+    return toNode('float', text, {}, []);
+  }
+
+value_int
+  = text:$([0-9]+)
+  {
+    return toNode('int', text, {}, []);
+  }
+
+value_string_single_quote
+  = single_quote text:$(value_string_single_quote_char*) single_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_single_quote_char
+  = !single_quote char:.
+  {
+    return char;
+  }
+
+value_string_double_quote
+  = double_quote text:$(value_string_double_quote_char*) double_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_double_quote_char
+  = !double_quote char:.
+  {
+    return char;
   }
 
 single_quote
   = "'"
 
-method_arg_string_single_quote
-  = single_quote chars:$(method_arg_string_single_quote_char*) single_quote
-  {
-    return toNode('string', chars, {}, []);
-  }
-
-method_arg_string_single_quote_char
-  = !single_quote w:.
-  {
-    return w;
-  }
-
 double_quote
   = '"'
 
-method_arg_string_double_quote
-  = double_quote chars:$(method_arg_string_double_quote_char*) double_quote
-  {
-    return toNode('string', chars, {}, []);
-  }
-
-method_arg_string_double_quote_char
-  = !double_quote w:.
-  {
-    return w;
-  }
-
-_ 'whitespace'
+_
   = [ \t\r\n]*
 
 __ 'space'

@@ -9,6 +9,10 @@ class VariableProperty extends VariableChain {
   constructor(key) {
     super();
 
+    /**
+     * @type {string}
+     * @private
+     */
     this._key = key;
   }
 

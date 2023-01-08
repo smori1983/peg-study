@@ -1,11 +1,11 @@
 /**
- * @typedef {import('./scope')} Scope
+ * @typedef {import('../../src/loop/evaluation/scope')} Scope
  */
 
-const Builder = require('../loop/builder');
-const Output = require('../loop/output');
+const Builder = require('../../src/loop/evaluation/builder');
+const Output = require('../../src/loop/evaluation/output');
 
-class DebugBase {
+class Debug {
   /**
    * @param {PEG.Parser} parser
    */
@@ -34,4 +34,4 @@ class DebugBase {
   }
 }
 
-module.exports = DebugBase;
+module.exports = Debug;

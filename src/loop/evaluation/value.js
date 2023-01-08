@@ -4,7 +4,8 @@ class Value {
    */
   constructor(value) {
     /**
-     * @protected
+     * @param {*}
+     * @private
      */
     this._value = value;
   }

@@ -14,6 +14,10 @@ class VariableMethod extends VariableChain {
   constructor(method) {
     super();
 
+    /**
+     * @type {MethodDef}
+     * @private
+     */
     this._method = method;
 
     /**
