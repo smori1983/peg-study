@@ -1,7 +1,8 @@
 const {describe, it} = require('mocha');
 const assert = require('assert');
+const Debug = require('./debug');
+
 const parser = require('../../src/loop/format2');
-const Debug = require('../../src/loop/format2-debug');
 const Scope = require('../../src/loop/scope');
 
 describe('loop - format2', () => {
@@ -18,7 +19,7 @@ describe('loop - format2', () => {
         data: 'a-b-c',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         'a-b-c',
@@ -41,7 +42,7 @@ describe('loop - format2', () => {
         separator: '-',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         'a_b_c',
@@ -62,7 +63,7 @@ describe('loop - format2', () => {
         separator: '-',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         'a_b_c',
@@ -86,7 +87,7 @@ describe('loop - format2', () => {
         },
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         '1.0.0',
@@ -107,7 +108,7 @@ describe('loop - format2', () => {
         value: 'z-a-A-20-10',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         '10',
@@ -129,7 +130,7 @@ describe('loop - format2', () => {
         value: ' abc ',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         'abc',
@@ -155,7 +156,7 @@ describe('loop - format2', () => {
         value: 'a-b-c',
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         'a-b-c',
@@ -186,7 +187,7 @@ describe('loop - format2', () => {
         values: [100, 200, 300],
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       const output = [
         '300',
@@ -217,7 +218,7 @@ describe('loop - format2', () => {
         data2: ['x', 'y', 'z'],
       });
 
-      const debug = new Debug();
+      const debug = new Debug(parser);
 
       assert.throws(() => {
         debug.get(input, scope);
