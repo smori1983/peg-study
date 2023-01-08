@@ -2,10 +2,10 @@ const {describe, it} = require('mocha');
 const assert = require('assert');
 const Debug = require('./debug');
 
-const parser = require('../../src/loop/format2');
+const parser = require('../../src/loop/format3');
 const Scope = require('../../src/loop/scope');
 
-describe('loop - format2', () => {
+describe('loop - format3', () => {
   describe('ok', () => {
     const dataSet = [
       {
