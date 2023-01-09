@@ -7,9 +7,6 @@
       children: children,
     };
   }
-  function makeInteger(o) {
-    return parseInt(o.join(''), 10);
-  }
 }
 
 start
@@ -46,9 +43,9 @@ primary
   }
 
 integer
-  = digits:[0-9]+
+  = text:$([0-9]+)
   {
-    return makeInteger(digits);
+    return text;
   }
 
 variable
