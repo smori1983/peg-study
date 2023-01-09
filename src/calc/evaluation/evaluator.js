@@ -21,7 +21,7 @@ const visit = (node, scope) => {
   }
 
   if (node.type === 'variable') {
-    return scope.getValue(node.text);
+    return scope.getValue([node.text]);
   }
 
   const left = visit(node.children[0], scope);
