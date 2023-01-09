@@ -21,7 +21,7 @@ const visit = (node, scope) => {
   }
 
   if (node.type === 'variable') {
-    return scope.getValue([node.text]);
+    return scope.getValue(prepareVariable(node));
   }
 
   const left = visit(node.children[0], scope);
@@ -41,6 +41,24 @@ const visit = (node, scope) => {
 
   if (node.type === 'multi' && node.text === '/') {
     return left / right;
+  }
+};
+
+const prepareVariable = (node) => {
+  const keys = [];
+
+  keys.push(node.text);
+
+  visitProperty(node.children[0], keys);
+
+  return keys;
+};
+
+const visitProperty = (node, keys) => {
+  if (node && node.type === 'property') {
+    keys.push(node.text);
+
+    visitProperty(node.children[0], keys);
   }
 };
 
