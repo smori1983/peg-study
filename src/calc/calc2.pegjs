@@ -33,25 +33,19 @@ primary
   {
     return a;
   }
-  / i:integer
-  {
-    return toNode('number', i, {}, []);
-  }
-  / v:variable
-  {
-    return toNode('variable', v, {}, []);
-  }
+  / integer
+  / variable
 
 integer
   = text:$([0-9]+)
   {
-    return text;
+    return toNode('number', text, {}, []);
   }
 
 variable
-  = chars:$([a-zA-Z][a-zA-Z0-9]*)
+  = text:$([a-zA-Z][a-zA-Z0-9]*)
   {
-    return chars;
+    return toNode('variable', text, {}, []);
   }
 _
   = [ \t\n\r]*

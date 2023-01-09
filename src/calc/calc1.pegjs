@@ -33,15 +33,12 @@ primary
   {
     return a;
   }
-  / i:integer
-  {
-    return toNode('number', i, {}, []);
-  }
+  / integer
 
 integer
   = text:$([0-9]+)
   {
-    return text;
+    return toNode('number', text, {}, []);
   }
 
 _
