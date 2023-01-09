@@ -114,7 +114,7 @@ const rewriteVisit = (node, data) => {
 
   if (node.type === 'multi') {
     if (digest.equal(node, data.target)) {
-      nodeHelper.replace(node, nodeHelper.create('number', 1, {}, []));
+      nodeHelper.replace(node, nodeHelper.create('number', '1', {}, []));
       data.done = true;
     } else if (digest.equal(node.children[0], data.target)) {
       nodeHelper.replace(node, node.children[1]);
