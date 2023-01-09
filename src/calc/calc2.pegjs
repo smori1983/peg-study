@@ -43,9 +43,23 @@ integer
   }
 
 variable
-  = text:$([a-zA-Z][a-zA-Z0-9]*)
+  = text:$([a-zA-Z][a-zA-Z0-9]*) p:(property_chain*)
   {
-    return toNode('variable', text, {}, []);
+    return toNode('variable', text, {}, p);
   }
+
+property_chain
+  = p:property chain:(property_chain?)
+  {
+    p.children = chain ? [chain] : [];
+    return p;
+  }
+
+property
+   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+   {
+     return toNode('property', text, {}, []);
+   }
+
 _
   = [ \t\n\r]*
