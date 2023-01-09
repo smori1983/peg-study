@@ -17,7 +17,7 @@ const run = (node, variables) => {
  */
 const visit = (node, scope) => {
   if (node.type === 'number') {
-    return node.text;
+    return parseInt(node.text, 10);
   }
 
   if (node.type === 'variable') {
