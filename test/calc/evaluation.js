@@ -40,21 +40,50 @@ describe('evaluation', () => {
 
   describe('calc2', () => {
     /**
-     * @type {[string,Object,number][]}
+     * @type {{input:string,variables:Object,output:number}[]}
      */
     const dataSet = [
-      ['a + 1', {a: 1}, 2],
-      ['b - 1', {b: 1}, 0],
-      ['value / max * 100', {value: 10, max: 50}, 20],
+      {
+        input: 'a + 1',
+        variables: {
+          a: 1,
+        },
+        output: 2,
+      },
+      {
+        input: 'b - 1',
+        variables: {
+          b: 1,
+        },
+        output: 0,
+      },
+      {
+        input: 'value / max * 100',
+        variables: {
+          value: 10,
+          max: 50,
+        },
+        output: 20,
+      },
+      {
+        input: 'value * (100 + config.tax) / 100',
+        variables: {
+          value: 500,
+          config: {
+            tax: 15,
+          },
+        },
+        output: 575,
+      },
     ];
 
-    dataSet.forEach(([input, variables, output]) => {
+    dataSet.forEach((set) => {
       it ('evaluator', () => {
-        const ast = calc2Parser.parse(input);
+        const ast = calc2Parser.parse(set.input);
 
-        const result = evaluator.run(ast, variables);
+        const result = evaluator.run(ast, set.variables);
 
-        assert.deepStrictEqual(result, output);
+        assert.deepStrictEqual(result, set.output);
       });
     });
   });

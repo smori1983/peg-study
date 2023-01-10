@@ -19,13 +19,13 @@ const visit = (node) => {
   visit(right);
 
   if (node.type === 'multi' && node.text === '*') {
-    if (left.type === 'number' && left.text === 1) {
+    if (left.type === 'number' && left.text === '1') {
       nodeHelper.replace(node, right);
-    } else if (right.type === 'number' && right.text === 1) {
+    } else if (right.type === 'number' && right.text === '1') {
       nodeHelper.replace(node, left);
     }
   } else if (node.type === 'multi' && node.text === '/') {
-    if (right.type === 'number' && right.text === 1) {
+    if (right.type === 'number' && right.text === '1') {
       nodeHelper.replace(node, left);
     }
   }

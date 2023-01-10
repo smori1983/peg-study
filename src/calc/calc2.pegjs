@@ -7,9 +7,6 @@
       children: children,
     };
   }
-  function makeInteger(o) {
-    return parseInt(o.join(''), 10);
-  }
 }
 
 start
@@ -36,25 +33,33 @@ primary
   {
     return a;
   }
-  / i:integer
-  {
-    return toNode('number', i, {}, []);
-  }
-  / v:variable
-  {
-    return toNode('variable', v, {}, []);
-  }
+  / integer
+  / variable
 
 integer
-  = digits:[0-9]+
+  = text:$([0-9]+)
   {
-    return makeInteger(digits);
+    return toNode('number', text, {}, []);
   }
 
 variable
-  = chars:$([a-zA-Z][a-zA-Z0-9]*)
+  = text:$([a-zA-Z][a-zA-Z0-9]*) p:(property_chain*)
   {
-    return chars;
+    return toNode('variable', text, {}, p);
   }
+
+property_chain
+  = p:property chain:(property_chain?)
+  {
+    p.children = chain ? [chain] : [];
+    return p;
+  }
+
+property
+   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+   {
+     return toNode('property', text, {}, []);
+   }
+
 _
   = [ \t\n\r]*
