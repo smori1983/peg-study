@@ -49,7 +49,7 @@ output_block_element
   / for_loop
 
 output_line
-  = _ single_quote t:(variable_output / variable_output_fallback / text_single_quote)* single_quote _ newline
+  = _ single_quote t:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
   {
     return {
       type: 'builtin',
@@ -57,7 +57,7 @@ output_line
       children: t,
     };
   }
-  / _ double_quote t:(variable_output / variable_output_fallback / text_double_quote)* double_quote _ newline
+  / _ double_quote t:(variable_output / variable_output_fallback / value_string_double_quote)* double_quote _ newline
   {
     return {
       type: 'builtin',
@@ -146,31 +146,31 @@ variable_output_fallback
     };
   }
 
-text_single_quote
-  = chars:text_single_quote_char+
+value_string_single_quote
+  = text:$(value_string_single_quote_char+)
   {
     return {
       type: 'plain',
-      text: chars.join(''),
+      text: text,
     };
   }
 
-text_single_quote_char
+value_string_single_quote_char
   = !single_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
 
-text_double_quote
-  = chars:text_double_quote_char+
+value_string_double_quote
+  = text:$(value_string_double_quote_char+)
   {
     return {
       type: 'plain',
-      text: chars.join(''),
+      text: text,
     };
   }
 
-text_double_quote_char
+value_string_double_quote_char
   = !double_quote !placeholder_mark char:[^\r\n]
   {
     return char;

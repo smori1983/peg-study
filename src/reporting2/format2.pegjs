@@ -48,7 +48,7 @@ output_block_element
   = output_line
 
 output_line
-  = _ single_quote t:(item_code / item_name / item_amount / text_single_quote)* single_quote _ newline
+  = _ single_quote t:(item_code / item_name / item_amount / value_string_single_quote)* single_quote _ newline
   {
     return {
       type: 'builtin',
@@ -56,7 +56,7 @@ output_line
       children: t,
     };
   }
-  / _ double_quote t:(item_code / item_name / item_amount / text_double_quote)* double_quote _ newline
+  / _ double_quote t:(item_code / item_name / item_amount / value_string_double_quote)* double_quote _ newline
   {
     return {
       type: 'builtin',
@@ -113,34 +113,32 @@ bracket_close
     return w;
   }
 
-text_single_quote
-  = chars:text_single_quote_char+
+value_string_single_quote
+  = text:$(value_string_single_quote_char+)
   {
     return {
       type: 'plain',
-      text: chars.join(''),
+      text: text,
     };
   }
 
-text_single_quote_char
-  = char:[^\r\n']
-    &{ return char !== op_placeholder_mark; }
+value_string_single_quote_char
+  = !single_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
 
-text_double_quote
-  = chars:text_double_quote_char+
+value_string_double_quote
+  = text:$(value_string_double_quote_char+)
   {
     return {
       type: 'plain',
-      text: chars.join(''),
+      text: text,
     };
   }
 
-text_double_quote_char
-  = char:[^\r\n"]
-    &{ return char !== op_placeholder_mark; }
+value_string_double_quote_char
+  = !double_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
