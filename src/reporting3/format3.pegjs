@@ -87,11 +87,11 @@ variable_output
   }
 
 variable
-  = head:[a-z] tail:[0-9a-z_]*
+  = text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return {
       type: 'variable',
-      text: head + tail.join(''),
+      text: text,
     };
   }
 
