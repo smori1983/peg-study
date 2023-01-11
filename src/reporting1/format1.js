@@ -202,8 +202,8 @@ function peg$parse(input, options) {
       peg$c26 = function(char) {
           return char;
         },
-      peg$c27 = function(char) { return char === op_bracket_open; },
-      peg$c28 = function(char) { return char === op_bracket_close; },
+      peg$c27 = function(char) { return char === op_placeholder_bracket_open; },
+      peg$c28 = function(char) { return char === op_placeholder_bracket_close; },
       peg$c29 = function(text) {
           return {
             type: 'plain',
@@ -899,7 +899,7 @@ function peg$parse(input, options) {
     s0 = peg$currPos;
     s1 = peg$parseplaceholder_mark();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsebracket_open();
+      s2 = peg$parseplaceholder_bracket_open();
       if (s2 !== peg$FAILED) {
         s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
@@ -913,7 +913,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsebracket_close();
+              s6 = peg$parseplaceholder_bracket_close();
               if (s6 !== peg$FAILED) {
                 peg$savedPos = s0;
                 s1 = peg$c17();
@@ -952,7 +952,7 @@ function peg$parse(input, options) {
     s0 = peg$currPos;
     s1 = peg$parseplaceholder_mark();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsebracket_open();
+      s2 = peg$parseplaceholder_bracket_open();
       if (s2 !== peg$FAILED) {
         s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
@@ -966,7 +966,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsebracket_close();
+              s6 = peg$parseplaceholder_bracket_close();
               if (s6 !== peg$FAILED) {
                 peg$savedPos = s0;
                 s1 = peg$c20();
@@ -1005,7 +1005,7 @@ function peg$parse(input, options) {
     s0 = peg$currPos;
     s1 = peg$parseplaceholder_mark();
     if (s1 !== peg$FAILED) {
-      s2 = peg$parsebracket_open();
+      s2 = peg$parseplaceholder_bracket_open();
       if (s2 !== peg$FAILED) {
         s3 = peg$parse_();
         if (s3 !== peg$FAILED) {
@@ -1019,7 +1019,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parsebracket_close();
+              s6 = peg$parseplaceholder_bracket_close();
               if (s6 !== peg$FAILED) {
                 peg$savedPos = s0;
                 s1 = peg$c23();
@@ -1087,7 +1087,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsebracket_open() {
+  function peg$parseplaceholder_bracket_open() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -1122,7 +1122,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsebracket_close() {
+  function peg$parseplaceholder_bracket_close() {
     var s0, s1, s2;
 
     s0 = peg$currPos;
@@ -1405,8 +1405,8 @@ function peg$parse(input, options) {
 
 
     const op_placeholder_mark = '#';
-    const op_bracket_open = '{';
-    const op_bracket_close = '}';
+    const op_placeholder_bracket_open = '{';
+    const op_placeholder_bracket_close = '}';
 
 
   peg$result = peg$startRuleFunction();

@@ -3,8 +3,8 @@ const helper = require('../_helper/parse')(parser);
 
 const options = {
   placeholder_mark: '#',
-  bracket_open: '{',
-  bracket_close: '}',
+  placeholder_bracket_open: '{',
+  placeholder_bracket_close: '}',
 };
 
 const input1 = `

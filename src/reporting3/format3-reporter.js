@@ -5,8 +5,8 @@ class Format3Reporter extends ReporterBase {
   constructor() {
     super(parser, {
       placeholder_mark: '#',
-      bracket_open: '{',
-      bracket_close: '}',
+      placeholder_bracket_open: '{',
+      placeholder_bracket_close: '}',
     });
   }
 }

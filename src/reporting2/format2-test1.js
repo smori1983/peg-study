@@ -23,8 +23,8 @@ helper.dump(input1, options1);
 
 const options2 = {
   placeholder_mark: '#',
-  bracket_open: '[',
-  bracket_close: ']',
+  placeholder_bracket_open: '[',
+  placeholder_bracket_close: ']',
 };
 
 const input2 = `

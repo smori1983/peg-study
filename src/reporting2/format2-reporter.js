@@ -26,8 +26,8 @@ class Format2Reporter {
   constructor() {
     this._options = {
       placeholder_mark: '#',
-      bracket_open: '{',
-      bracket_close: '}',
+      placeholder_bracket_open: '{',
+      placeholder_bracket_close: '}',
     };
   }
 

@@ -1,7 +1,7 @@
 {
   const op_placeholder_mark = options.placeholder_mark;
-  const op_bracket_open = options.bracket_open;
-  const op_bracket_close = options.bracket_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
 }
 
 start
@@ -66,7 +66,7 @@ output_line
   }
 
 item_code
-  = placeholder_mark bracket_open _ 'code' _ bracket_close
+  = placeholder_mark placeholder_bracket_open _ 'code' _ placeholder_bracket_close
   {
     return {
       type: 'variable',
@@ -75,7 +75,7 @@ item_code
   }
 
 item_name
-  = placeholder_mark bracket_open _ 'name' _ bracket_close
+  = placeholder_mark placeholder_bracket_open _ 'name' _ placeholder_bracket_close
   {
     return {
       type: 'variable',
@@ -84,7 +84,7 @@ item_name
   }
 
 item_amount
-  = placeholder_mark bracket_open _ 'amount' _ bracket_close
+  = placeholder_mark placeholder_bracket_open _ 'amount' _ placeholder_bracket_close
   {
     return {
       type: 'variable',
@@ -99,16 +99,16 @@ placeholder_mark
     return char;
   }
 
-bracket_open
+placeholder_bracket_open
   = char:.
-    &{ return char === op_bracket_open; }
+    &{ return char === op_placeholder_bracket_open; }
   {
     return char;
   }
 
-bracket_close
+placeholder_bracket_close
   = char:.
-    &{ return char === op_bracket_close; }
+    &{ return char === op_placeholder_bracket_close; }
   {
     return char;
   }

@@ -1,7 +1,7 @@
 {
   const op_placeholder_mark = options.placeholder_mark;
-  const op_bracket_open = options.bracket_open;
-  const op_bracket_close = options.bracket_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
 }
 
 start
@@ -81,7 +81,7 @@ for_loop
   }
 
 variable_output
-  = placeholder_mark bracket_open _ v:variable _ bracket_close
+  = placeholder_mark placeholder_bracket_open _ v:variable _ placeholder_bracket_close
   {
     return v;
   }
@@ -102,16 +102,16 @@ placeholder_mark
     return char;
   }
 
-bracket_open
+placeholder_bracket_open
   = char:.
-    &{ return char === op_bracket_open; }
+    &{ return char === op_placeholder_bracket_open; }
   {
     return char;
   }
 
-bracket_close
+placeholder_bracket_close
   = char:.
-    &{ return char === op_bracket_close; }
+    &{ return char === op_placeholder_bracket_close; }
   {
     return char;
   }
@@ -138,7 +138,7 @@ variable_output_fallback
       text: char1,
     };
   }
-  / char1:placeholder_mark !bracket_open char2:.
+  / char1:placeholder_mark !placeholder_bracket_open char2:.
   {
     return {
       type: 'plain_fallback',
