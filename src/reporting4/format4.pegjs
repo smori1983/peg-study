@@ -96,24 +96,24 @@ variable
   }
 
 placeholder_mark
-  = w:.
-    &{ return w === op_placeholder_mark; }
+  = char:.
+    &{ return char === op_placeholder_mark; }
   {
-    return w;
+    return char;
   }
 
 bracket_open
-  = w:.
-    &{ return w === op_bracket_open; }
+  = char:.
+    &{ return char === op_bracket_open; }
   {
-    return w;
+    return char;
   }
 
 bracket_close
-  = w:.
-    &{ return w === op_bracket_close; }
+  = char:.
+    &{ return char === op_bracket_close; }
   {
-    return w;
+    return char;
   }
 
 variable_output_fallback
