@@ -48,7 +48,7 @@ output_block_element
   = output_line
 
 output_line
-  = _ "'" t:(item_code / item_name / item_amount / text_single_quote)* "'" _ newline
+  = _ single_quote t:(item_code / item_name / item_amount / text_single_quote)* single_quote _ newline
   {
     return {
       type: 'builtin',
@@ -56,7 +56,7 @@ output_line
       children: t,
     };
   }
-  / _ '"' t:(item_code / item_name / item_amount / text_double_quote)* '"' _ newline
+  / _ double_quote t:(item_code / item_name / item_amount / text_double_quote)* double_quote _ newline
   {
     return {
       type: 'builtin',
@@ -144,6 +144,12 @@ text_double_quote_char
   {
     return char;
   }
+
+single_quote
+  = "'"
+
+double_quote
+  = '"'
 
 _
   = [ \t]*

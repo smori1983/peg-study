@@ -49,7 +49,7 @@ output_block_element
   / for_loop
 
 output_line
-  = _ "'" t:(variable_output / text_single_quote)* "'" _ newline
+  = _ single_quote t:(variable_output / text_single_quote)* single_quote _ newline
   {
     return {
       type: 'builtin',
@@ -57,7 +57,7 @@ output_line
       children: t,
     };
   }
-  / _ '"' t:(variable_output / text_double_quote)* '"' _ newline
+  / _ double_quote t:(variable_output / text_double_quote)* double_quote _ newline
   {
     return {
       type: 'builtin',
@@ -147,6 +147,12 @@ text_double_quote_char
   {
     return char;
   }
+
+single_quote
+  = "'"
+
+double_quote
+  = '"'
 
 _
   = [ \t]*

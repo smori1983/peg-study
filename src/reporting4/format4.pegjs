@@ -146,9 +146,6 @@ variable_output_fallback
     };
   }
 
-single_quote
-  = "'"
-
 text_single_quote
   = chars:text_single_quote_char+
   {
@@ -164,9 +161,6 @@ text_single_quote_char
     return char;
   }
 
-double_quote
-  = '"'
-
 text_double_quote
   = chars:text_double_quote_char+
   {
@@ -181,6 +175,12 @@ text_double_quote_char
   {
     return char;
   }
+
+single_quote
+  = "'"
+
+double_quote
+  = '"'
 
 _
   = [ \t]*
