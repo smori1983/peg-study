@@ -2,6 +2,15 @@
   const op_placeholder_mark = options.placeholder_mark;
   const op_placeholder_bracket_open = options.placeholder_bracket_open;
   const op_placeholder_bracket_close = options.placeholder_bracket_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
@@ -9,14 +18,11 @@ start
 
 report
   = _ 'report' _ '{' _ newline
-    codes:block_code
-    outputs:block_output
+    code:block_code
+    output:block_output
     _ '}' _ newline*
   {
-    return {
-      code: codes,
-      output: outputs,
-    };
+    return toNode('block', 'report', {code: code, output: output}, []);
   }
 
 block_code
@@ -24,24 +30,21 @@ block_code
     codes:block_code_line+
     _ '}' _ newline
   {
-    return codes;
+    return toNode('block', 'code', {}, codes);
   }
 
 block_code_line
-  = _ c:code _ newline
+  = _ c:$([0-9]+) _ newline
   {
-    return c;
+    return toNode('string', c, {}, []);
   }
-
-code
-  = $([0-9]+)
 
 block_output
   = _ 'output' _ '{' _ newline
     outputs:block_output_element+
     _ '}' _ newline
   {
-    return outputs;
+    return toNode('block', 'output', {}, outputs);
   }
 
 block_output_element
@@ -49,21 +52,13 @@ block_output_element
   / for_loop
 
 output_line
-  = _ single_quote t:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
+  = _ single_quote c:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
   {
-    return {
-      type: 'builtin',
-      text: 'output_line',
-      children: t,
-    };
+    return toNode('builtin', 'output_line', {}, c);
   }
-  / _ double_quote t:(variable_output / variable_output_fallback / value_string_double_quote)* double_quote _ newline
+  / _ double_quote c:(variable_output / variable_output_fallback / value_string_double_quote)* double_quote _ newline
   {
-    return {
-      type: 'builtin',
-      text: 'output_line',
-      children: t,
-    };
+    return toNode('builtin', 'output_line', {}, c);
   }
 
 for_loop
@@ -71,13 +66,7 @@ for_loop
     children:block_output_element+
     _ '}' _ newline
   {
-    return {
-      type: 'builtin',
-      text: 'for_loop',
-      array: a,
-      variable: v,
-      children: children,
-    };
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
 variable_output
@@ -89,10 +78,7 @@ variable_output
 variable
   = text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
-    return {
-      type: 'variable',
-      text: text,
-    };
+    return toNode('variable', text, {}, []);
   }
 
 placeholder_mark
@@ -119,40 +105,25 @@ placeholder_bracket_close
 variable_output_fallback
   = char1:placeholder_mark &placeholder_mark
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
   / char1:placeholder_mark &single_quote
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
   / char1:placeholder_mark &double_quote
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
   / char1:placeholder_mark !placeholder_bracket_open char2:.
   {
-    return {
-      type: 'plain_fallback',
-      text: char1 + char2,
-    };
+    return toNode('string', char1 + char2, {}, []);
   }
 
 value_string_single_quote
   = text:$(value_string_single_quote_char+)
   {
-    return {
-      type: 'plain',
-      text: text,
-    };
+    return toNode('string', text, {}, []);
   }
 
 value_string_single_quote_char
@@ -164,10 +135,7 @@ value_string_single_quote_char
 value_string_double_quote
   = text:$(value_string_double_quote_char+)
   {
-    return {
-      type: 'plain',
-      text: text,
-    };
+    return toNode('string', text, {}, []);
   }
 
 value_string_double_quote_char

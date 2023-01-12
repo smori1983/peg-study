@@ -7,42 +7,30 @@ const Value = require('./value');
 const Variable = require('./variable');
 
 /**
- * @typedef {Object} AstReport
- * @property {string[]} code
- * @property {AstOutput[]} output
- */
-
-/**
- * @typedef {Object} AstOutput
+ * @typedef {Object} AstNode
  * @property {string} type
  * @property {string} text
- * @property {AstOutputComponent} [array]
- * @property {AstOutputComponent} [variable]
- * @property {AstOutput[]} children
- */
-
-/**
- * @typedef {Object} AstOutputComponent
- * @property {string} type
- * @property {string} text
+ * @property {Object} attributes
+ * @property {AstNode[]} children
  */
 
 class Builder {
   /**
-   * @param {AstReport[]} astReports
+   * @param {AstNode[]} astReports
    * @return {Report[]}
    */
   build(astReports) {
     const result = [];
 
     astReports.forEach((astReport) => {
-      const root = new NodeRoot();
+      const codes = astReport.attributes.code.children.map((astCode) => astCode.text);
 
-      astReport.output.forEach((astOutput) => {
+      const root = new NodeRoot();
+      astReport.attributes.output.children.forEach((astOutput) => {
         this._build(root, astOutput);
       });
 
-      result.push(new Report(astReport.code, root));
+      result.push(new Report(codes, root));
     });
 
     return result;
@@ -50,29 +38,29 @@ class Builder {
 
   /**
    * @param {Node} parentNode
-   * @param {AstOutput} astOutput
+   * @param {AstNode} astNode
    * @private
    */
-  _build(parentNode, astOutput) {
-    if (astOutput.type === 'builtin') {
-      if (astOutput.text === 'output_line') {
-        this._buildOutput(parentNode, astOutput);
-      } else if (astOutput.text === 'for_loop') {
-        this._buildForLoop(parentNode, astOutput);
+  _build(parentNode, astNode) {
+    if (astNode.type === 'builtin') {
+      if (astNode.text === 'output_line') {
+        this._buildOutput(parentNode, astNode);
+      } else if (astNode.text === 'loop') {
+        this._buildLoop(parentNode, astNode);
       }
     }
   }
 
   /**
    * @param {Node} parentNode
-   * @param {AstOutput} astOutput
+   * @param {AstNode} astNode
    * @private
    */
-  _buildOutput(parentNode, astOutput) {
+  _buildOutput(parentNode, astNode) {
     const outputLine = new NodeOutputLine();
 
-    astOutput.children.forEach((child) => {
-      if (child.type === 'plain' || child.type === 'plain_fallback') {
+    astNode.children.forEach((child) => {
+      if (child.type === 'string') {
         outputLine.addComponent(new Value(child.text));
       } else if (child.type === 'variable') {
         outputLine.addComponent(new Variable(child.text));
@@ -84,15 +72,15 @@ class Builder {
 
   /**
    * @param {Node} parentNode
-   * @param {AstOutput} astOutput
+   * @param {AstNode} astNode
    * @private
    */
-  _buildForLoop(parentNode, astOutput) {
-    const array = new Variable(astOutput.array.text);
-    const variable = new Variable(astOutput.variable.text);
+  _buildLoop(parentNode, astNode) {
+    const array = new Variable(astNode.attributes.array.text);
+    const variable = new Variable(astNode.attributes.variable.text);
     const forLoop = new NodeForLoop(array, variable);
 
-    astOutput.children.forEach((child) => {
+    astNode.children.forEach((child) => {
       this._build(forLoop, child);
     });
 
