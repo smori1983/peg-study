@@ -9,8 +9,8 @@ start
 
 report
   = _ 'report' _ '{' _ newline
-    codes:code_block
-    outputs:output_block
+    codes:block_code
+    outputs:block_output
     _ '}' _ newline*
   {
     return {
@@ -19,15 +19,15 @@ report
     };
   }
 
-code_block
+block_code
   = _ 'code' _ '{' _ newline
-    codes:code_block_line+
+    codes:block_code_line+
     _ '}' _ newline
   {
     return codes;
   }
 
-code_block_line
+block_code_line
   = _ c:code _ newline
   {
     return c;
@@ -36,15 +36,15 @@ code_block_line
 code
   = $([0-9]+)
 
-output_block
+block_output
   = _ 'output' _ '{' _ newline
-    outputs:output_block_element+
+    outputs:block_output_element+
     _ '}' _ newline
   {
     return outputs;
   }
 
-output_block_element
+block_output_element
   = output_line
   / for_loop
 
@@ -68,7 +68,7 @@ output_line
 
 for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _ newline
-    children:output_block_element+
+    children:block_output_element+
     _ '}' _ newline
   {
     return {
