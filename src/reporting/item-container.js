@@ -1,4 +1,6 @@
-const Item = require('./item');
+/**
+ * @typedef {import('./item')} Item
+ */
 
 class ItemContainer {
   constructor() {

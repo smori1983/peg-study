@@ -1,4 +1,7 @@
-const Node = require('./node');
+/**
+ * @typedef {import('./node')} Node
+ */
+
 const NodeRoot = require('./node-root');
 const NodeForLoop = require('./node-for-loop');
 const NodeOutputLine = require('./node-output-line');

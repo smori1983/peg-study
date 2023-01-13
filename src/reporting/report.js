@@ -1,5 +1,8 @@
-const Item = require('./item');
-const Node = require('./node');
+/**
+ * @typedef {import('./item')} Item
+ * @typedef {import('./node')} Node
+ */
+
 const Output = require('./output');
 const Scope = require('./scope');
 

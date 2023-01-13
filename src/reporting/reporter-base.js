@@ -1,5 +1,8 @@
+/**
+ * @typedef {import('./item-container')} ItemContainer
+ */
+
 const Builder = require('./builder');
-const ItemContainer = require('./item-container');
 const Output = require('./output');
 
 class ReporterBase {

@@ -1,6 +1,9 @@
+/**
+ * @typedef {import('./variable')} Variable
+ */
+
 const Node = require('./node');
 const Scope = require('./scope');
-const Variable = require('./variable');
 
 class NodeForLoop extends Node {
   /**
