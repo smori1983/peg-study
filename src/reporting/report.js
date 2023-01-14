@@ -35,12 +35,12 @@ class Report {
    * @return {Output}
    */
   evaluate(item) {
-    const scope = new Scope();
-    scope.addVariable('code', item.getCode());
-    scope.addVariable('name', item.getName());
-    scope.addVariable('amount', item.getAmount());
-    scope.addVariable('comments', item.getComments());
-
+    const scope = new Scope({
+      code: item.getCode(),
+      name: item.getName(),
+      amount: item.getAmount(),
+      comments: item.getComments(),
+    });
     const output = new Output();
 
     this._rootNode.evaluate(scope, output);

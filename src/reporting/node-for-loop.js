@@ -37,8 +37,10 @@ class NodeForLoop extends Node {
     const array = value.get();
 
     for (let i = 0; i < array.length; i++) {
-      const childScope = new Scope(scope);
-      childScope.addVariable(this._variable.getName(), array[i]);
+      const variables = {};
+      variables[this._variable.getName()] = array[i];
+
+      const childScope = new Scope(variables, scope);
 
       this._children.forEach((child) => {
         child.evaluate(childScope, output);

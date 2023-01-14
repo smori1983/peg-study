@@ -1,56 +1,62 @@
 class Scope {
   /**
+   * @param {Object} [values]
    * @param {Scope} [parent]
    */
-  constructor(parent) {
+  constructor(values, parent) {
+    this._values = values || {};
     this._parent = parent || null;
-    this._variables = {};
   }
 
   /**
-   * @param {string} name
-   * @param {*} value
+   * @param {string[]} keys
+   * @return {*}
+   * @throws {Error}
    */
-  addVariable(name, value) {
-    this._variables[name] = value;
+  getValue(keys) {
+    if (keys.length === 0) {
+      throw new Error('keys not specified');
+    }
+
+    if (this._isMyKey(keys[0])) {
+      const result = this._find(keys);
+
+      if (typeof result !== 'undefined') {
+        return result;
+      }
+    } else if (this._parent) {
+      return this._parent.getValue(keys);
+    }
+
+    throw new Error(`variable not found: ${keys.join('.')}`);
   }
 
   /**
-   * @param {string} name
+   * @param {string} key
    * @return {boolean}
+   * @private
    */
-  hasVariable(name) {
-    return this._variables.hasOwnProperty(name);
+  _isMyKey(key) {
+    return this._values.hasOwnProperty(key);
   }
 
   /**
-   * @param name
+   * @param {string[]} keys
    * @return {*}
-   * @throws {Error}
+   * @private
    */
-  getVariable(name) {
-    if (this.hasVariable(name)) {
-      return this._variables[name];
+  _find(keys) {
+    let current = this._values;
+
+    for (let i = 0; i < keys.length; i++) {
+      if (current.hasOwnProperty(keys[i])) {
+        current = current[keys[i]];
+      } else {
+        return undefined;
+      }
     }
 
-    throw new Error('variable not found: ' + name);
-  }
-
-  /**
-   * @param {string} name
-   * @return {*}
-   * @throws {Error}
-   */
-  resolveVariable(name) {
-    if (this.hasVariable(name)) {
-      return this.getVariable(name);
-    }
-
-    if (this._parent) {
-      return this._parent.resolveVariable(name);
-    }
-
-    throw new Error('variable not found: ' + name);
+    return current;
   }
 }
 

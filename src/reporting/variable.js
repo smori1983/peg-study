@@ -27,7 +27,7 @@ class Variable {
    * @return {Value}
    */
   resolve(scope) {
-    return new Value(scope.resolveVariable(this._name));
+    return new Value(scope.getValue([this._name]));
   }
 }
 
