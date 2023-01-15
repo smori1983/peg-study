@@ -48,8 +48,16 @@ block_output
   }
 
 block_output_element
-  = output_line
-  / for_loop
+  = for_loop
+  / output_line
+
+for_loop
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline
+    children:block_output_element+
+    _ '}' _ newline
+  {
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
+  }
 
 output_line
   = _ single_quote c:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
@@ -59,14 +67,6 @@ output_line
   / _ double_quote c:(variable_output / variable_output_fallback / value_string_double_quote)* double_quote _ newline
   {
     return toNode('builtin', 'output_line', {}, c);
-  }
-
-for_loop
-  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline
-    children:block_output_element+
-    _ '}' _ newline
-  {
-    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
 variable_output
