@@ -62,7 +62,7 @@ output_line
   }
 
 for_loop
-  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _ newline
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline
     children:block_output_element+
     _ '}' _ newline
   {
@@ -70,7 +70,7 @@ for_loop
   }
 
 variable_output
-  = placeholder_mark placeholder_bracket_open _ v:variable _ placeholder_bracket_close
+  = placeholder_mark placeholder_bracket_open _ v:variable_chain _ placeholder_bracket_close
   {
     return v;
   }
@@ -80,6 +80,25 @@ variable
   {
     return toNode('variable', text, {}, []);
   }
+
+variable_chain
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(property_chain)?
+  {
+    return toNode('variable', v, {}, chain ? [chain] : []);
+  }
+
+property_chain
+  = p:property chain:(property_chain?)
+  {
+    p.children = chain ? [chain] : [];
+    return p;
+  }
+
+property
+   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+   {
+     return toNode('property', text, {}, []);
+   }
 
 placeholder_mark
   = char:.
