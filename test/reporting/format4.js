@@ -2,7 +2,7 @@ const {describe, it} = require('mocha');
 const assert = require('assert');
 const ItemContainer = require('../../src/reporting/item-container');
 const Item = require('../../src/reporting/item');
-const Reporter = require('../../src/reporting4/format4-reporter');
+const Reporter = require('../../src/reporting/reporter');
 
 const dataSet = require('./_data/format4');
 

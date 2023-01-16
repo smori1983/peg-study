@@ -2,24 +2,23 @@
  * @typedef {import('./item-container')} ItemContainer
  */
 
+const parser = require('../reporting4/format4');
 const Builder = require('./builder');
 const Output = require('./output');
 
-class ReporterBase {
-  /**
-   * @param {PEG.Parser} parser
-   * @param {Object} options
-   */
-  constructor(parser, options) {
+class Reporter {
+  constructor() {
     /**
+     * @type {PEG.Parser}
      * @private
      */
     this._parser = parser;
 
-    /**
-     * @private
-     */
-    this._options = options;
+    this._options = {
+      placeholder_mark: '#',
+      placeholder_bracket_open: '{',
+      placeholder_bracket_close: '}',
+    };
   }
 
   /**
@@ -48,4 +47,4 @@ class ReporterBase {
   }
 }
 
-module.exports = ReporterBase;
+module.exports = Reporter;
