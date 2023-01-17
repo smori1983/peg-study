@@ -49,6 +49,7 @@ block_output
 
 block_output_element
   = for_loop
+  / condition
   / output_line
 
 for_loop
@@ -59,7 +60,72 @@ for_loop
     return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
-output_line
+condition 'condition'
+  = c_if:condition_if c_elseif:condition_elseif* c_else:condition_else*
+  {
+    return toNode('condition', 'condition', {}, [c_if].concat(c_elseif).concat(c_else));
+  }
+
+condition_if 'if'
+  = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline
+    children:(block_output_element)*
+    _ '}' _ newline
+  {
+    return toNode('condition', 'if', {condition: c}, children);
+  }
+
+condition_elseif 'elseif'
+  = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline
+    children:(block_output_element)*
+    _ '}' _ newline
+  {
+    return toNode('condition', 'elseif', {condition: c}, children);
+  }
+
+condition_else 'else'
+  = _ 'else' _ '{' _ newline
+    children:(block_output_element)*
+    _ '}' _ newline
+  {
+    return toNode('condition', 'else', {}, children);
+  }
+
+condition_logical_or 'logical_or'
+  = head:condition_logical_and tail:(_ ('||' / 'or') _ condition_logical_and)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('logical', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+condition_logical_and 'logical_and'
+  = head:condition_comparative tail:(_ ('&&' / 'and') _ condition_comparative)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('logical', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+condition_comparative 'comparative'
+  = left:condition_primary _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:condition_primary
+  {
+    return toNode('comparative', op, {}, [left, right]);
+  }
+  / condition_primary
+
+condition_primary 'condition_primary'
+  = '(' _ l:condition_logical_or _ ')'
+  {
+    return l;
+  }
+  / value_bool
+  / value_float
+  / value_int
+  / value_string_single_quote
+  / value_string_double_quote
+  / variable_chain
+
+output_line 'output_line'
   = _ single_quote c:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
   {
     return toNode('builtin', 'output_line', {}, c);
@@ -75,26 +141,26 @@ variable_output
     return v;
   }
 
-variable
+variable 'variable'
   = text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
     return toNode('variable', text, {}, []);
   }
 
-variable_chain
-  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(property_chain)?
+variable_chain 'variable_chain'
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(property_chain?)
   {
     return toNode('variable', v, {}, chain ? [chain] : []);
   }
 
-property_chain
+property_chain 'property_chain'
   = p:property chain:(property_chain?)
   {
     p.children = chain ? [chain] : [];
     return p;
   }
 
-property
+property 'property'
    = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
    {
      return toNode('property', text, {}, []);
@@ -137,6 +203,24 @@ variable_output_fallback
   / char1:placeholder_mark !placeholder_bracket_open char2:.
   {
     return toNode('string', char1 + char2, {}, []);
+  }
+
+value_bool
+  = text:('true' / 'false')
+  {
+    return toNode('bool', text, {}, []);
+  }
+
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
+  {
+    return toNode('float', text, {}, []);
+  }
+
+value_int
+  = text:$([0-9]+)
+  {
+    return toNode('int', text, {}, []);
   }
 
 value_string_single_quote
