@@ -28,6 +28,35 @@ module.exports = [
   },
   {
     items: [
+      ['100', 'item01', 100, ['xxx', 'yyy', 'zzz']],
+      ['200', 'item02', 200, ['zzz']],
+    ],
+    input: [
+      'report {',
+      '  code {',
+      '    100',
+      '    200',
+      '  }',
+      '  output {',
+      '    if (amount <= 100) {',
+      '      "# code:#{code} {#{name},#{amount}}"',
+      '      for (comment in comments) {',
+      '        if (comment != "yyy") {',
+      '          "- #{comment}"',
+      '        }',
+      '      }',
+      '    }',
+      '  }',
+      '}',
+    ],
+    output: [
+      '# code:100 {item01,100}',
+      '- xxx',
+      '- zzz',
+    ],
+  },
+  {
+    items: [
       ['100', 'item01', 100],
       ['200', 'item02', 200],
     ],
