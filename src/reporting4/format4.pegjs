@@ -126,22 +126,22 @@ condition_primary 'condition_primary'
   / variable_chain
 
 output_line 'output_line'
-  = _ single_quote c:(variable_output / variable_output_fallback / value_string_single_quote)* single_quote _ newline
+  = _ single_quote c:(output_variable / output_string_single_quote / output_fallback)* single_quote _ newline
   {
     return toNode('builtin', 'output_line', {}, c);
   }
-  / _ double_quote c:(variable_output / variable_output_fallback / value_string_double_quote)* double_quote _ newline
+  / _ double_quote c:(output_variable / output_string_double_quote / output_fallback)* double_quote _ newline
   {
     return toNode('builtin', 'output_line', {}, c);
   }
 
-variable_output
+output_variable
   = placeholder_mark placeholder_bracket_open _ v:variable_chain _ placeholder_bracket_close
   {
     return v;
   }
 
-variable_output_fallback
+output_fallback
   = char1:placeholder_mark &placeholder_mark
   {
     return toNode('string', char1, {}, []);
@@ -157,6 +157,30 @@ variable_output_fallback
   / char1:placeholder_mark !placeholder_bracket_open char2:.
   {
     return toNode('string', char1 + char2, {}, []);
+  }
+
+output_string_single_quote
+  = text:$(output_string_single_quote_char+)
+  {
+    return toNode('string', text, {}, []);
+  }
+
+output_string_single_quote_char
+  = !single_quote !placeholder_mark char:[^\r\n]
+  {
+    return char;
+  }
+
+output_string_double_quote
+  = text:$(output_string_double_quote_char+)
+  {
+    return toNode('string', text, {}, []);
+  }
+
+output_string_double_quote_char
+  = !double_quote !placeholder_mark char:[^\r\n]
+  {
+    return char;
   }
 
 variable 'variable'
