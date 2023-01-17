@@ -248,7 +248,7 @@ value_int
   }
 
 value_string_single_quote
-  = text:$(value_string_single_quote_char+)
+  = single_quote text:$(value_string_single_quote_char+) single_quote
   {
     return toNode('string', text, {}, []);
   }
@@ -260,7 +260,7 @@ value_string_single_quote_char
   }
 
 value_string_double_quote
-  = text:$(value_string_double_quote_char+)
+  = double_quote text:$(value_string_double_quote_char+) double_quote
   {
     return toNode('string', text, {}, []);
   }
