@@ -3,8 +3,9 @@
  */
 
 const parser = require('../reporting4/format4');
-const Builder = require('./builder');
 const Output = require('./output');
+const Processor = require('./processor');
+const Scope = require('./scope');
 
 class Reporter {
   constructor() {
@@ -27,23 +28,34 @@ class Reporter {
    * @return {Output}
    */
   createReport(itemContainer, text) {
-    const parsed = this._parser.parse(text, this._options);
-    const reports = new Builder().build(parsed);
-
     const output = new Output();
+    const processor = new Processor();
 
-    reports.forEach((report) => {
-      report.getCodes().forEach((code) => {
-        try {
+    try {
+      const reports = this._parser.parse(text, this._options);
+
+      reports.forEach((report) => {
+        const codes = report.attributes.code.children.map((astCode) => astCode.text);
+
+        codes.forEach((code) => {
           const item = itemContainer.getItem(code);
-          const result = report.evaluate(item);
+          const scope = new Scope({
+            code: item.getCode(),
+            name: item.getName(),
+            amount: item.getAmount(),
+            comments: item.getComments(),
+          });
+
+          const result = processor.process(report.attributes.output, scope);
 
           output.merge(result);
-        } catch (e) {}
+        })
       });
-    });
 
-    return output;
+      return output;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 
