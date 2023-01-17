@@ -141,6 +141,24 @@ variable_output
     return v;
   }
 
+variable_output_fallback
+  = char1:placeholder_mark &placeholder_mark
+  {
+    return toNode('string', char1, {}, []);
+  }
+  / char1:placeholder_mark &single_quote
+  {
+    return toNode('string', char1, {}, []);
+  }
+  / char1:placeholder_mark &double_quote
+  {
+    return toNode('string', char1, {}, []);
+  }
+  / char1:placeholder_mark !placeholder_bracket_open char2:.
+  {
+    return toNode('string', char1 + char2, {}, []);
+  }
+
 variable 'variable'
   = text:$([a-zA-Z][0-9a-zA-Z_]*)
   {
@@ -185,24 +203,6 @@ placeholder_bracket_close
     &{ return char === op_placeholder_bracket_close; }
   {
     return char;
-  }
-
-variable_output_fallback
-  = char1:placeholder_mark &placeholder_mark
-  {
-    return toNode('string', char1, {}, []);
-  }
-  / char1:placeholder_mark &single_quote
-  {
-    return toNode('string', char1, {}, []);
-  }
-  / char1:placeholder_mark &double_quote
-  {
-    return toNode('string', char1, {}, []);
-  }
-  / char1:placeholder_mark !placeholder_bracket_open char2:.
-  {
-    return toNode('string', char1 + char2, {}, []);
   }
 
 value_bool
