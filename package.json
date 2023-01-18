@@ -19,9 +19,6 @@
     "peg:placeholder2": "pegjs src/placeholder/format2.pegjs",
     "peg:placeholder3": "pegjs src/placeholder/format3.pegjs",
     "peg:placeholder4": "pegjs src/placeholder/format4.pegjs",
-    "peg:reporting1": "pegjs src/reporting1/format1.pegjs",
-    "peg:reporting2": "pegjs src/reporting2/format2.pegjs",
-    "peg:reporting3": "pegjs src/reporting3/format3.pegjs",
     "peg:reporting4": "pegjs src/reporting4/format4.pegjs",
     "test": "mocha test/*",
     "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"

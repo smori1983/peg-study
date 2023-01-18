@@ -1,7 +1,16 @@
 {
   const op_placeholder_mark = options.placeholder_mark;
-  const op_bracket_open = options.bracket_open;
-  const op_bracket_close = options.bracket_close;
+  const op_placeholder_bracket_open = options.placeholder_bracket_open;
+  const op_placeholder_bracket_close = options.placeholder_bracket_close;
+
+  function toNode(type, text, attributes, children) {
+    return {
+      type: type,
+      text: text,
+      attributes: attributes,
+      children: children,
+    };
+  }
 }
 
 start
@@ -9,177 +18,277 @@ start
 
 report
   = _ 'report' _ '{' _ newline
-    codes:code_block
-    outputs:output_block
+    empty_line*
+    code:block_code
+    empty_line*
+    output:block_output
+    empty_line*
     _ '}' _ newline*
   {
-    return {
-      code: codes,
-      output: outputs,
-    };
+    return toNode('block', 'report', {code: code, output: output}, []);
   }
 
-code_block
+block_code
   = _ 'code' _ '{' _ newline
-    codes:code_block_line+
+    children:block_code_element+
     _ '}' _ newline
   {
-    return codes;
+    return toNode('block', 'code', {}, children);
   }
 
-code_block_line
-  = _ c:code _ newline
+block_code_element
+  = block_code_line
+  / empty_line
+
+block_code_line
+  = _ c:$([0-9]+) _ newline
   {
-    return c;
+    return toNode('string', c, {}, []);
   }
 
-code
-  = $([0-9]+)
-
-output_block
+block_output
   = _ 'output' _ '{' _ newline
-    outputs:output_block_element+
+    outputs:block_output_element+
     _ '}' _ newline
   {
-    return outputs;
+    return toNode('block', 'output', {}, outputs);
   }
 
-output_block_element
-  = output_line
-  / for_loop
-
-output_line
-  = _ single_quote t:(variable_output / variable_output_fallback / text_single_quote)* single_quote _ newline
-  {
-    return {
-      type: 'builtin',
-      text: 'output_line',
-      children: t,
-    };
-  }
-  / _ double_quote t:(variable_output / variable_output_fallback / text_double_quote)* double_quote _ newline
-  {
-    return {
-      type: 'builtin',
-      text: 'output_line',
-      children: t,
-    };
-  }
+block_output_element
+  = for_loop
+  / condition
+  / output_line
+  / empty_line
 
 for_loop
-  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable _ ')' _ '{' _ newline
-    children:output_block_element+
-    _ '}' _ newline
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline?
+    children:block_output_element*
+    _ '}' _ newline?
   {
-    return {
-      type: 'builtin',
-      text: 'for_loop',
-      array: a,
-      variable: v,
-      children: children,
-    };
+    return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
 
-variable_output
-  = placeholder_mark bracket_open _ v:variable _ bracket_close
+condition 'condition'
+  = c_if:condition_if c_elseif:condition_elseif* c_else:condition_else*
+  {
+    return toNode('condition', 'condition', {}, [c_if].concat(c_elseif).concat(c_else));
+  }
+
+condition_if 'if'
+  = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
+    children:block_output_element*
+    _ '}' _ newline?
+  {
+    return toNode('condition', 'if', {condition: c}, children);
+  }
+
+condition_elseif 'elseif'
+  = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
+    children:block_output_element*
+    _ '}' _ newline?
+  {
+    return toNode('condition', 'elseif', {condition: c}, children);
+  }
+
+condition_else 'else'
+  = _ 'else' _ '{' _ newline?
+    children:block_output_element*
+    _ '}' _ newline?
+  {
+    return toNode('condition', 'else', {}, children);
+  }
+
+condition_logical_or 'logical_or'
+  = head:condition_logical_and tail:(_ ('||' / 'or') _ condition_logical_and)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('logical', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+condition_logical_and 'logical_and'
+  = head:condition_comparative tail:(_ ('&&' / 'and') _ condition_comparative)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('logical', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+condition_comparative 'comparative'
+  = left:condition_primary _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:condition_primary
+  {
+    return toNode('comparative', op, {}, [left, right]);
+  }
+  / condition_primary
+
+condition_primary 'condition_primary'
+  = '(' _ l:condition_logical_or _ ')'
+  {
+    return l;
+  }
+  / value_bool
+  / value_float
+  / value_int
+  / value_string_single_quote
+  / value_string_double_quote
+  / variable_chain
+
+output_line 'output_line'
+  = _ single_quote c:(output_variable / output_string_single_quote / output_fallback)* single_quote _ newline
+  {
+    return toNode('builtin', 'output_line', {}, c);
+  }
+  / _ double_quote c:(output_variable / output_string_double_quote / output_fallback)* double_quote _ newline
+  {
+    return toNode('builtin', 'output_line', {}, c);
+  }
+
+output_variable
+  = placeholder_mark placeholder_bracket_open _ v:variable_chain _ placeholder_bracket_close
   {
     return v;
   }
 
-variable
-  = head:[a-z] tail:[0-9a-z_]*
-  {
-    return {
-      type: 'variable',
-      text: head + tail.join(''),
-    };
-  }
-
-placeholder_mark
-  = w:.
-    &{ return w === op_placeholder_mark; }
-  {
-    return w;
-  }
-
-bracket_open
-  = w:.
-    &{ return w === op_bracket_open; }
-  {
-    return w;
-  }
-
-bracket_close
-  = w:.
-    &{ return w === op_bracket_close; }
-  {
-    return w;
-  }
-
-variable_output_fallback
+output_fallback
   = char1:placeholder_mark &placeholder_mark
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
   / char1:placeholder_mark &single_quote
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
   / char1:placeholder_mark &double_quote
   {
-    return {
-      type: 'plain_fallback',
-      text: char1,
-    };
+    return toNode('string', char1, {}, []);
   }
-  / char1:placeholder_mark !bracket_open char2:.
+  / char1:placeholder_mark !placeholder_bracket_open !newline char2:.
   {
-    return {
-      type: 'plain_fallback',
-      text: char1 + char2,
-    };
+    return toNode('string', char1 + char2, {}, []);
   }
 
-single_quote
-  = "'"
-
-text_single_quote
-  = chars:text_single_quote_char+
+output_string_single_quote
+  = text:$(output_string_single_quote_char+)
   {
-    return {
-      type: 'plain',
-      text: chars.join(''),
-    };
+    return toNode('string', text, {}, []);
   }
 
-text_single_quote_char
+output_string_single_quote_char
   = !single_quote !placeholder_mark char:[^\r\n]
   {
     return char;
   }
 
-double_quote
-  = '"'
-
-text_double_quote
-  = chars:text_double_quote_char+
+output_string_double_quote
+  = text:$(output_string_double_quote_char+)
   {
-    return {
-      type: 'plain',
-      text: chars.join(''),
-    };
+    return toNode('string', text, {}, []);
   }
 
-text_double_quote_char
+output_string_double_quote_char
   = !double_quote !placeholder_mark char:[^\r\n]
   {
     return char;
+  }
+
+variable 'variable'
+  = text:$([a-zA-Z][0-9a-zA-Z_]*)
+  {
+    return toNode('variable', text, {}, []);
+  }
+
+variable_chain 'variable_chain'
+  = v:$([a-zA-Z][0-9a-zA-Z_]*) chain:(property_chain?)
+  {
+    return toNode('variable', v, {}, chain ? [chain] : []);
+  }
+
+property_chain 'property_chain'
+  = p:property chain:(property_chain?)
+  {
+    p.children = chain ? [chain] : [];
+    return p;
+  }
+
+property 'property'
+   = _ '.' _ text:$([a-zA-Z][0-9a-zA-Z_]*)
+   {
+     return toNode('property', text, {}, []);
+   }
+
+placeholder_mark
+  = char:.
+    &{ return char === op_placeholder_mark; }
+  {
+    return char;
+  }
+
+placeholder_bracket_open
+  = char:.
+    &{ return char === op_placeholder_bracket_open; }
+  {
+    return char;
+  }
+
+placeholder_bracket_close
+  = char:.
+    &{ return char === op_placeholder_bracket_close; }
+  {
+    return char;
+  }
+
+value_bool
+  = text:('true' / 'false')
+  {
+    return toNode('bool', text, {}, []);
+  }
+
+value_float
+  = text:$([0-9]+ '.' [0-9]+)
+  {
+    return toNode('float', text, {}, []);
+  }
+
+value_int
+  = text:$([0-9]+)
+  {
+    return toNode('int', text, {}, []);
+  }
+
+value_string_single_quote
+  = single_quote text:$(value_string_single_quote_char+) single_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_single_quote_char
+  = !single_quote !placeholder_mark char:[^\r\n]
+  {
+    return char;
+  }
+
+value_string_double_quote
+  = double_quote text:$(value_string_double_quote_char+) double_quote
+  {
+    return toNode('string', text, {}, []);
+  }
+
+value_string_double_quote_char
+  = !double_quote !placeholder_mark char:[^\r\n]
+  {
+    return char;
+  }
+
+single_quote
+  = "'"
+
+double_quote
+  = '"'
+
+empty_line
+  = _ newline
+  {
+    return toNode('empty_line', 'empty_line', {}, []);
   }
 
 _
