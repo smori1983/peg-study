@@ -18,8 +18,11 @@ start
 
 report
   = _ 'report' _ '{' _ newline
+    empty_line*
     code:block_code
+    empty_line*
     output:block_output
+    empty_line*
     _ '}' _ newline*
   {
     return toNode('block', 'report', {code: code, output: output}, []);
@@ -27,11 +30,15 @@ report
 
 block_code
   = _ 'code' _ '{' _ newline
-    codes:block_code_line+
+    children:block_code_element+
     _ '}' _ newline
   {
-    return toNode('block', 'code', {}, codes);
+    return toNode('block', 'code', {}, children);
   }
+
+block_code_element
+  = block_code_line
+  / empty_line
 
 block_code_line
   = _ c:$([0-9]+) _ newline
@@ -51,10 +58,11 @@ block_output_element
   = for_loop
   / condition
   / output_line
+  / empty_line
 
 for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline?
-    children:block_output_element+
+    children:block_output_element*
     _ '}' _ newline?
   {
     return toNode('builtin', 'loop', {array: a, variable: v}, children);
@@ -68,7 +76,7 @@ condition 'condition'
 
 condition_if 'if'
   = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
-    children:(block_output_element)*
+    children:block_output_element*
     _ '}' _ newline?
   {
     return toNode('condition', 'if', {condition: c}, children);
@@ -76,7 +84,7 @@ condition_if 'if'
 
 condition_elseif 'elseif'
   = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
-    children:(block_output_element)*
+    children:block_output_element*
     _ '}' _ newline?
   {
     return toNode('condition', 'elseif', {condition: c}, children);
@@ -84,7 +92,7 @@ condition_elseif 'elseif'
 
 condition_else 'else'
   = _ 'else' _ '{' _ newline?
-    children:(block_output_element)*
+    children:block_output_element*
     _ '}' _ newline?
   {
     return toNode('condition', 'else', {}, children);
@@ -276,6 +284,12 @@ single_quote
 
 double_quote
   = '"'
+
+empty_line
+  = _ newline
+  {
+    return toNode('empty_line', 'empty_line', {}, []);
+  }
 
 _
   = [ \t]*
