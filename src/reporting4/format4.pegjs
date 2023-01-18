@@ -53,9 +53,9 @@ block_output_element
   / output_line
 
 for_loop
-  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline
+  = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _ newline?
     children:block_output_element+
-    _ '}' _ newline
+    _ '}' _ newline?
   {
     return toNode('builtin', 'loop', {array: a, variable: v}, children);
   }
@@ -67,25 +67,25 @@ condition 'condition'
   }
 
 condition_if 'if'
-  = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline
+  = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
     children:(block_output_element)*
-    _ '}' _ newline
+    _ '}' _ newline?
   {
     return toNode('condition', 'if', {condition: c}, children);
   }
 
 condition_elseif 'elseif'
-  = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline
+  = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _ newline?
     children:(block_output_element)*
-    _ '}' _ newline
+    _ '}' _ newline?
   {
     return toNode('condition', 'elseif', {condition: c}, children);
   }
 
 condition_else 'else'
-  = _ 'else' _ '{' _ newline
+  = _ 'else' _ '{' _ newline?
     children:(block_output_element)*
-    _ '}' _ newline
+    _ '}' _ newline?
   {
     return toNode('condition', 'else', {}, children);
   }
@@ -154,7 +154,7 @@ output_fallback
   {
     return toNode('string', char1, {}, []);
   }
-  / char1:placeholder_mark !placeholder_bracket_open char2:.
+  / char1:placeholder_mark !placeholder_bracket_open !newline char2:.
   {
     return toNode('string', char1 + char2, {}, []);
   }
