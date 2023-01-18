@@ -35,7 +35,9 @@ class Reporter {
       const reports = this._parser.parse(text, this._options);
 
       reports.forEach((report) => {
-        const codes = report.attributes.code.children.map((astCode) => astCode.text);
+        const codes = report.attributes.code.children
+          .filter((node) => node.type === 'string')
+          .map((node) => node.text);
 
         codes.forEach((code) => {
           const item = itemContainer.getItem(code);

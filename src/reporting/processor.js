@@ -6,6 +6,7 @@
 
 const Output = require('./output');
 const VisitorCondition = require('./visitor-condition');
+const VisitorEmptyLine = require('./visitor-empty-line');
 const VisitorLoop = require('./visitor-loop');
 const VisitorOutputLine = require('./visitor-output-line');
 
@@ -19,6 +20,7 @@ class Processor {
       new VisitorCondition(),
       new VisitorLoop(),
       new VisitorOutputLine(),
+      new VisitorEmptyLine(),
     ];
   }
 
