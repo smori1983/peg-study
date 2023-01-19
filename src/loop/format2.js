@@ -216,9 +216,8 @@ function peg$parse(input, options) {
       peg$c46 = peg$literalExpectation("\"", false),
       peg$c47 = /^[ \t\r\n]/,
       peg$c48 = peg$classExpectation([" ", "\t", "\r", "\n"], false, false),
-      peg$c49 = peg$otherExpectation("space"),
-      peg$c50 = /^[ \t]/,
-      peg$c51 = peg$classExpectation([" ", "\t"], false, false),
+      peg$c49 = /^[ \t]/,
+      peg$c50 = peg$classExpectation([" ", "\t"], false, false),
 
       peg$currPos          = 0,
       peg$savedPos         = 0,
@@ -1482,33 +1481,27 @@ function peg$parse(input, options) {
   function peg$parse__() {
     var s0, s1;
 
-    peg$silentFails++;
     s0 = [];
-    if (peg$c50.test(input.charAt(peg$currPos))) {
+    if (peg$c49.test(input.charAt(peg$currPos))) {
       s1 = input.charAt(peg$currPos);
       peg$currPos++;
     } else {
       s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c51); }
+      if (peg$silentFails === 0) { peg$fail(peg$c50); }
     }
     if (s1 !== peg$FAILED) {
       while (s1 !== peg$FAILED) {
         s0.push(s1);
-        if (peg$c50.test(input.charAt(peg$currPos))) {
+        if (peg$c49.test(input.charAt(peg$currPos))) {
           s1 = input.charAt(peg$currPos);
           peg$currPos++;
         } else {
           s1 = peg$FAILED;
-          if (peg$silentFails === 0) { peg$fail(peg$c51); }
+          if (peg$silentFails === 0) { peg$fail(peg$c50); }
         }
       }
     } else {
       s0 = peg$FAILED;
-    }
-    peg$silentFails--;
-    if (s0 === peg$FAILED) {
-      s1 = peg$FAILED;
-      if (peg$silentFails === 0) { peg$fail(peg$c49); }
     }
 
     return s0;

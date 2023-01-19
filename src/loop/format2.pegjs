@@ -125,5 +125,5 @@ double_quote
 _
   = [ \t\r\n]*
 
-__ 'space'
+__
   = [ \t]+

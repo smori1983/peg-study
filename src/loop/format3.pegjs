@@ -27,7 +27,7 @@ builtin_log
 
 builtin_for_loop
   = _ 'for' _ '(' _ v:variable __ 'in' __ a:variable_chain _ ')' _ '{' _
-    children: builtin*
+    children:builtin*
     _ '}' _
   {
     return toNode('builtin', 'loop', {array: a, variable: v}, children);
@@ -55,7 +55,7 @@ method_or_property
 method
   = _ '.' _ m:$([a-zA-Z][0-9a-zA-Z_]*) _ '(' _ args:arguments* _ ')'
   {
-    return toNode('method', m, {arguments: (args.length > 0) ? args[0] : []}, []);
+    return toNode('method', m, {arguments: args.length > 0 ? args[0] : []}, []);
   }
 
 property

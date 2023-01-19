@@ -181,7 +181,7 @@ function peg$parse(input, options) {
       peg$c24 = ".",
       peg$c25 = peg$literalExpectation(".", false),
       peg$c26 = function(m, args) {
-          return toNode('method', m, {arguments: (args.length > 0) ? args[0] : []}, []);
+          return toNode('method', m, {arguments: args.length > 0 ? args[0] : []}, []);
         },
       peg$c27 = function(p) {
           return toNode('property', p, {}, []);
