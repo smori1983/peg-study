@@ -47,19 +47,14 @@ const visit = (node, scope) => {
 const prepareVariable = (node) => {
   const keys = [];
 
-  keys.push(node.text);
+  let current = node;
 
-  visitProperty(node.children[0], keys);
+  do {
+    keys.push(current.text);
+    current = current.children[0];
+  } while (current && current.type === 'property');
 
   return keys;
-};
-
-const visitProperty = (node, keys) => {
-  if (node && node.type === 'property') {
-    keys.push(node.text);
-
-    visitProperty(node.children[0], keys);
-  }
 };
 
 module.exports.run = run;
