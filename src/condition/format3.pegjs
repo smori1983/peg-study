@@ -10,7 +10,7 @@
 }
 
 start
-  = condition_block
+  = condition_block*
 
 log
   = _ 'log' _ '(' _ args:arguments* _ ')' _

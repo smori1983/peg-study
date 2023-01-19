@@ -419,9 +419,14 @@ function peg$parse(input, options) {
   }
 
   function peg$parsestart() {
-    var s0;
+    var s0, s1;
 
-    s0 = peg$parsecondition_block();
+    s0 = [];
+    s1 = peg$parsecondition_block();
+    while (s1 !== peg$FAILED) {
+      s0.push(s1);
+      s1 = peg$parsecondition_block();
+    }
 
     return s0;
   }
