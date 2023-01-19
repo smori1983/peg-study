@@ -9,6 +9,7 @@
     "peg:calc:lisp": "pegjs src/calc/lisp.pegjs",
     "peg:condition:format1": "pegjs src/condition/format1.pegjs",
     "peg:condition:format2": "pegjs src/condition/format2.pegjs",
+    "peg:condition:format3": "pegjs src/condition/format3.pegjs",
     "peg:loop:format1": "pegjs src/loop/format1.pegjs",
     "peg:loop:format2": "pegjs src/loop/format2.pegjs",
     "peg:loop:format3": "pegjs src/loop/format3.pegjs",
