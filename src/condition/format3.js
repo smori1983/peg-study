@@ -423,9 +423,15 @@ function peg$parse(input, options) {
 
     s0 = [];
     s1 = peg$parsecondition_block();
+    if (s1 === peg$FAILED) {
+      s1 = peg$parselog();
+    }
     while (s1 !== peg$FAILED) {
       s0.push(s1);
       s1 = peg$parsecondition_block();
+      if (s1 === peg$FAILED) {
+        s1 = peg$parselog();
+      }
     }
 
     return s0;
