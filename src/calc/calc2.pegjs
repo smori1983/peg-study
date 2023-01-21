@@ -37,7 +37,7 @@ primary
   / variable
 
 integer
-  = text:$([0-9]+)
+  = text:$('-'? [0-9]+)
   {
     return toNode('number', text, {}, []);
   }
