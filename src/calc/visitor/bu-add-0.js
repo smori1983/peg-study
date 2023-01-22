@@ -19,18 +19,26 @@ const visit = (node) => {
   visit(right);
 
   if (node.type === 'add' && node.text === '+') {
-    if ((left.type === 'number' && left.text === '0') && (right.type === 'number' && right.text === '0')) {
+    if (isZero(left) && isZero(right)) {
       nodeHelper.replace(node, nodeHelper.create('number', '0', {}, []));
-    } else if (left.type === 'number' && left.text === '0') {
+    } else if (isZero(left)) {
       nodeHelper.replace(node, right);
-    } else if (right.type === 'number' && right.text === '0') {
+    } else if (isZero(right)) {
       nodeHelper.replace(node, left);
     }
   } else if (node.type === 'add' && node.text === '-') {
-    if (right.type === 'number' && right.text === '0') {
+    if (isZero(right)) {
       nodeHelper.replace(node, left);
     }
   }
+};
+
+/**
+ * @param {Object} node
+ * @return {boolean}
+ */
+const isZero = (node) => {
+  return node.type === 'number' && ['0', '-0'].includes(node.text);
 };
 
 module.exports.visit = visit;
