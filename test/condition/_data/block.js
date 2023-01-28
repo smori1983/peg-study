@@ -1,5 +1,88 @@
 module.exports = [
   {
+    input: `
+      if ((a + b) / 3 < c + 1) {
+        log("a")
+      }
+    `,
+    variables: {
+      a: 10,
+      b: 20,
+      c: 30,
+    },
+    output: [
+      'a',
+    ],
+  },
+  {
+    input: `
+      if (a != 10 && b + c > 10) {
+        log("a")
+      } else {
+        log("b")
+      }
+    `,
+    variables: {
+      a: 10,
+      b: 20,
+      c: 30,
+    },
+    output: [
+      'b',
+    ],
+  },
+  {
+    input: `
+      if (a != 10 && b + c > 10 || true) {
+        log("a")
+      } else {
+        log("b")
+      }
+    `,
+    variables: {
+      a: 10,
+      b: 20,
+      c: 30,
+    },
+    output: [
+      'a',
+    ],
+  },
+  {
+    input: `
+      if (a != 10 && (b + c > 10 || true)) {
+        log("a")
+      } else {
+        log("b")
+      }
+    `,
+    variables: {
+      a: 10,
+      b: 20,
+      c: 30,
+    },
+    output: [
+      'b',
+    ],
+  },
+  {
+    input: `
+      if (a > 10 || b + c > 10) {
+        log("a")
+      } else {
+        log("b")
+      }
+    `,
+    variables: {
+      a: 10,
+      b: 20,
+      c: 30,
+    },
+    output: [
+      'a',
+    ],
+  },
+  {
     input: 'if (true) { log("a") }',
     variables: {},
     output: [
