@@ -65,11 +65,24 @@ logical_and
   }
 
 comparative
-  = left:add _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:add
+  = head:(add / comparative_primary) tail:(_ ('==' / '!=' / '>=' / '<=' / '>' / '<') _ (add / comparative_primary))*
   {
-    return toNode('comparative', op, {}, [left, right]);
+    return tail.reduce((result, elements) => {
+      return toNode('comparative', elements[1], {}, [result, elements[3]]);
+    }, head);
   }
-  / add
+
+comparative_primary
+  = '(' _ l:logical_or _ ')'
+  {
+    return l;
+  }
+  / value_bool
+  / value_float
+  / value_int
+  / value_string_single_quote
+  / value_string_double_quote
+  / variable_chain
 
 add
   = head:multi tail:(_ ('+' / '-') _ multi)*
@@ -80,17 +93,17 @@ add
   }
 
 multi
-  = head:primary tail:(_ ('*' / '/') _ primary)*
+  = head:arithmetic_primary tail:(_ ('*' / '/') _ arithmetic_primary)*
   {
     return tail.reduce((result, elements) => {
       return toNode('multi', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
-primary
-  = '(' _ l:logical_or _ ')'
+arithmetic_primary
+  = '(' _ a:add _ ')'
   {
-    return l;
+    return a;
   }
   / value_bool
   / value_float
