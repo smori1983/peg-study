@@ -158,8 +158,6 @@ arithmetic_primary 'arithmetic_primary'
   / value_bool
   / value_float
   / value_int
-  / value_string_single_quote
-  / value_string_double_quote
   / variable_chain
 
 output_line 'output_line'

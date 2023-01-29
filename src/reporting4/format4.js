@@ -2378,13 +2378,7 @@ function peg$parse(input, options) {
         if (s0 === peg$FAILED) {
           s0 = peg$parsevalue_int();
           if (s0 === peg$FAILED) {
-            s0 = peg$parsevalue_string_single_quote();
-            if (s0 === peg$FAILED) {
-              s0 = peg$parsevalue_string_double_quote();
-              if (s0 === peg$FAILED) {
-                s0 = peg$parsevariable_chain();
-              }
-            }
+            s0 = peg$parsevariable_chain();
           }
         }
       }
