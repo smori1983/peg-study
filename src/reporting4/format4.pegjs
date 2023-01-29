@@ -48,7 +48,7 @@ block_code_line
 
 block_output
   = _ 'output' _ '{' _ newline
-    outputs:block_output_element+
+    outputs:block_output_element*
     _ '}' _ newline
   {
     return toNode('block', 'output', {}, outputs);

@@ -831,13 +831,9 @@ function peg$parse(input, options) {
               if (s6 !== peg$FAILED) {
                 s7 = [];
                 s8 = peg$parseblock_output_element();
-                if (s8 !== peg$FAILED) {
-                  while (s8 !== peg$FAILED) {
-                    s7.push(s8);
-                    s8 = peg$parseblock_output_element();
-                  }
-                } else {
-                  s7 = peg$FAILED;
+                while (s8 !== peg$FAILED) {
+                  s7.push(s8);
+                  s8 = peg$parseblock_output_element();
                 }
                 if (s7 !== peg$FAILED) {
                   s8 = peg$parse_();
