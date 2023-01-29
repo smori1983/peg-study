@@ -1,4 +1,5 @@
 module.exports = [
+  // empty block
   {
     items: [
       ['100', 'item01', 100, ['xxx', 'yyy', 'zzz']],
@@ -31,6 +32,121 @@ module.exports = [
     output: [
     ],
   },
+
+  // empty line
+  {
+    items: [
+      ['100', 'item01', 100, []],
+      ['200', 'item02', 200, []],
+      ['300', 'item03', 300, []],
+    ],
+    input: [
+      'report {',
+      ' ',
+      '  code {',
+      ' ',
+      '    100',
+      ' ',
+      '    200',
+      '    300',
+      ' ',
+      '  }',
+      ' ',
+      '  output {',
+      ' ',
+      '    if (amount == 100) {',
+      ' ',
+      '      "# code:#{code}"',
+      ' ',
+      '    } elseif (amount == 200) {',
+      ' ',
+      '      "# code:#{code}"',
+      ' ',
+      '    } else {',
+      ' ',
+      '      "# code:#{code}"',
+      ' ',
+      '    }',
+      ' ',
+      '  }',
+      ' ',
+      '}',
+    ],
+    output: [
+      '# code:100',
+      '# code:200',
+      '# code:300',
+    ],
+  },
+  {
+    items: [
+      ['100', 'item01', 100, []],
+      ['200', 'item02', 200, []],
+      ['300', 'item03', 300, []],
+    ],
+    input: [
+      'report {',
+      '',
+      '  code {',
+      '',
+      '    100',
+      '',
+      '    200',
+      '    300',
+      '',
+      '  }',
+      '',
+      '  output {',
+      '',
+      '    if (amount == 100) {',
+      '',
+      '      "# code:#{code}"',
+      '',
+      '    } elseif (amount == 200) {',
+      '',
+      '      "# code:#{code}"',
+      '',
+      '    } else {',
+      '',
+      '      "# code:#{code}"',
+      '',
+      '    }',
+      '',
+      '  }',
+      '',
+      '}',
+    ],
+    output: [
+      '# code:100',
+      '# code:200',
+      '# code:300',
+    ],
+  },
+
+  // empty condition block
+  {
+    items: [
+      ['100', 'item01', 100],
+      ['200', 'item02', 200],
+    ],
+    input: [
+      'report {',
+      '  code {',
+      '    100',
+      '    200',
+      '  }',
+      '  output {',
+      '    if (true) {',
+      '    } else {',
+      '    }',
+      '  }',
+      '}',
+    ],
+    output: [
+    ],
+  },
+
+  // loop
   {
     items: [
       ['100', 'item01', 100, ['xxx', 'yyy']],
@@ -58,6 +174,8 @@ module.exports = [
       '- zzz',
     ],
   },
+
+  // condition and loop
   {
     items: [
       ['100', 'item01', 100, ['xxx', 'yyy', 'zzz']],
@@ -67,20 +185,14 @@ module.exports = [
     ],
     input: [
       'report {',
-      ' ',
       '  code {',
-      ' ',
       '    100',
-      ' ',
       '    200',
       '    300',
-      ' ',
       '  }',
-      ' ',
       '  output {',
       '    if (amount <= 100) {',
       '      "# code:#{code} {#{name},#{amount}}"',
-      ' ',
       '      for (comment in comments) {',
       '        if (comment != "yyy") {',
       '          "- #{comment}"',
@@ -91,7 +203,6 @@ module.exports = [
       '      "# code:#{code} {#{name},#{amount}} (excess)"',
       '    }',
       '  }',
-      ' ',
       '}',
     ],
     output: [
@@ -101,21 +212,20 @@ module.exports = [
       '# code:300 {item03,300} (excess)',
     ],
   },
+
   {
     items: [
-      ['100', 'item01', 100, ['xxx', 'yyy', 'zzz']],
-      ['200', 'item02', 200, ['zzz']],
-      ['300', 'item03', 300, ['yyy', 'zzz']],
+      ['100', 'item01', 100, []],
+      ['200', 'item02', 200, []],
+      ['300', 'item03', 300, []],
     ],
     input: [
       'report {',
-      ' ',
       '  code {',
       '    100',
       '    200',
       '    300',
       '  }',
-      ' ',
       '  output {',
       '    if (amount * 0.5 <= 50) {',
       '      "# code:#{code} (a)"',
@@ -125,7 +235,6 @@ module.exports = [
       '      "# code:#{code} (c)"',
       '    }',
       '  }',
-      ' ',
       '}',
     ],
     output: [
@@ -134,28 +243,4 @@ module.exports = [
       '# code:300 (c)',
     ],
   },
-  {
-    items: [
-      ['100', 'item01', 100],
-      ['200', 'item02', 200],
-    ],
-    input: [
-      'report {',
-      '  code {',
-      '    100',
-      '    200',
-      '  }',
-      '  output {',
-      '    "- ##{amount}#"', // double quote
-      "    '- ##{amount}#'", // single quote
-      '  }',
-      '}',
-    ],
-    output: [
-      '- #100#',
-      '- #100#',
-      '- #200#',
-      '- #200#',
-    ],
-  }
 ];
