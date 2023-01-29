@@ -595,7 +595,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parselogical_or();
+              s6 = peg$parsecondition_logical_or();
               if (s6 !== peg$FAILED) {
                 s7 = peg$parse_();
                 if (s7 !== peg$FAILED) {
@@ -737,7 +737,7 @@ function peg$parse(input, options) {
           if (s4 !== peg$FAILED) {
             s5 = peg$parse_();
             if (s5 !== peg$FAILED) {
-              s6 = peg$parselogical_or();
+              s6 = peg$parsecondition_logical_or();
               if (s6 !== peg$FAILED) {
                 s7 = peg$parse_();
                 if (s7 !== peg$FAILED) {
@@ -947,11 +947,11 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parselogical_or() {
+  function peg$parsecondition_logical_or() {
     var s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
-    s1 = peg$parselogical_and();
+    s1 = peg$parsecondition_logical_and();
     if (s1 !== peg$FAILED) {
       s2 = [];
       s3 = peg$currPos;
@@ -976,7 +976,7 @@ function peg$parse(input, options) {
         if (s5 !== peg$FAILED) {
           s6 = peg$parse_();
           if (s6 !== peg$FAILED) {
-            s7 = peg$parselogical_and();
+            s7 = peg$parsecondition_logical_and();
             if (s7 !== peg$FAILED) {
               s4 = [s4, s5, s6, s7];
               s3 = s4;
@@ -1020,7 +1020,7 @@ function peg$parse(input, options) {
           if (s5 !== peg$FAILED) {
             s6 = peg$parse_();
             if (s6 !== peg$FAILED) {
-              s7 = peg$parselogical_and();
+              s7 = peg$parsecondition_logical_and();
               if (s7 !== peg$FAILED) {
                 s4 = [s4, s5, s6, s7];
                 s3 = s4;
@@ -1057,11 +1057,11 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parselogical_and() {
+  function peg$parsecondition_logical_and() {
     var s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
-    s1 = peg$parsecomparative();
+    s1 = peg$parsecondition_comparative();
     if (s1 !== peg$FAILED) {
       s2 = [];
       s3 = peg$currPos;
@@ -1086,7 +1086,7 @@ function peg$parse(input, options) {
         if (s5 !== peg$FAILED) {
           s6 = peg$parse_();
           if (s6 !== peg$FAILED) {
-            s7 = peg$parsecomparative();
+            s7 = peg$parsecondition_comparative();
             if (s7 !== peg$FAILED) {
               s4 = [s4, s5, s6, s7];
               s3 = s4;
@@ -1130,7 +1130,7 @@ function peg$parse(input, options) {
           if (s5 !== peg$FAILED) {
             s6 = peg$parse_();
             if (s6 !== peg$FAILED) {
-              s7 = peg$parsecomparative();
+              s7 = peg$parsecondition_comparative();
               if (s7 !== peg$FAILED) {
                 s4 = [s4, s5, s6, s7];
                 s3 = s4;
@@ -1167,13 +1167,13 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsecomparative() {
+  function peg$parsecondition_comparative() {
     var s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
-    s1 = peg$parseadd();
+    s1 = peg$parsearithmetic_add();
     if (s1 === peg$FAILED) {
-      s1 = peg$parsecomparative_primary();
+      s1 = peg$parsecondition_comparative_primary();
     }
     if (s1 !== peg$FAILED) {
       s2 = [];
@@ -1235,9 +1235,9 @@ function peg$parse(input, options) {
         if (s5 !== peg$FAILED) {
           s6 = peg$parse_();
           if (s6 !== peg$FAILED) {
-            s7 = peg$parseadd();
+            s7 = peg$parsearithmetic_add();
             if (s7 === peg$FAILED) {
-              s7 = peg$parsecomparative_primary();
+              s7 = peg$parsecondition_comparative_primary();
             }
             if (s7 !== peg$FAILED) {
               s4 = [s4, s5, s6, s7];
@@ -1318,9 +1318,9 @@ function peg$parse(input, options) {
           if (s5 !== peg$FAILED) {
             s6 = peg$parse_();
             if (s6 !== peg$FAILED) {
-              s7 = peg$parseadd();
+              s7 = peg$parsearithmetic_add();
               if (s7 === peg$FAILED) {
-                s7 = peg$parsecomparative_primary();
+                s7 = peg$parsecondition_comparative_primary();
               }
               if (s7 !== peg$FAILED) {
                 s4 = [s4, s5, s6, s7];
@@ -1358,7 +1358,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsecomparative_primary() {
+  function peg$parsecondition_comparative_primary() {
     var s0, s1, s2, s3, s4, s5;
 
     s0 = peg$currPos;
@@ -1372,7 +1372,7 @@ function peg$parse(input, options) {
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
-        s3 = peg$parselogical_or();
+        s3 = peg$parsecondition_logical_or();
         if (s3 !== peg$FAILED) {
           s4 = peg$parse_();
           if (s4 !== peg$FAILED) {
@@ -1429,11 +1429,11 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parseadd() {
+  function peg$parsearithmetic_add() {
     var s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
-    s1 = peg$parsemulti();
+    s1 = peg$parsearithmetic_multi();
     if (s1 !== peg$FAILED) {
       s2 = [];
       s3 = peg$currPos;
@@ -1458,7 +1458,7 @@ function peg$parse(input, options) {
         if (s5 !== peg$FAILED) {
           s6 = peg$parse_();
           if (s6 !== peg$FAILED) {
-            s7 = peg$parsemulti();
+            s7 = peg$parsearithmetic_multi();
             if (s7 !== peg$FAILED) {
               s4 = [s4, s5, s6, s7];
               s3 = s4;
@@ -1502,7 +1502,7 @@ function peg$parse(input, options) {
           if (s5 !== peg$FAILED) {
             s6 = peg$parse_();
             if (s6 !== peg$FAILED) {
-              s7 = peg$parsemulti();
+              s7 = peg$parsearithmetic_multi();
               if (s7 !== peg$FAILED) {
                 s4 = [s4, s5, s6, s7];
                 s3 = s4;
@@ -1539,7 +1539,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parsemulti() {
+  function peg$parsearithmetic_multi() {
     var s0, s1, s2, s3, s4, s5, s6, s7;
 
     s0 = peg$currPos;
@@ -1663,7 +1663,7 @@ function peg$parse(input, options) {
     if (s1 !== peg$FAILED) {
       s2 = peg$parse_();
       if (s2 !== peg$FAILED) {
-        s3 = peg$parseadd();
+        s3 = peg$parsearithmetic_add();
         if (s3 !== peg$FAILED) {
           s4 = peg$parse_();
           if (s4 !== peg$FAILED) {

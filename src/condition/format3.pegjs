@@ -25,7 +25,7 @@ condition_block
   }
 
 condition_if
-  = _ 'if' _ '(' _ c:logical_or _ ')' _ '{' _
+  = _ 'if' _ '(' _ c:condition_logical_or _ ')' _ '{' _
     children:(condition_block / log)*
     _ '}' _
   {
@@ -33,7 +33,7 @@ condition_if
   }
 
 condition_elseif
-  = _ 'elseif' _ '(' _ c:logical_or _ ')' _ '{' _
+  = _ 'elseif' _ '(' _ c:condition_logical_or _ ')' _ '{' _
     children:(condition_block / log)*
     _ '}' _
   {
@@ -48,32 +48,32 @@ condition_else
     return toNode('condition', 'else', {}, children);
   }
 
-logical_or
-  = head:logical_and tail:(_ ('||' / 'or') _ logical_and)*
+condition_logical_or
+  = head:condition_logical_and tail:(_ ('||' / 'or') _ condition_logical_and)*
   {
     return tail.reduce((result, elements) => {
       return toNode('logical', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
-logical_and
-  = head:comparative tail:(_ ('&&' / 'and') _ comparative)*
+condition_logical_and
+  = head:condition_comparative tail:(_ ('&&' / 'and') _ condition_comparative)*
   {
     return tail.reduce((result, elements) => {
       return toNode('logical', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
-comparative
-  = head:(add / comparative_primary) tail:(_ ('==' / '!=' / '>=' / '<=' / '>' / '<') _ (add / comparative_primary))*
+condition_comparative
+  = head:(arithmetic_add / condition_comparative_primary) tail:(_ ('==' / '!=' / '>=' / '<=' / '>' / '<') _ (arithmetic_add / condition_comparative_primary))*
   {
     return tail.reduce((result, elements) => {
       return toNode('comparative', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
-comparative_primary
-  = '(' _ l:logical_or _ ')'
+condition_comparative_primary
+  = '(' _ l:condition_logical_or _ ')'
   {
     return l;
   }
@@ -84,15 +84,15 @@ comparative_primary
   / value_string_double_quote
   / variable_chain
 
-add
-  = head:multi tail:(_ ('+' / '-') _ multi)*
+arithmetic_add
+  = head:arithmetic_multi tail:(_ ('+' / '-') _ arithmetic_multi)*
   {
     return tail.reduce((result, elements) => {
       return toNode('add', elements[1], {}, [result, elements[3]]);
     }, head);
   }
 
-multi
+arithmetic_multi
   = head:arithmetic_primary tail:(_ ('*' / '/') _ arithmetic_primary)*
   {
     return tail.reduce((result, elements) => {
@@ -101,7 +101,7 @@ multi
   }
 
 arithmetic_primary
-  = '(' _ a:add _ ')'
+  = '(' _ a:arithmetic_add _ ')'
   {
     return a;
   }
