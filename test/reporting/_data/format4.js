@@ -6,6 +6,22 @@ module.exports = [
     input: [
       'report {',
       '  code {',
+      '  }',
+      '  output {',
+      '    "- {name}"',
+      '  }',
+      '}',
+    ],
+    output: [
+    ],
+  },
+  {
+    items: [
+      ['100', 'item01', 100, ['xxx', 'yyy', 'zzz']],
+    ],
+    input: [
+      'report {',
+      '  code {',
       '    100',
       '  }',
       '  output {',
