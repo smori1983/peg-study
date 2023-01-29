@@ -30,7 +30,7 @@ report
 
 block_code
   = _ 'code' _ '{' _ newline
-    children:block_code_element+
+    children:block_code_element*
     _ '}' _ newline
   {
     return toNode('block', 'code', {}, children);
