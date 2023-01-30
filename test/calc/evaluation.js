@@ -8,12 +8,31 @@ const evaluator = require('../../src/calc/evaluation/evaluator');
 describe('evaluation', () => {
   describe('calc1', () => {
     const dataSet = [
+      ['0', 0],
+
+      ['-0', -0],
+
       ['1', 1],
+
+      ['-1', -1],
 
       ['1 + 2', 3],
       ['1 - 2', -1],
       ['1 * 2', 2],
       ['1 / 2', 0.5],
+
+      ['-1 + 1', 0],
+      ['1 + -1', 0],
+      ['(-1) + 1', 0],
+      ['1 + (-1)', 0],
+      ['1 - -1', 2],
+      ['1 - (-1)', 2],
+      ['-1 * 1', -1],
+      ['1 * -1', -1],
+      ['-1 * -1', 1],
+      ['1 / -1', -1],
+      ['-1 / 1', -1],
+      ['-1 / -1', 1],
 
       ['1 + 2 + 3', 6],
       ['1 - 2 - 3', -4],
@@ -51,11 +70,39 @@ describe('evaluation', () => {
         output: 2,
       },
       {
+        input: 'a + 1',
+        variables: {
+          a: -10,
+        },
+        output: -9,
+      },
+      {
         input: 'b - 1',
         variables: {
           b: 1,
         },
         output: 0,
+      },
+      {
+        input: '-3 + b',
+        variables: {
+          b: 1,
+        },
+        output: -2,
+      },
+      {
+        input: 'b * (-3)',
+        variables: {
+          b: 2,
+        },
+        output: -6,
+      },
+      {
+        input: 'b / (-3)',
+        variables: {
+          b: 9,
+        },
+        output: -3,
       },
       {
         input: 'value / max * 100',

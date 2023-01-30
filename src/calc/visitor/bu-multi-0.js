@@ -19,14 +19,30 @@ const visit = (node) => {
   visit(right);
 
   if (node.text === '*') {
-    if (left.text === '0' || right.text === '0') {
+    if (isZero(left) || isZero(right)) {
       nodeHelper.replace(node, nodeHelper.create('number', '0', {}, []));
     }
   } else if (node.text === '/') {
-    if (left.text === '0' && (right.type === 'number' && right.text !== '0')) {
+    if (isZero(left) && (isNumber(right) && !isZero(right))) {
       nodeHelper.replace(node, nodeHelper.create('number', '0', {}, []));
     }
   }
+};
+
+/**
+ * @param {Object} node
+ * @return {boolean}
+ */
+const isNumber = (node) => {
+  return node.type === 'number';
+};
+
+/**
+ * @param {Object} node
+ * @return {boolean}
+ */
+const isZero = (node) => {
+  return isNumber(node) && ['0', '-0'].includes(node.text);
 };
 
 module.exports.visit = visit;
