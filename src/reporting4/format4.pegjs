@@ -115,12 +115,11 @@ condition_logical_and 'logical_and'
   }
 
 condition_comparative 'comparative'
-  = head:condition_comparative_primary tail:(_ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ condition_comparative_primary)*
+  = left:condition_comparative_primary _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:condition_comparative_primary
   {
-    return tail.reduce((result, elements) => {
-      return toNode('comparative', elements[1], {}, [result, elements[3]]);
-    }, head);
+    return toNode('comparative', op, {}, [left, right]);
   }
+  / condition_comparative_primary
 
 condition_comparative_primary 'comparative_primary'
   = arithmetic_add
