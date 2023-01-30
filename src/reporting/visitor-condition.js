@@ -90,6 +90,22 @@ class VisitorCondition extends Visitor {
     const left = this._visitCondition(node.children[0], scope);
     const right = this._visitCondition(node.children[1], scope);
 
+    if (node.type === 'add' && node.text === '+') {
+      return left + right;
+    }
+
+    if (node.type === 'add' && node.text === '-') {
+      return left - right;
+    }
+
+    if (node.type === 'multi' && node.text === '*') {
+      return left * right;
+    }
+
+    if (node.type === 'multi' && node.text === '/') {
+      return left / right;
+    }
+
     if (node.type === 'logical' && ['&&', 'and'].includes(node.text)) {
       return left && right;
     }

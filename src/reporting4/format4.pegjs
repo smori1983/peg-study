@@ -30,7 +30,7 @@ report
 
 block_code
   = _ 'code' _ '{' _ newline
-    children:block_code_element+
+    children:block_code_element*
     _ '}' _ newline
   {
     return toNode('block', 'code', {}, children);
@@ -48,7 +48,7 @@ block_code_line
 
 block_output
   = _ 'output' _ '{' _ newline
-    outputs:block_output_element+
+    outputs:block_output_element*
     _ '}' _ newline
   {
     return toNode('block', 'output', {}, outputs);
@@ -115,14 +115,15 @@ condition_logical_and 'logical_and'
   }
 
 condition_comparative 'comparative'
-  = left:condition_primary _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:condition_primary
+  = left:condition_comparative_primary _ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ right:condition_comparative_primary
   {
     return toNode('comparative', op, {}, [left, right]);
   }
-  / condition_primary
+  / condition_comparative_primary
 
-condition_primary 'condition_primary'
-  = '(' _ l:condition_logical_or _ ')'
+condition_comparative_primary 'comparative_primary'
+  = arithmetic_add
+  / '(' _ l:condition_logical_or _ ')'
   {
     return l;
   }
@@ -131,6 +132,32 @@ condition_primary 'condition_primary'
   / value_int
   / value_string_single_quote
   / value_string_double_quote
+  / variable_chain
+
+arithmetic_add 'add'
+  = head:arithmetic_multi tail:(_ ('+' / '-') _ arithmetic_multi)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('add', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+arithmetic_multi 'multi'
+  = head:arithmetic_primary tail:(_ ('*' / '/') _ arithmetic_primary)*
+  {
+    return tail.reduce((result, elements) => {
+      return toNode('multi', elements[1], {}, [result, elements[3]]);
+    }, head);
+  }
+
+arithmetic_primary 'arithmetic_primary'
+  = '(' _ a:arithmetic_add _ ')'
+  {
+    return a;
+  }
+  / value_bool
+  / value_float
+  / value_int
   / variable_chain
 
 output_line 'output_line'

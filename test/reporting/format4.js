@@ -4,10 +4,10 @@ const ItemContainer = require('../../src/reporting/item-container');
 const Item = require('../../src/reporting/item');
 const Reporter = require('../../src/reporting/reporter');
 
-const dataSet = require('./_data/format4');
-
 describe('reporting - format4', () => {
-  describe('output', () => {
+  describe('ok', () => {
+    const dataSet = require('./_data/format4_ok');
+
     dataSet.forEach((set, index) => {
       it('pattern ' + (index + 1), () => {
         const itemContainer = new ItemContainer();
@@ -18,6 +18,20 @@ describe('reporting - format4', () => {
         const output = new Reporter().createReport(itemContainer, set.input.join('\n'));
 
         assert.deepStrictEqual(output.getLines(), set.output);
+      });
+    });
+  });
+
+  describe('error', () => {
+    const dataSet =  require('./_data/format4_error');
+
+    dataSet.forEach((set, index) => {
+      it('pattern ' + (index + 1), () => {
+        assert.throws(() => {
+          const itemContainer = new ItemContainer();
+
+          new Reporter().createReport(itemContainer, set.input.join('\n'));
+        });
       });
     });
   });
