@@ -26,38 +26,35 @@ class Reporter {
    * @param {ItemContainer} itemContainer
    * @param {string} text
    * @return {Output}
+   * @throws {Error}
    */
   createReport(itemContainer, text) {
     const output = new Output();
     const processor = new Processor();
 
-    try {
-      const reports = this._parser.parse(text, this._options);
+    const reports = this._parser.parse(text, this._options);
 
-      reports.forEach((report) => {
-        const codes = report.attributes.code.children
-          .filter((node) => node.type === 'string')
-          .map((node) => node.text);
+    reports.forEach((report) => {
+      const codes = report.attributes.code.children
+        .filter((node) => node.type === 'string')
+        .map((node) => node.text);
 
-        codes.forEach((code) => {
-          const item = itemContainer.getItem(code);
-          const scope = new Scope({
-            code: item.getCode(),
-            name: item.getName(),
-            amount: item.getAmount(),
-            comments: item.getComments(),
-          });
+      codes.forEach((code) => {
+        const item = itemContainer.getItem(code);
+        const scope = new Scope({
+          code: item.getCode(),
+          name: item.getName(),
+          amount: item.getAmount(),
+          comments: item.getComments(),
+        });
 
-          const result = processor.process(report.attributes.output, scope);
+        const result = processor.process(report.attributes.output, scope);
 
-          output.merge(result);
-        })
-      });
+        output.merge(result);
+      })
+    });
 
-      return output;
-    } catch (e) {
-      console.log(e);
-    }
+    return output;
   }
 }
 
