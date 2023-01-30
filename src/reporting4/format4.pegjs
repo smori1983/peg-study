@@ -115,7 +115,7 @@ condition_logical_and 'logical_and'
   }
 
 condition_comparative 'comparative'
-  = head:(arithmetic_add / condition_comparative_primary) tail:(_ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ (arithmetic_add / condition_comparative_primary))*
+  = head:condition_comparative_primary tail:(_ op:('==' / '!=' / '>=' / '<=' / '>' / '<') _ condition_comparative_primary)*
   {
     return tail.reduce((result, elements) => {
       return toNode('comparative', elements[1], {}, [result, elements[3]]);
@@ -123,7 +123,8 @@ condition_comparative 'comparative'
   }
 
 condition_comparative_primary 'comparative_primary'
-  = '(' _ l:condition_logical_or _ ')'
+  = arithmetic_add
+  / '(' _ l:condition_logical_or _ ')'
   {
     return l;
   }
