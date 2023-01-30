@@ -245,6 +245,10 @@ module.exports = [
       '    } else {',
       '      "# code:#{code} (f)"',
       '    }',
+      '',
+      '    if (amount * amount / 10000 > 2 * (1 + 1)) {',
+      '      "# code:#{code} (g)"',
+      '    }',
       '  }',
       '}',
     ],
@@ -258,6 +262,7 @@ module.exports = [
       '# code:300 (a)',
       '# code:300 (b)',
       '# code:300 (f)',
+      '# code:300 (g)',
     ],
   },
 ];
