@@ -21,8 +21,7 @@
     "peg:placeholder3": "pegjs src/placeholder/format3.pegjs",
     "peg:placeholder4": "pegjs src/placeholder/format4.pegjs",
     "peg:reporting4": "pegjs src/reporting4/format4.pegjs",
-    "test": "mocha test/*",
-    "test:watch": "watch 'npm run test' src/ test/ --interval=1 --ignoreDotFiles"
+    "test": "mocha test/*"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -32,8 +31,7 @@
   },
   "devDependencies": {
     "@types/pegjs": "^0.10.3",
-    "mocha": "^10.1.0",
-    "watch": "^1.0.2"
+    "mocha": "^10.1.0"
   },
   "author": "",
   "license": "MIT"
