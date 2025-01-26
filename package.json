@@ -24,14 +24,14 @@
     "test": "mocha test/*"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.4.1",
     "monospace-char-width": "^1.0.1",
     "pegjs": "^0.10.0",
-    "sprintf-js": "^1.1.2"
+    "sprintf-js": "^1.1.3"
   },
   "devDependencies": {
-    "@types/pegjs": "^0.10.3",
-    "mocha": "^10.1.0"
+    "@types/pegjs": "^0.10.6",
+    "mocha": "^11.1.0"
   },
   "author": "",
   "license": "MIT"
